@@ -437,13 +437,13 @@ table.insert(right_section, {
 -- The statusline of all other inative windows not defined in the
 -- 'force_inactive' table are highlighted based on the 'StatusLine' and
 -- 'StatusLineNC' highlight group
-
 local components = {
     active = {
         left_section,
         right_section,
     },
-    inactive = { hl = { fg = 'base00', bg = 'base00' } },
+    -- Highlight table in segment in section in inactive table - three braces :)
+    inactive = {{{ hl = { fg = 'base00', bg = 'base00', } }}},
 }
 
 require('feline').setup({
@@ -474,5 +474,4 @@ require('feline').setup({
             '^terminal$'
         },
     },
-    highlight_reset_triggers = {},
 })
