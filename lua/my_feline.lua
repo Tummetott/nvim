@@ -431,17 +431,19 @@ table.insert(right_section, {
     },
 })
 
---------------------------------------------------------------------------------------------
-
 -- The statusline consists of two components. The active component is only
--- shown in active windows. In all other windows, the inactive component is
--- shown
+-- shown in active windows. The inactive component is only shown for filetypes
+-- and buffertypes defined in the 'force_inactive' table of the setup function.
+-- The statusline of all other inative windows not defined in the
+-- 'force_inactive' table are highlighted based on the 'StatusLine' and
+-- 'StatusLineNC' highlight group
+
 local components = {
     active = {
         left_section,
         right_section,
     },
-    inactive = {},
+    inactive = { hl = { fg = 'base00', bg = 'base00' } },
 }
 
 require('feline').setup({
@@ -460,6 +462,17 @@ require('feline').setup({
         ['REPLACE'] = 'base08',
         ['ENTER'] = 'base0E',
         ['TERM'] = 'base0E',
+    },
+    force_inactive = {
+        filetypes = {
+            '^NvimTree$',
+            '^packer$',
+            '^help$',
+            '^dashboard$'
+        },
+        buftypes = {
+            '^terminal$'
+        },
     },
     highlight_reset_triggers = {},
 })

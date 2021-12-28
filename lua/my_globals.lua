@@ -13,6 +13,9 @@ vim.o.shortmess = vim.o.shortmess .. 'F'
 -- Don't display mode changes as the statusline plugin already shows that
 vim.o.showmode = false
 
+-- Don't show line and column number since my statusline already shows this
+vim.o.ruler = false
+
 -- Enable mouse support. This let's you scroll, jump, select, resize windows and
 -- much more stuff. Also don't copy line numbers with the mouse
 vim.o.mouse = 'a'
