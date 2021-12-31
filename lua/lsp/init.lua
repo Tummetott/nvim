@@ -86,7 +86,8 @@ keymap('n', '<Leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opt)
 -- Get signature help
 keymap('n', '<Leader>s', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opt)
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').update_capabilities(
+    vim.lsp.protocol.make_client_capabilities())
 
 -- C / C++ language server
 require'lspconfig'.clangd.setup {
@@ -103,8 +104,11 @@ require'lspconfig'.bashls.setup {
     capabilities = capabilities
 }
 
--- General purpose language server. I currently use it for sh / bash linting
-require('lsp/efm-langserver')
+-- General purpose language server. I currently use it for sh / bash linting.
+-- Currently I only have it installed on macOS
+if vim.env.UNAME == 'Darwin' then
+    require('lsp/efm-langserver')
+end
 
 -- LUA language server
 require('lsp/sumneko-lua')
