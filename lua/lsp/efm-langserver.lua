@@ -5,7 +5,7 @@ require 'lspconfig'.efm.setup {
         languages = {
             sh = {
                 {
-                    lintCommand = 'shellcheck -f gcc -x',
+                    lintCommand = 'shellcheck -e SC2164 -f gcc -x',
                     lintSource = 'shellcheck',
                     lintFormats = {
                         '%f:%l:%c: %trror: %m', '%f:%l:%c: %tarning: %m',
