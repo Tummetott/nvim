@@ -19,36 +19,36 @@ return require('packer').startup(function(use)
     -- Language Server configurations
     use {
         'neovim/nvim-lspconfig',
-		config = function()
-			require "my_lsp"
-		end,
+        config = function()
+            require "lsp/init"
+        end,
         requires = 'onsails/lspkind-nvim'
     }
 
     -- Auto completion plugin
     use {
-		"hrsh7th/nvim-cmp",
-		config = function()
-			require "my_cmp"
-		end,
-		requires = {
-			{ "hrsh7th/cmp-nvim-lsp"},
-			{ "hrsh7th/cmp-buffer"},
-			{ "hrsh7th/cmp-path"},
-			{ "hrsh7th/cmp-vsnip"},
+        "hrsh7th/nvim-cmp",
+        config = function()
+            require "my_cmp"
+        end,
+        requires = {
+            { "hrsh7th/cmp-nvim-lsp"},
+            { "hrsh7th/cmp-buffer"},
+            { "hrsh7th/cmp-path"},
+            { "hrsh7th/cmp-vsnip"},
             { "hrsh7th/vim-vsnip"},
             { "hrsh7th/cmp-cmdline"},
             { "hrsh7th/nvim-cmp"},
-		},
-	}
+        },
+    }
 
     -- Autopairs writen in lua
     use {
-		"windwp/nvim-autopairs",
-		config = function()
-			require"my_autopairs"
-		end,
-	}
+        "windwp/nvim-autopairs",
+        config = function()
+            require"my_autopairs"
+        end,
+    }
 
     -- Fuzzy search with telescope
     use {

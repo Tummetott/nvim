@@ -86,13 +86,25 @@ keymap('n', '<Leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opt)
 -- Get signature help
 keymap('n', '<Leader>s', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opt)
 
--------------- Language Server configurations
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-require'lspconfig'.clangd.setup{
+-- C / C++ language server
+require'lspconfig'.clangd.setup {
     capabilities = capabilities
 }
-require'lspconfig'.pyright.setup{
+
+-- Python language server
+require'lspconfig'.pyright.setup {
     capabilities = capabilities
 }
-require'lsp/sumneko-lua'
+
+-- Bash language server without linting. Just for completion
+require'lspconfig'.bashls.setup {
+    capabilities = capabilities
+}
+
+-- General purpose language server. I currently use it for sh / bash linting
+require('lsp/efm-langserver')
+
+-- LUA language server
+require('lsp/sumneko-lua')
