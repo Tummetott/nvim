@@ -443,7 +443,15 @@ local components = {
         right_section,
     },
     -- Highlight table in segment in section in inactive table - three braces :)
-    inactive = {{{ hl = { fg = 'base00', bg = 'base00', } }}},
+    inactive = {{{
+        hl = function()
+            if vim.bo.filetype == 'dashboard' then
+                return { fg = 'base00', bg = 'base00', }
+            else
+                return { fg = 'base01', bg = 'base01', }
+            end
+        end,
+    }}},
 }
 
 require('feline').setup({

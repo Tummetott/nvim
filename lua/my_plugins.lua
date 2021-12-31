@@ -139,6 +139,12 @@ return require('packer').startup(function(use)
     -- Git wrapper for vim
     use 'tpope/vim-fugitive'
 
+    -- Amazing mappings by tpope
+    use 'tpope/vim-unimpaired'
+
+    -- Repeat plugin commands of unimpared and commentary with .
+    use 'tpope/vim-repeat'
+
     -- This plugin let's me monitor the startuptimes of all plugins
     use 'tweekmonster/startuptime.vim'
 
