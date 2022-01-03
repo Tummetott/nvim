@@ -100,13 +100,15 @@ require'lspconfig'.pyright.setup {
 }
 
 -- Bash language server without linting. Just for completion
-require'lspconfig'.bashls.setup {
-    capabilities = capabilities
-}
+if os.execute('test -x "$(command -v bash-language-server)"') == 0 then
+    require'lspconfig'.bashls.setup {
+        capabilities = capabilities
+    }
+end
 
 -- General purpose language server. I currently use it for sh / bash linting.
 -- Currently I only have it installed on macOS
-if vim.fn.has('macunix') then
+if os.execute('test -x "$(command -v efm-langserver)"') == 0 then
     require('lsp/efm-langserver')
 end
 
