@@ -106,7 +106,7 @@ require'lspconfig'.bashls.setup {
 
 -- General purpose language server. I currently use it for sh / bash linting.
 -- Currently I only have it installed on macOS
-if vim.env.UNAME == 'Darwin' then
+if vim.fn.has('macunix') then
     require('lsp/efm-langserver')
 end
 
