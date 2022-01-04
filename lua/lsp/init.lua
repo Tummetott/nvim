@@ -69,10 +69,10 @@ local keymap = vim.api.nvim_set_keymap
 local opt = {noremap = true, silent = true}
 
 -- Go to next diagnostic
-keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next({ float = { border = "rounded" } })<CR>', opt)
+keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({ float = { border = "rounded" } })<CR>', opt)
 
 -- Go to previous diagnostic
-keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev({ float = { border = "rounded" } })<CR>', opt)
+keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({ float = { border = "rounded" } })<CR>', opt)
 
 -- Hover lsp information
 keymap('n', '<Leader><Leader>', '<cmd>lua vim.lsp.buf.hover()<CR>',opt)
