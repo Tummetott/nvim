@@ -26,18 +26,10 @@ require('lspkind').init({
 })
 
 -- Define diagnostic icons
-if vim.fn.has('nvim-0.6') == 1 then
-    local signs = { Error = "", Warn = "", Hint = "", Info = "" }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-    end
-else
-    local signs = { Error = "", Warning = "", Hint = "", Information = "" }
-    for type, icon in pairs(signs) do
-      local hl = "LspDiagnosticsSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-    end
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
 -- Set global options for all diagnostics
@@ -86,31 +78,17 @@ keymap('n', '<Leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opt)
 -- Get signature help
 keymap('n', '<Leader>s', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opt)
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(
-    vim.lsp.protocol.make_client_capabilities())
-
 -- C / C++ language server
-require'lspconfig'.clangd.setup {
-    capabilities = capabilities
-}
+require'lspconfig'.clangd.setup{}
 
 -- Python language server
-require'lspconfig'.pyright.setup {
-    capabilities = capabilities
-}
+require'lspconfig'.pyright.setup{}
 
 -- Bash language server without linting. Just for completion
-if os.execute('test -x "$(command -v bash-language-server)"') == 0 then
-    require'lspconfig'.bashls.setup {
-        capabilities = capabilities
-    }
-end
+require'lspconfig'.bashls.setup{}
 
 -- General purpose language server. I currently use it for sh / bash linting.
--- Currently I only have it installed on macOS
-if os.execute('test -x "$(command -v efm-langserver)"') == 0 then
-    require('lsp/efm-langserver')
-end
+require('lsp/efm-langserver')
 
 -- LUA language server
 require('lsp/sumneko-lua')
