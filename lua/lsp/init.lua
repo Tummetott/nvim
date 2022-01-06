@@ -84,10 +84,7 @@ require'lspconfig'.clangd.setup{}
 -- Python language server
 require'lspconfig'.pyright.setup{}
 
--- Bash language server without linting. Just for completion
-require'lspconfig'.bashls.setup{}
-
--- General purpose language server. I currently use it for sh / bash linting.
+-- General purpose language server. I currently use it for sh and bash linting
 require('lsp/efm-langserver')
 
 -- LUA language server
