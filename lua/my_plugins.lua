@@ -136,6 +136,14 @@ return require('packer').startup(function(use)
         end
     }
 
+    -- Smooth scolling
+    use {
+        'karb94/neoscroll.nvim',
+        config = function ()
+            require('neoscroll').setup()
+        end
+    }
+
     -- Git wrapper for vim
     use 'tpope/vim-fugitive'
 
@@ -145,10 +153,7 @@ return require('packer').startup(function(use)
     -- Repeat plugin commands of unimpared and commentary with .
     use 'tpope/vim-repeat'
 
-    -- This plugin let's me monitor the startuptimes of all plugins
-    use 'tweekmonster/startuptime.vim'
-
     -- This plugin runs mkview and loadview on file save and loading
-    use"vim-scripts/restore_view.vim"
+    use 'vim-scripts/restore_view.vim'
 
 end)
