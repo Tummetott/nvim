@@ -74,6 +74,18 @@ function M.base16_overwrites()
     cmd('hi DashboardHeader guifg=' .. palette.base0E)
     cmd('hi DashboardCenter guifg=' .. palette.base0D)
     cmd('hi DashboardFooter guifg=' .. palette.base0E)
+
+    -- nvim-base16 overwrites the Telescope highlight groups. Let's get the defualts back
+    cmd('hi! link TelescopeSelection        Visual')
+    cmd('hi! link TelescopeNormal           Normal')
+    cmd('hi! link TelescopePromptNormal     TelescopeNormal')
+    cmd('hi! link TelescopeBorder           TelescopeNormal')
+    cmd('hi! link TelescopePromptBorder     TelescopeBorder')
+    cmd('hi! link TelescopeTitle            TelescopeBorder')
+    cmd('hi! link TelescopePromptTitle      TelescopeTitle')
+    cmd('hi! link TelescopeResultsTitle     TelescopeTitle')
+    cmd('hi! link TelescopePreviewTitle     TelescopeTitle')
+    cmd('hi! link TelescopePromptPrefix     Identifier')
 end
 
 function M.setup()
