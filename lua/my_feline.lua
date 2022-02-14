@@ -56,6 +56,7 @@ table.insert(left_section, {
 
 -- File information
 table.insert(left_section, {
+    name = 'filename',
     provider = {
         name = 'file_info',
         opts = {
@@ -82,11 +83,19 @@ table.insert(left_section, {
         bg = 'base02',
         style = 'bold'
     },
+    left_sep = {
+        str = ' ',
+        hl = {
+            fg = 'base00',
+            bg = 'base02',
+        },
+    },
     priority = 2,
 })
 
 -- Git branch
 table.insert(left_section, {
+    name = 'branch',
     provider = 'git_branch',
     short_provider = '',
     -- Only show the git branch, when the current file is inside the git repo
