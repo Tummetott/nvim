@@ -25,20 +25,23 @@ function M.base16_overwrites()
     require('feline').use_theme(palette)
 
     -- Line numbers should have the same color than comments
-    cmd('hi LineNr guifg=' .. palette.base03)
+    cmd('hi! link LineNr Comment')
 
-    -- Let's make visual selections more similar to the background
+    -- The default visual selection color is pretty bright. Let's darken it a bit
     cmd('hi Visual guibg='.. palette.base01)
+
+    -- Link our matching parentheses to our visual selection color
+    cmd('hi! link MatchParen Visual')
 
     -- Since line numbers are always shown, I don' need '~' characters to
     -- denote blank lines
-    cmd 'hi NonText guifg=bg'
+    cmd 'hi EndOfBuffer guifg=bg'
 
     -- Disable highlight of cursorline background
     cmd 'hi CursorLine guibg=NONE'
 
     -- Disable highlight of the current line number background
-    cmd('hi CursorLineNR guibg=NONE guifg=' .. palette.base06)
+    cmd('hi CursorLineNR guibg=NONE guifg=' .. palette.base05)
 
     -- Don't highlight closed folds
     cmd 'hi Folded guibg=NONE'
@@ -74,6 +77,16 @@ function M.base16_overwrites()
     cmd('hi DashboardHeader guifg=' .. palette.base0E)
     cmd('hi DashboardCenter guifg=' .. palette.base0D)
     cmd('hi DashboardFooter guifg=' .. palette.base0E)
+
+    -- Define colors for blank characters. You show blanks with 'set list'.
+    -- NonText colors the 'eol' character
+    cmd('hi Whitespace guifg=' .. palette.base01)
+    cmd('hi! link NonText Whitespace')
+
+    -- Link all symbols showing indent lines to my whitespace color
+    cmd('hi! link IndentBlanklineChar Whitespace')
+    cmd('hi! link IndentBlanklineContextChar Whitespace')
+    cmd('hi! link IndentBlanklineSpaceChar Whitespace')
 
     -- nvim-base16 overwrites the Telescope highlight groups. Let's get the defualts back
     cmd('hi! link TelescopeSelection        Visual')

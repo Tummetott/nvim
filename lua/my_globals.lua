@@ -92,6 +92,9 @@ vim.cmd("autocmd TermOpen * startinsert")
 -- The fill character of folds is a whitespace
 vim.o.fillchars = "fold: ,diff: "
 
+-- Set chars for blanks. You can enable them with 'set list'
+vim.o.listchars = 'space:⋅,tab:——▸,eol:↴'
+
 -- Show foldcolumn (with width = 2) when there are active folds
 vim.wo.foldcolumn = "auto:3"
 

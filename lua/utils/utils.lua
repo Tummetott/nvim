@@ -53,4 +53,59 @@ function M.get_c_style_fold_text()
     end
 end
 
+function M.show_blank_chars()
+    vim.opt.list = true
+    vim.g.indent_blankline_char = '│'
+end
+
+function M.hide_blank_chars()
+    vim.opt.list = false
+    vim.g.indent_blankline_char = ''
+end
+
+function M.toggle_blank_chars()
+    if vim.g.indent_blankline_char == '' then
+        M.show_blank_chars()
+    else
+        M.hide_blank_chars()
+    end
+end
+
+function M.enable_cursorline()
+    local palette = require'my_colorscheme'.get_current_base16_palette()
+    vim.cmd('hi CursorLine guibg=' .. palette.base01)
+    vim.g.cursorline_enabled = true
+end
+
+function M.disable_cursorline()
+    vim.cmd('hi CursorLine guibg=bg')
+    vim.g.cursorline_enabled = false
+end
+
+function M.toggle_cursorline()
+    if vim.g.cursorline_enabled then
+        M.disable_cursorline()
+    else
+        M.enable_cursorline()
+    end
+end
+
+function M.enable_cursorcross()
+    M.enable_cursorline()
+    vim.opt.cursorcolumn = true
+end
+
+function M.disable_cursorcross()
+    M.disable_cursorline()
+    vim.opt.cursorcolumn = false
+end
+
+function M.toggle_cursorcross()
+    if vim.g.cursorline_enabled then
+        M.disable_cursorcross()
+    else
+        M.enable_cursorcross()
+    end
+end
+
 return M
