@@ -56,11 +56,17 @@ end
 function M.show_blank_chars()
     vim.opt.list = true
     vim.g.indent_blankline_char = '│'
+    -- Fire the CursorMoved autocmd in order to let IndentBlankline update the
+    -- virtual text indent lines
+    vim.cmd('doautocmd CursorMoved')
 end
 
 function M.hide_blank_chars()
     vim.opt.list = false
     vim.g.indent_blankline_char = ''
+    -- Fire the CursorMoved autocmd in order to let IndentBlankline update the
+    -- virtual text indent lines
+    vim.cmd('doautocmd CursorMoved')
 end
 
 function M.toggle_blank_chars()
