@@ -63,6 +63,9 @@ return require('packer').startup(function(use)
         },
     }
 
+    -- FZF module for telescope. Much better performance than the build in version
+    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
     -- Nice directory tree for nvim
     use {
         'kyazdani42/nvim-tree.lua',
