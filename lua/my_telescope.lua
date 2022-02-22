@@ -19,12 +19,11 @@ require("telescope").setup {
                 ['<C-u>'] = false,
                 -- I prefer to open a file in a horizontal split with C-s instead of C-x
                 ['<C-s>'] = actions.select_horizontal,
-                ['<c-x>'] = false
-            },
-            n = {
-                ['<C-h>'] = layout.toggle_preview,
-                ['<C-s>'] = actions.select_horizontal,
-                ['<c-x>'] = false
+                ['<C-x>'] = false,
+                -- If I select items, i send only selected items to the
+                -- quickfix list. If I don't select any items, I send every
+                -- item
+                ['<C-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
             },
         }
     },

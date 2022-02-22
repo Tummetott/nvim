@@ -42,6 +42,9 @@ keymap('n', '<CR>', 'v:hlsearch ? ":noh<CR>" : "<CR>"', { noremap=true, expr=tru
 
 local opt = {noremap = true, silent = true}
 
+-- Mapping to clear the quickfix list
+keymap('n', '<LEADER>cq', '<CMD>lua vim.fn.setqflist({})<CR>', opt)
+
 -- Turn on/off list chars and indentation lines for all levels, not just the
 -- current one. Following the syntax of tpopes plugin 'unimpared'
 keymap('n', '[ob', '<CMD>lua require"my_functions".show_blank_chars()<CR>', opt)
