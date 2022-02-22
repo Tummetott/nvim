@@ -1,3 +1,6 @@
+local layout = require'telescope.actions.layout'
+local actions = require'telescope.actions'
+
 require("telescope").setup {
     defaults = {
         prompt_prefix = " ",
@@ -10,21 +13,37 @@ require("telescope").setup {
             i = {
                 -- By default, I dont show a prefiew of a file. However, I set
                 -- a keybinding to toggle the preview window
-                ['<C-h>'] = require'telescope.actions.layout'.toggle_preview,
+                ['<C-h>'] = layout.toggle_preview,
                 -- Telescope mapps <C-u> to scroll up in my preview window.
                 -- Let's unmap this in order to get my delete line behavior back
                 ['<C-u>'] = false,
+                -- I prefer to open a file in a horizontal split with C-s instead of C-x
+                ['<C-s>'] = actions.select_horizontal,
+                ['<c-x>'] = false
             },
             n = {
-                ['<C-h>'] = require'telescope.actions.layout'.toggle_preview,
+                ['<C-h>'] = layout.toggle_preview,
+                ['<C-s>'] = actions.select_horizontal,
+                ['<c-x>'] = false
             },
+        }
+    },
+    pickers = {
+        buffers = {
+            ignore_current_buffer = true,
+            sort_lastused = true,
+            theme = 'dropdown',
+            mappings = {
+                i = {
+                    ['<c-x>'] = actions.delete_buffer,
+                }
+            }
+        },
+        lsp_code_actions = {
+            theme = 'cursor',
         }
     }
 }
-
--- To get fzf loaded and working with telescope, you need to call
--- load_extension, somewhere after setup function:
-require('telescope').load_extension('fzf')
 
 -- Telescope mappings
 local keymap = vim.api.nvim_set_keymap
@@ -38,7 +57,7 @@ keymap('n', '<Leader>fo', [[<Cmd>lua require('telescope.builtin').oldfiles()<CR>
 keymap('n', '<Leader>fm', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]], opt)
 keymap('n', '<Leader>fc', [[<Cmd>lua require('telescope.builtin').command_history()<CR>]], opt)
 keymap('n', '<Leader>fs', [[<Cmd>lua require('telescope.builtin').spell_suggest()<CR>]], opt)
-keymap('n', '<Leader>a', [[<Cmd>lua require('telescope.builtin').lsp_code_actions(require('telescope.themes').get_cursor())<CR>]], opt)
+keymap('n', '<Leader>a', [[<Cmd>lua require('telescope.builtin').lsp_code_actions()<CR>]], opt)
 
 -- Special shortcut to find a dotfile
 keymap('n', '<Leader>ed', [[<CMD>Telescope find_files cwd=~/.dotfiles<CR>]], opt)
