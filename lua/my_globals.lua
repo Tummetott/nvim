@@ -103,3 +103,8 @@ vim.wo.signcolumn = "number"
 
 -- Only safe folds and cursor position when executing :mkview
 vim.o.viewoptions = "cursor,folds"
+
+-- Convenience function to print lua tables
+function P(o)
+    print(require('my_functions').dump(o))
+end

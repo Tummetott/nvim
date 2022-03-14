@@ -55,6 +55,22 @@ cmp.setup({
     })
 })
 
+-- Use cmdline & path source for ':'
+cmp.setup.cmdline(':', {
+    formatting = {
+        format = lspkind.cmp_format({
+            -- Don't write the type of completion, just show the icon
+            with_text = false,
+            menu = {},
+        }),
+    },
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        { name = 'cmdline' }
+    })
+})
+
 -- This command connects the autopairs with the cmp
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
