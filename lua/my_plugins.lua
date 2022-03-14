@@ -1,14 +1,10 @@
 -- Bootstrap packet manager 'packer.nvim'
-local execute = vim.api.nvim_command
-local fn = vim.fn
+local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-
-if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
-    execute 'packadd packer.nvim'
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    vim.fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.api.nvim_command('packadd packer.nvim')
 end
-
 
 -- Load plugins
 return require('packer').startup(function(use)
@@ -117,14 +113,13 @@ return require('packer').startup(function(use)
 
     -- Comment & uncomment blockes of code
     use {
-        'tpope/vim-commentary',
+        'numToStr/Comment.nvim',
         config = function ()
-            local keymap = vim.api.nvim_set_keymap
-
+            require('Comment').setup()
             -- Press <C-/> to comment and uncomment
+            local keymap = vim.api.nvim_set_keymap
             keymap('n', '<C-_>', 'gcc', {})
             keymap('i', '<C-_>', '<ESC>gcc', {})
-            keymap('v', '<C-_>', 'gc', {})
         end
     }
 
@@ -169,7 +164,7 @@ return require('packer').startup(function(use)
     -- Amazing mappings by tpope
     use 'tpope/vim-unimpaired'
 
-    -- Repeat plugin commands of unimpared and commentary with .
+    -- Repeat plugin commands of unimpared and with .
     use 'tpope/vim-repeat'
 
     -- This plugin runs mkview and loadview on file save and loading
