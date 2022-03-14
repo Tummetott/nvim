@@ -99,6 +99,20 @@ function M.base16_overwrites()
     cmd('hi! link TelescopeResultsTitle     TelescopeTitle')
     cmd('hi! link TelescopePreviewTitle     TelescopeTitle')
     cmd('hi! link TelescopePromptPrefix     Identifier')
+
+    -- Highlight icon which shows the kind of completion
+    cmd('hi CmpItemKind guifg=' .. palette.base0E)
+
+    -- Highlight the completion source
+    cmd('hi CmpItemMenu guifg=' .. palette.base03)
+
+    -- Highlight the match and the fuzzy match in color
+    cmd('hi CmpItemAbbrMatchFuzzy guifg=' .. palette.base0C)
+    cmd('hi CmpItemAbbrMatch guifg=' .. palette.base0C)
+
+    -- Highlight the scroll bar of completion windows and docs
+    cmd('hi PmenuSbar guibg=' .. palette.base01)
+    cmd('hi PmenuThumb guibg=' .. palette.base02)
 end
 
 function M.setup()
