@@ -58,11 +58,8 @@ cmp.setup({
 -- Use cmdline & path source for ':'
 cmp.setup.cmdline(':', {
     formatting = {
-        format = lspkind.cmp_format({
-            -- Don't write the type of completion, just show the icon
-            with_text = false,
-            menu = {},
-        }),
+        -- Only show the completion itself, no icon, no completion source
+        fields = { 'abbr' },
     },
     sources = cmp.config.sources({
         { name = 'path' }
