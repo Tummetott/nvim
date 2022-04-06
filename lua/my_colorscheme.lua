@@ -1,6 +1,4 @@
 local M = {}
-
--- Access modules faster
 local cmd = vim.cmd
 
 -- Enable true colors
@@ -19,7 +17,6 @@ end
 
 function M.base16_overwrites()
     local palette = M.get_current_base16_palette()
-
     if not palette then return end
 
     require('feline').use_theme(palette)
@@ -27,7 +24,8 @@ function M.base16_overwrites()
     -- Line numbers should have the same color than comments
     cmd('hi! link LineNr Comment')
 
-    -- The default visual selection color is pretty bright. Let's darken it a bit
+    -- The default visual selection color is pretty bright. Let's darken it a
+    -- bit
     cmd('hi Visual guibg='.. palette.base01)
 
     -- Link our matching parentheses to our visual selection color
@@ -88,7 +86,8 @@ function M.base16_overwrites()
     cmd('hi! link IndentBlanklineContextChar Whitespace')
     cmd('hi! link IndentBlanklineSpaceChar Whitespace')
 
-    -- nvim-base16 overwrites the Telescope highlight groups. Let's get the defualts back
+    -- nvim-base16 overwrites the telescope highlight groups. Let's get the
+    -- defaults back
     cmd('hi! link TelescopeSelection        Visual')
     cmd('hi! link TelescopeNormal           Normal')
     cmd('hi! link TelescopePromptNormal     TelescopeNormal')
@@ -106,7 +105,7 @@ function M.base16_overwrites()
     -- Highlight the completion source
     cmd('hi CmpItemMenu guifg=' .. palette.base03)
 
-    -- Highlight the match and the fuzzy match in color
+    -- Highlight the match and the fuzzy match
     cmd('hi CmpItemAbbrMatchFuzzy guifg=' .. palette.base0C)
     cmd('hi CmpItemAbbrMatch guifg=' .. palette.base0C)
 
