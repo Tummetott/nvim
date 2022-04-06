@@ -35,8 +35,7 @@ return require('packer').startup(function(use)
             {'hrsh7th/cmp-cmdline'},
             {'L3MON4D3/LuaSnip'},
             {'saadparwaiz1/cmp_luasnip'},
-            {"hrsh7th/cmp-vsnip"},
-            {"hrsh7th/vim-vsnip"},
+            {'rafamadriz/friendly-snippets'}
         },
     }
 
@@ -121,7 +120,8 @@ return require('packer').startup(function(use)
             -- Press <C-/> to comment and uncomment
             local keymap = vim.api.nvim_set_keymap
             keymap('n', '<C-_>', 'gcc', {})
-            keymap('i', '<C-_>', '<ESC>gcc', {})
+            keymap('i', '<C-_>', '<Cmd>gcc', {})
+            keymap('v', '<C-_>', 'gc', {})
         end
     }
 

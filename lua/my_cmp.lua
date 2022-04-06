@@ -1,6 +1,7 @@
-local cmp = require'cmp'
+local cmp = require('cmp')
 local mapping = require('cmp.config.mapping')
 local lspkind = require('lspkind')
+local luasnip = require('luasnip')
 
 cmp.setup({
     -- This section defines the look of the completion popup. The plugin
@@ -31,7 +32,7 @@ cmp.setup({
     },
     snippet = {
         expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
+            luasnip.lsp_expand(args.body)
         end,
     },
     mapping = {
@@ -42,15 +43,31 @@ cmp.setup({
         ['<C-y>'] = mapping.confirm({ select = true }),
         ['<C-e>'] = mapping.abort(),
         ['<CR>'] = mapping({
-            i = mapping.confirm({ select = false }),
+            i = mapping.confirm({ select = false })
         }),
+        -- When a snipped is active, expand or jump the snipped. Otherwise use
+        -- the default keymap as fallback
+        ['<C-f>'] = mapping(function(fallback)
+            if luasnip.jumpable(1) then
+                luasnip.jump(1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+        ['<C-b>'] = mapping(function(fallback)
+            if luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' })
     },
     -- The order in which I specify sources defines the priority
     sources = cmp.config.sources({
         { name = 'nvim_lua' },
         { name = 'nvim_lsp' },
         { name = 'path' },
-        -- { name = 'vsnip' },
+        { name = 'luasnip' },
         { name = 'buffer', keyword_length = 5, max_item_count = 10 },
     })
 })
@@ -71,3 +88,16 @@ cmp.setup.cmdline(':', {
 -- This command connects the autopairs with the cmp
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+-- Config for luasnips
+luasnip.config.set_config ({
+    -- When true, jump back to a snipped even if you moved outside of the selection
+    history = false,
+    -- Define events when the snippeds get updated. We want to have dynamic
+    -- snippets so I choose to update them whenever the text changed
+    updateevents = 'TextChanged,TextchangedI',
+})
+
+-- Load friendly snippets
+require("luasnip.loaders.from_vscode").lazy_load()
+require('my_luasnip')
