@@ -1,7 +1,4 @@
 require('gitsigns').setup({
-    signs = {
-        delete = {text = '│'}
-    },
     signcolumn = false,
     on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
