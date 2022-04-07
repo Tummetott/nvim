@@ -67,7 +67,7 @@ keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({ float = { border = "round
 keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({ float = { border = "rounded" } })<CR>', opt)
 
 -- Hover lsp information
-keymap('n', '<Leader><Leader>', '<cmd>lua vim.lsp.buf.hover()<CR>',opt)
+keymap('n', '<Leader><Leader>', '<cmd>lua vim.lsp.buf.hover()<CR>', opt)
 
 -- Go to definition
 keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opt)

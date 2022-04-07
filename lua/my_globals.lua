@@ -86,8 +86,11 @@ vim.o.cpoptions = string.gsub(vim.o.cpoptions, '_', '')
 -- Hide the last entered ex command
 -- vim.cmd('autocmd CmdlineLeave * echom "" ')
 
--- Hide line numbers in terminal mode and go automatically into insert mode
-vim.cmd('autocmd TermOpen * setlocal nonumber norelativenumber startinsert')
+-- Hide line numbers in terminal mode
+vim.cmd('autocmd TermOpen * setlocal nonumber norelativenumber')
+
+-- Automatically go in insert mode then opening a terminal
+vim.cmd('autocmd TermOpen * startinsert')
 
 -- The fill character of folds is a whitespace
 vim.o.fillchars = "fold: ,diff: "

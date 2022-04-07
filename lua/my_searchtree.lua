@@ -56,8 +56,6 @@ require'nvim-tree'.setup {
     -- Don't open nvim-tree at startup
     open_on_setup       = false,
     ignore_ft_on_setup  = {},
-    -- Closes neovim automatically when the tree is the last window in the view
-    auto_close          = true,
     -- Don't open the tree when opening a new tab if the tree wasn't previously opened
     open_on_tab         = false,
     -- Hijacks new directory buffers when they are opened

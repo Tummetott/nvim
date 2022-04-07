@@ -31,16 +31,16 @@ keymap('i', '<C-b>', '<Left>', opt)
 
 -- Use emacs bindings to navigate to start of the line in command mode. When
 -- silent is used as option, the screen is not redrawn
-keymap('c', '<C-a>', '<C-b>', { noremap=true })
+keymap('c', '<C-a>', '<C-b>', {noremap=true})
 
 -- Use emacs bindings to navigate left and right in command mode. When silent
 -- is used as option, the screen is not redrawn
-keymap('c', '<C-b>', '<Left>', { noremap=true })
-keymap('c', '<C-f>', '<Right>', { noremap=true })
+keymap('c', '<C-b>', '<Left>', {noremap=true})
+keymap('c', '<C-f>', '<Right>', {noremap=true})
 
 -- The first <CR> after a search disables the highlights. Usefull when
 -- hlsearch is enabled
-keymap('n', '<CR>', 'v:hlsearch ? ":noh<CR>" : "<CR>"', opt)
+keymap('n', '<CR>', 'v:hlsearch ? ":noh<CR>" : "<CR>"', {noremap=true, expr=true})
 
 -- Disable ex mode. This mode is useless and it's annoying to quit out of it
 -- when entered accidentally
@@ -74,3 +74,6 @@ keymap('n', 'yox', [[<Cmd>lua require'my_functions'.toggle_cursorcross()<CR>]], 
 -- Jump to next/previous trailing whitespace
 keymap('n', ']w', [[<Cmd>lua vim.fn.search('\\s\\+$', 'w')<CR>]], opt)
 keymap('n', '[w', [[<Cmd>lua vim.fn.search('\\s\\+$', 'bw')<CR>]], opt)
+
+-- The shortcut to exit from a vim-termianl is weird. Let's make a new one
+keymap('t', '<C-x>', '<C-\\><C-n>', opt)

@@ -64,7 +64,7 @@ return require('packer').startup(function(use)
     use {
         'kyazdani42/nvim-tree.lua',
         config = function()
-            require"my_searchtree"
+            require('my_searchtree')
         end,
         requires = {
             {'kyazdani42/nvim-web-devicons'}
@@ -72,19 +72,23 @@ return require('packer').startup(function(use)
     }
 
     use {
+        'lewis6991/gitsigns.nvim',
+        config = {
+            require('my_gitsigns')
+        },
+    }
+
+    use {
         'feline-nvim/feline.nvim',
         -- tag = 'v0.4.1',
         config = function ()
             require('my_feline')
-            require('gitsigns').setup({
-                signcolumn = false
-            })
         end,
         requires = {
             {'kyazdani42/nvim-web-devicons'},
-            {'lewis6991/gitsigns.nvim'},
             {'nvim-lua/plenary.nvim'}
         },
+        after = 'gitsigns.nvim',
     }
 
     -- Base16 themes for neovim
