@@ -40,11 +40,8 @@ cmp.setup({
         ['<C-p>'] = mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
         ['<Up>'] = mapping.scroll_docs(-4),
         ['<Down>'] = mapping.scroll_docs(4),
-        ['<C-y>'] = mapping({
-            i = mapping.confirm({ select = true }),
-            c = mapping.confirm({ select = true }),
-        }),
-        ['<C-e>'] = mapping.abort(),
+        ['<C-y>'] = mapping(mapping.confirm({ select = true }), {'i', 'c'}),
+        ['<C-e>'] = mapping(mapping.abort(), {'i', 'c'}),
         ['<CR>'] = mapping({
             i = mapping.confirm({ select = false }),
         }),
