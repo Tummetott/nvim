@@ -48,8 +48,8 @@ keymap('n', 'Q', '<Nop>', opt)
 keymap('n', 'gQ', '<Nop>', opt)
 
 -- Press Tab or S-Tab in normal mode to go to next/previous buffer
--- keymap('n', 'TODO', ':bnext<CR>', opt)
--- keymap('n', 'TODO', ':bprevious<CR>', opt)
+keymap('n', '<Tab>', ':bnext<CR>', opt)
+keymap('n', '<S-Tab>', ':bprevious<CR>', opt)
 
 -- Mapping to clear the quickfix list
 keymap('n', '<Leader>cq', '<Cmd>lua vim.fn.setqflist({})<CR>', opt)

@@ -106,6 +106,4 @@ vim.wo.foldcolumn = "auto:4"
 vim.o.viewoptions = "cursor,folds"
 
 -- Convenience function to print lua tables
-function P(o)
-    print(require('my_functions').dump(o))
-end
+P = vim.pretty_print

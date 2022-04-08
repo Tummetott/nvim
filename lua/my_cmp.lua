@@ -40,10 +40,13 @@ cmp.setup({
         ['<C-p>'] = mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
         ['<Up>'] = mapping.scroll_docs(-4),
         ['<Down>'] = mapping.scroll_docs(4),
-        ['<C-y>'] = mapping.confirm({ select = true }),
+        ['<C-y>'] = mapping({
+            i = mapping.confirm({ select = true }),
+            c = mapping.confirm({ select = true }),
+        }),
         ['<C-e>'] = mapping.abort(),
         ['<CR>'] = mapping({
-            i = mapping.confirm({ select = false })
+            i = mapping.confirm({ select = false }),
         }),
         -- When a snipped is active, expand or jump the snipped. Otherwise use
         -- the default keymap as fallback
