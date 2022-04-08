@@ -57,35 +57,51 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
     }
 )
 
-local keymap = vim.api.nvim_set_keymap
-local opt = {noremap = true, silent = true}
+local function set_keymaps()
+    local map = vim.keymap.set
+    local opts = {noremap = true, silent = true, buffer = 0}
 
--- Go to next diagnostic
-keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({ float = { border = "rounded" } })<CR>', opt)
+    -- Go to next diagnostic. Function must be wrapped since we can't give
+    -- arguments to a function pointer
+    map('n', ']d', function()
+        vim.diagnostic.goto_next({float = {border = "rounded"}})
+    end, opts)
 
--- Go to previous diagnostic
-keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({ float = { border = "rounded" } })<CR>', opt)
+    -- Go to previous diagnostic. Function must be wrapped since we can't give
+    -- arguments to a function pointer
+    map('n', '[d', function()
+        vim.diagnostic.goto_prev({float = {border = "rounded"}})
+    end, opts)
 
--- Hover lsp information
-keymap('n', '<Leader><Leader>', '<cmd>lua vim.lsp.buf.hover()<CR>', opt)
+    -- Hover lsp information
+    map('n', '<Leader><Leader>', vim.lsp.buf.hover, opts)
 
--- Go to definition
-keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opt)
+    -- Go to definition
+    map('n', 'gd', vim.lsp.buf.definition, opts)
 
--- Refactor
-keymap('n', '<Leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opt)
+    -- Rename
+    map('n', '<Leader>r', vim.lsp.buf.rename, opts)
 
--- Get signature help
-keymap('n', '<Leader>s', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opt)
+    -- Get signature help
+    map('n', '<Leader>s', vim.lsp.buf.signature_help, opts)
+end
 
 -- C / C++ language server
-require'lspconfig'.clangd.setup{}
+require'lspconfig'.clangd.setup{
+    on_attach = set_keymaps,
+}
 
 -- Python language server
-require'lspconfig'.pyright.setup{}
+require'lspconfig'.pyright.setup{
+    on_attach = set_keymaps,
+}
 
 -- General purpose language server. I currently use it for sh and bash linting
-require('lsp/efm-langserver')
+local efm_setup = require'lsp/efm-langserver'
+efm_setup.on_attach = set_keymaps
+require'lspconfig'.efm.setup(efm_setup)
 
 -- LUA language server
-require('lsp/sumneko-lua')
+local sumneko_setup = require'lsp/sumneko-lua'
+sumneko_setup.on_attach = set_keymaps
+require'lspconfig'.sumneko_lua.setup(sumneko_setup)

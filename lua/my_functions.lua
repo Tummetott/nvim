@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 -- Checks if dict has value
 function M.has_value (tab, val)

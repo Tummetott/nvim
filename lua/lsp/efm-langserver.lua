@@ -1,4 +1,4 @@
-require 'lspconfig'.efm.setup {
+local M = {
     init_options = {documentFormatting = true},
     settings = {
         rootMarkers = {".git/"},
@@ -17,3 +17,5 @@ require 'lspconfig'.efm.setup {
     },
     filetypes = { 'bash','sh' }
 }
+
+return M
