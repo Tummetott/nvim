@@ -44,12 +44,11 @@ return require('packer').startup(function(use)
     use {
         'tpope/vim-commentary',
         config = function ()
-            local keymap = vim.api.nvim_set_keymap
-
             -- Press <C-/> to comment and uncomment
-            keymap('n', '<C-_>', 'gcc', {})
-            keymap('i', '<C-_>', '<ESC>gcc', {})
-            keymap('v', '<C-_>', 'gc', {})
+            local map = vim.keymap.set
+            map('n', '<C-_>', 'gcc', {})
+            map('i', '<C-_>', '<Cmd>gcc', {})
+            map('v', '<C-_>', 'gc', {})
         end
     }
 

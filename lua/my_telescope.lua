@@ -45,18 +45,20 @@ require("telescope").setup {
 }
 
 -- Telescope mappings
-local keymap = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 local opt = {noremap = true, silent = true}
 
-keymap('n', '<Leader>ff', [[<Cmd>lua require('telescope.builtin').find_files()<CR>]], opt)
-keymap('n', '<Leader>fw', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], opt)
-keymap('n', '<Leader>fb', [[<Cmd>lua require('telescope.builtin').buffers()<CR>]], opt)
-keymap('n', '<Leader>fh', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], opt)
-keymap('n', '<Leader>fo', [[<Cmd>lua require('telescope.builtin').oldfiles()<CR>]], opt)
-keymap('n', '<Leader>fm', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]], opt)
-keymap('n', '<Leader>fc', [[<Cmd>lua require('telescope.builtin').command_history()<CR>]], opt)
-keymap('n', '<Leader>fs', [[<Cmd>lua require('telescope.builtin').spell_suggest()<CR>]], opt)
-keymap('n', '<Leader>a', [[<Cmd>lua require('telescope.builtin').lsp_code_actions()<CR>]], opt)
+map('n', '<Leader>ff', require'telescope.builtin'.find_files, opt)
+map('n', '<Leader>fw', require'telescope.builtin'.live_grep, opt)
+map('n', '<Leader>fb', require'telescope.builtin'.buffers, opt)
+map('n', '<Leader>fh', require'telescope.builtin'.help_tags, opt)
+map('n', '<Leader>fo', require'telescope.builtin'.oldfiles, opt)
+map('n', '<Leader>fm', require'telescope.builtin'.man_pages, opt)
+map('n', '<Leader>fc', require'telescope.builtin'.command_history, opt)
+map('n', '<Leader>fs', require'telescope.builtin'.spell_suggest, opt)
+map('n', '<Leader>a', require'telescope.builtin'.lsp_code_actions, opt)
 
 -- Special shortcut to find a dotfile
-keymap('n', '<Leader>ed', [[<CMD>Telescope find_files cwd=~/.dotfiles<CR>]], opt)
+map('n', '<Leader>ed', function()
+    require'telescope.builtin'.find_files({cwd = '~/.dotfiles'})
+end, opt)

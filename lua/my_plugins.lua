@@ -122,10 +122,10 @@ return require('packer').startup(function(use)
         config = function ()
             require('Comment').setup()
             -- Press <C-/> to comment and uncomment
-            local keymap = vim.api.nvim_set_keymap
-            keymap('n', '<C-_>', 'gcc', {})
-            keymap('i', '<C-_>', '<Cmd>gcc', {})
-            keymap('v', '<C-_>', 'gc', {})
+            local map = vim.keymap.set
+            map('n', '<C-_>', 'gcc', {})
+            map('i', '<C-_>', '<Cmd>gcc', {})
+            map('v', '<C-_>', 'gc', {})
         end
     }
 
