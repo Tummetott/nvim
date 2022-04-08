@@ -24,6 +24,9 @@ function M.base16_overwrites()
     -- Line numbers should have the same color than comments
     cmd('hi! link LineNr Comment')
 
+    -- Set a new color for the vertical split line
+    cmd('hi VertSplit guifg=' .. palette.base02)
+
     -- The default visual selection color is pretty bright. Let's darken it a
     -- bit
     cmd('hi Visual guibg='.. palette.base01)

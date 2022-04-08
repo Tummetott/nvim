@@ -443,7 +443,7 @@ table.insert(right_section, {
 -- The statusline consists of two components. The active component is only
 -- shown in active windows. The inactive component is only shown for filetypes
 -- and buffertypes defined in the 'force_inactive' table of the setup function.
--- The statusline of all other inative windows not defined in the
+-- The statusline of all other inactive windows not defined in the
 -- 'force_inactive' table are highlighted based on the 'StatusLine' and
 -- 'StatusLineNC' highlight group
 local components = {

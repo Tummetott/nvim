@@ -13,6 +13,9 @@ vim.o.showtabline = 1
 -- Disable startup message
 vim.o.shortmess = vim.o.shortmess .. 'I'
 
+-- Only show one global statusline, independent of the number of windows
+vim.o.laststatus = 3
+
 -- Don't display filenames as the statusline plugin already shows that
 vim.o.shortmess = vim.o.shortmess .. 'F'
 
