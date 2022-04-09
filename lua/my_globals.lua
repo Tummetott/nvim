@@ -87,7 +87,7 @@ vim.o.diffopt = vim.o.diffopt .. ',vertical,foldcolumn:2'
 vim.o.cpoptions = string.gsub(vim.o.cpoptions, '_', '')
 
 -- Hide the last entered ex command
--- vim.cmd('autocmd CmdlineLeave * echom "" ')
+vim.cmd('autocmd CmdlineLeave * echom "" ')
 
 -- Hide line numbers in terminal mode
 vim.cmd('autocmd TermOpen * setlocal nonumber norelativenumber')

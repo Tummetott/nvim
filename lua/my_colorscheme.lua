@@ -69,10 +69,9 @@ function M.base16_overwrites()
     cmd('hi NvimTreeEndOfBuffer guifg=' .. palette.base01)
     cmd('hi NvimTreeVertSplit guibg=' .. palette.base01 .. ' guifg=' .. palette.base00)
 
-    -- This two lines are only relevant for nvimtree since my main statusline
-    -- overwrite this highlights
-    cmd('hi StatusLine guibg=' .. palette.base01)
-    cmd('hi StatusLineNC guibg=' .. palette.base01)
+    -- For the dashboard, feline does not generate a statusline. Let's make the
+    -- line disappear completely
+    cmd('hi StatusLine guibg=' .. palette.base00)
 
     -- Define colors for my dashboard
     cmd('hi DashboardHeader guifg=' .. palette.base0E)

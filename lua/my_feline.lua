@@ -1,5 +1,6 @@
 local left_section = {}
 local right_section = {}
+local special_section = {}
 
 -- Vim Mode
 table.insert(left_section, {
@@ -56,7 +57,6 @@ table.insert(left_section, {
 
 -- File information
 table.insert(left_section, {
-    name = 'filename',
     provider = {
         name = 'file_info',
         opts = {
@@ -95,7 +95,6 @@ table.insert(left_section, {
 
 -- Git branch
 table.insert(left_section, {
-    name = 'branch',
     provider = 'git_branch',
     short_provider = '',
     -- Only show the git branch, when the current file is inside the git repo
@@ -440,27 +439,116 @@ table.insert(right_section, {
     },
 })
 
--- The statusline consists of two components. The active component is only
--- shown in active windows. The inactive component is only shown for filetypes
--- and buffertypes defined in the 'force_inactive' table of the setup function.
--- The statusline of all other inactive windows not defined in the
--- 'force_inactive' table are highlighted based on the 'StatusLine' and
--- 'StatusLineNC' highlight group
+-- For all special filetypes and buffer, we only want to show the filetype
+table.insert(special_section, {
+    provider = function()
+        local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+        if ft == '' then return 'TERMINAL' end
+        return string.upper(ft)
+    end,
+    -- Disable it only for the dashboard
+    enabled = function()
+        return vim.api.nvim_buf_get_option(0, 'filetype') ~= 'dashboard'
+    end,
+    hl = {
+        fg = 'base00',
+        bg = 'base0D',
+        style = 'bold',
+    },
+    left_sep = {
+        {
+            str = 'left_moon',
+            hl = {
+                fg = 'base0D',
+                bg = 'base00',
+            },
+        },
+        {
+            str = ' ',
+            hl = {
+                fg = 'base00',
+                bg = 'base0D',
+            },
+        },
+    },
+    right_sep = {
+        {
+            str = ' ',
+            hl = {
+                fg = 'base00',
+                bg = 'base0D',
+            },
+        },
+        {
+            str = 'right_moon',
+            hl = function()
+                local fg = 'base0D'
+                local bg = 'base00'
+                if vim.api.nvim_buf_get_option(0, 'filetype') == 'help' then
+                    bg = 'base02'
+                end
+                return { fg = fg, bg = bg }
+            end
+        },
+    },
+})
+
+-- For the help, I also want to know which help file I'm in
+table.insert(special_section, {
+    provider = {
+        name = 'file_info',
+        opts = {
+            file_readonly_icon = '',
+            type = 'base-only',
+        },
+    },
+    -- Only show the filename for help files
+    enabled = function ()
+        return vim.api.nvim_buf_get_option(0, 'filetype') == 'help'
+    end,
+    icon = '',
+    hl = {
+        fg = 'base00',
+        bg = 'base02',
+        style = 'bold'
+    },
+    left_sep = {
+        str = ' ',
+        hl = {
+            fg = 'base00',
+            bg = 'base02',
+        },
+    },
+    right_sep = {
+        {
+            str = ' ',
+            hl = {
+                fg = 'base00',
+                bg = 'base02'
+            },
+        },
+        {
+            str = 'right_moon',
+            hl = {
+                fg = 'base02',
+                bg = 'base00',
+            },
+        },
+    }
+})
+
+-- Since I set the option 'laststatus = 3', I only have one global statusline
+-- for all windows. Therefore, I never really have a statusline for an inactive
+-- window. However, I use this component for special filetypes/buffer (e.g the
+-- help)
 local components = {
     active = {
         left_section,
         right_section,
     },
-    -- Highlight table in segment in section in inactive table - three braces :)
-    inactive = {{{
-        hl = function()
-            if vim.bo.filetype == 'dashboard' then
-                return { fg = 'base00', bg = 'base00', }
-            else
-                return { fg = 'base01', bg = 'base01', }
-            end
-        end,
-    }}},
+    inactive = {
+        special_section,
+    },
 }
 
 require('feline').setup({
@@ -485,7 +573,8 @@ require('feline').setup({
             '^NvimTree$',
             '^packer$',
             '^help$',
-            '^dashboard$'
+            '^dashboard$',
+            '^lspinfo$',
         },
         buftypes = {
             '^terminal$'
