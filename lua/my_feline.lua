@@ -6,7 +6,7 @@ local special_section = {}
 table.insert(left_section, {
     provider = function ()
         local mode = require('feline.providers.vi_mode').get_vim_mode()
-        return ' ' .. mode
+        return ' ' .. mode -- 
     end,
     short_provider = ' ',
     hl = function ()
