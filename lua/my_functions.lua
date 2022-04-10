@@ -1,13 +1,5 @@
 local M = {}
 
--- Checks if dict has value
-function M.has_value (tab, val)
-    for _, value in ipairs(tab) do
-        if value == val then return true end
-    end
-    return false
-end
-
 -- Get output from shell command. This only works with programs who print on
 -- stdout
 function M.capture(cmd, raw)

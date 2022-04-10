@@ -42,7 +42,7 @@ function M.base16_overwrites()
     cmd 'hi CursorLine guibg=NONE'
 
     -- Disable highlight of the current line number background
-    cmd('hi CursorLineNR guibg=NONE guifg=' .. palette.base05)
+    cmd('hi CursorLineNr guibg=NONE guifg=' .. palette.base05)
 
     -- Don't highlight closed folds
     cmd 'hi Folded guibg=NONE'
