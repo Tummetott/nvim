@@ -6,8 +6,8 @@ vim.opt.number = true
 -- Use relative numbers
 vim.opt.relativenumber = true
 
--- Show signs inside the number column
-vim.opt.signcolumn = 'number'
+-- TODO: investigate if 'auto:1' or 'number'
+vim.opt.signcolumn = 'auto:1'
 
 -- Only show tabline if there are at least two tab pages
 vim.opt.showtabline = 1

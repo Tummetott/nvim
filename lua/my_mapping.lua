@@ -40,7 +40,7 @@ map('c', '<C-f>', '<Right>', {noremap=true})
 
 -- The first <CR> after a search disables the highlights. Usefull when
 -- hlsearch is enabled
-map('n', '<CR>', 'v:hlsearch ? ":noh<CR>" : "<CR>"', {noremap=true, expr=true})
+map('n', '<CR>', 'v:hlsearch ? "<Cmd>noh<CR>" : "<CR>"', {noremap=true, expr=true})
 
 -- Disable ex mode. This mode is useless and it's annoying to quit out of it
 -- when entered accidentally
@@ -48,8 +48,8 @@ map('n', 'Q', '<Nop>', opt)
 map('n', 'gQ', '<Nop>', opt)
 
 -- Press Tab or S-Tab in normal mode to go to next/previous buffer
-map('n', '<Tab>', ':bnext<CR>', opt)
-map('n', '<S-Tab>', ':bprevious<CR>', opt)
+-- map('n', '<Tab>', '<Cmd>bnext<CR>', opt)
+-- map('n', '<S-Tab>', '<Cmd>bprevious<CR>', opt)
 
 -- Mapping to clear the quickfix list
 map('n', '<Leader>cq', function() vim.fn.setqflist({}) end, opt)

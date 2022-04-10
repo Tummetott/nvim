@@ -1,9 +1,6 @@
 -- Access modules faster
 local g = vim.g
 
--- This option shows indent markers when folders are open
-g.nvim_tree_indent_markers = 0
-
 -- enable file highlight for git attributes
 g.nvim_tree_git_hl = 1
 
@@ -110,6 +107,12 @@ require'nvim-tree'.setup {
             quit_on_open = true,
         },
     },
+    renderer = {
+        -- This option shows indent markers when folders are open
+        indent_markers = {
+            enable = true
+        }
+    }
 }
 
 local map = vim.keymap.set

@@ -47,6 +47,9 @@ function M.base16_overwrites()
     -- Don't highlight closed folds
     cmd 'hi Folded guibg=NONE'
 
+    -- Highlight the foldcolumn like my line numbers
+    cmd('hi! link FoldColumn LineNr')
+
     -- Diagnostic warning in orange
     cmd('hi DiagnosticWarn guifg=' .. palette.base09)
 

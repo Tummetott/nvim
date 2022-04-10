@@ -11,7 +11,6 @@ require'nvim-treesitter.configs'.setup {
         'yaml',
         'dockerfile',
         'html',
-        'rust',
     },
     highlight = {
         enable = true,

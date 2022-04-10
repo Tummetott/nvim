@@ -26,36 +26,30 @@ require('lspkind').init({
 })
 
 -- Define diagnostic icons
-local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+local signs = { Error = '', Warn = '', Hint = '', Info = '' }
 for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+    local hl = 'DiagnosticSign' .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = nil })
 end
 
 -- Set global options for all diagnostics
-vim.diagnostic.config(
-    {
+vim.diagnostic.config({
         virtual_text = false,
         underline = false,
         update_in_insert = false
-    }
-)
+})
 
 -- Use rounded boarders for the hover floating window
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-    vim.lsp.handlers.hover,
-    {
-        border = "rounded"
-    }
-)
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+    vim.lsp.handlers.hover, {
+        border = 'rounded'
+})
 
 -- Use rounded boarders for the signature help floating window
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-    vim.lsp.handlers.signature_help,
-    {
-        border = "rounded"
-    }
-)
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+    vim.lsp.handlers.signature_help, {
+        border = 'rounded'
+})
 
 local function set_keymaps()
     local map = vim.keymap.set
@@ -64,13 +58,13 @@ local function set_keymaps()
     -- Go to next diagnostic. Function must be wrapped since we can't give
     -- arguments to a function pointer
     map('n', ']d', function()
-        vim.diagnostic.goto_next({float = {border = "rounded"}})
+        vim.diagnostic.goto_next({float = {border = 'rounded'}})
     end, opts)
 
     -- Go to previous diagnostic. Function must be wrapped since we can't give
     -- arguments to a function pointer
     map('n', '[d', function()
-        vim.diagnostic.goto_prev({float = {border = "rounded"}})
+        vim.diagnostic.goto_prev({float = {border = 'rounded'}})
     end, opts)
 
     -- Hover lsp information
