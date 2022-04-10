@@ -123,9 +123,8 @@ return require('packer').startup(function(use)
             require('Comment').setup()
             -- Press <C-/> to comment and uncomment
             local map = vim.keymap.set
-            local opt = {noremap = true, silent = true}
-            map({'n', 'i'}, '<C-_>', require("Comment.api").toggle_current_linewise, opt)
-            vim.cmd'xmap <C-_> gcgv' -- Don't know how to write this in lua
+            map({'n', 'i'}, '<C-_>', require("Comment.api").toggle_current_linewise, {})
+            map('x', '<C-_>', 'gc', {remap = true})
         end
     }
 
