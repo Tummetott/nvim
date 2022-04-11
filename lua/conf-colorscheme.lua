@@ -121,7 +121,7 @@ end
 
 function M.setup()
     -- Whenever the colorscheme changes, apply my overwrites
-    cmd [[autocmd ColorScheme * lua require'my_colorscheme'.base16_overwrites()]]
+    cmd [[autocmd ColorScheme * lua require'conf-colorscheme'.base16_overwrites()]]
 
     -- Use the same colorscheme as my terminal
     local scheme = vim.env.BASE16_THEME or 'gruvbox-dark-medium'

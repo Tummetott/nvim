@@ -100,4 +100,4 @@ luasnip.config.set_config ({
 
 -- Load friendly snippets
 require("luasnip.loaders.from_vscode").lazy_load()
-require('my_luasnip')
+require('conf-luasnip')

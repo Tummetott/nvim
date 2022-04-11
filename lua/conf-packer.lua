@@ -16,16 +16,16 @@ return require('packer').startup(function(use)
     use {
         'neovim/nvim-lspconfig',
         config = function()
-            require "lsp/init"
+            require'conf-lsp'
         end,
         requires = 'onsails/lspkind-nvim'
     }
 
     -- Auto completion plugin
     use {
-        "hrsh7th/nvim-cmp",
+        'hrsh7th/nvim-cmp',
         config = function()
-            require "my_cmp"
+            require'conf-cmp'
         end,
         requires = {
             {'hrsh7th/cmp-nvim-lsp'},
@@ -41,9 +41,9 @@ return require('packer').startup(function(use)
 
     -- Autopairs writen in lua
     use {
-        "windwp/nvim-autopairs",
+        'windwp/nvim-autopairs',
         config = function()
-            require"my_autopairs"
+            require'conf-autopairs'
         end,
     }
 
@@ -51,7 +51,7 @@ return require('packer').startup(function(use)
     use {
         'nvim-telescope/telescope.nvim',
         config = function()
-            require"my_telescope"
+            require'conf-telescope'
         end,
         requires = {
             {'nvim-lua/popup.nvim'},
@@ -64,7 +64,7 @@ return require('packer').startup(function(use)
     use {
         'kyazdani42/nvim-tree.lua',
         config = function()
-            require('my_searchtree')
+            require('conf-nvimtree')
         end,
         requires = {
             {'kyazdani42/nvim-web-devicons'}
@@ -74,7 +74,7 @@ return require('packer').startup(function(use)
     use {
         'lewis6991/gitsigns.nvim',
         config = function()
-            require('my_gitsigns')
+            require('conf-gitsigns')
         end,
     }
 
@@ -82,7 +82,7 @@ return require('packer').startup(function(use)
         'feline-nvim/feline.nvim',
         -- tag = 'v0.4.1',
         config = function ()
-            require('my_feline')
+            require('conf-feline')
         end,
         requires = {
             {'kyazdani42/nvim-web-devicons'},
@@ -95,19 +95,19 @@ return require('packer').startup(function(use)
     use {
         'RRethy/nvim-base16',
         config = function()
-            require('my_colorscheme').setup()
+            require('conf-colorscheme').setup()
         end,
         after = 'feline.nvim',
     }
 
     -- Better syntax highlighting, folding and more with treesitter
     use {
-        "nvim-treesitter/nvim-treesitter",
+        'nvim-treesitter/nvim-treesitter',
         config = function ()
-            require("my_treesitter")
+            require('conf-treesitter')
         end,
         requires = {'nvim-treesitter/nvim-treesitter-textobjects'},
-        run = ":TSUpdate",
+        run = ':TSUpdate',
     }
 
     -- Universal switch pane navigation for vim and tmux
@@ -123,7 +123,7 @@ return require('packer').startup(function(use)
             require('Comment').setup()
             -- Press <C-/> to comment and uncomment
             local map = vim.keymap.set
-            map({'n', 'i'}, '<C-_>', require("Comment.api").toggle_current_linewise, {})
+            map({'n', 'i'}, '<C-_>', require('Comment.api').toggle_current_linewise, {})
             map('x', '<C-_>', 'gc', {remap = true})
         end
     }
@@ -132,7 +132,7 @@ return require('packer').startup(function(use)
     use {
         'glepnir/dashboard-nvim',
         config = function ()
-            require('my_dashboard')
+            require('conf-dashboard')
         end
     }
 
@@ -147,24 +147,19 @@ return require('packer').startup(function(use)
     -- Show my current indent scope with a grey line
     use {
         'lukas-reineke/indent-blankline.nvim',
-        config = function ()
-            require("indent_blankline").setup {
-                char = '',
-                context_char = '│',
-                show_current_context = true,
-                use_treesitter = true,
-                filetype_exclude = {
-                    'NvimTree',
-                    'man',
-                    'help',
-                    'dashboard',
-                },
-            }
+        config = function()
+            require('conf-indentblankline')
         end
     }
 
-    -- Git wrapper for vim
-    use 'tpope/vim-fugitive'
+    -- Usefull settings for quickfix / location list windows
+    use {
+        'romainl/vim-qf',
+        config = function()
+            local map = vim.keymap.set
+            map('n', '<C-q>', '<Plug>(qf_qf_toggle)')
+        end
+    }
 
     -- Amazing mappings by tpope
     use 'tpope/vim-unimpaired'

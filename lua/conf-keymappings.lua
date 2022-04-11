@@ -55,20 +55,20 @@ map('n', '<Leader>cq', function() vim.fn.setqflist({}) end)
 
 -- Turn on/off list chars and indentation lines for all levels, not just the
 -- current one. Following the syntax of tpopes plugin 'unimpared'
-map('n', '[ob', require'my_functions'.show_blank_chars)
-map('n', ']ob', require'my_functions'.hide_blank_chars)
-map('n', 'yob', require'my_functions'.toggle_blank_chars)
+map('n', '[ob', require'utils/functions'.show_blank_chars)
+map('n', ']ob', require'utils/functions'.hide_blank_chars)
+map('n', 'yob', require'utils/functions'.toggle_blank_chars)
 
 -- The unimpared plugins toggles cursorline, cursorcolumn or both with a mapping.
 -- Since I want to have cursorline enabled at all times to highlight the
 -- current linenumber, this mapping does not work for me. That's why I
 -- overwride the option to get the same behaviour back
-map('n', '[oc', require'my_functions'.enable_cursorline)
-map('n', ']oc', require'my_functions'.disable_cursorline)
-map('n', 'yoc', require'my_functions'.toggle_cursorline)
-map('n', '[ox', require'my_functions'.enable_cursorcross)
-map('n', ']ox', require'my_functions'.disable_cursorcross)
-map('n', 'yox', require'my_functions'.toggle_cursorcross)
+map('n', '[oc', require'utils/functions'.enable_cursorline)
+map('n', ']oc', require'utils/functions'.disable_cursorline)
+map('n', 'yoc', require'utils/functions'.toggle_cursorline)
+map('n', '[ox', require'utils/functions'.enable_cursorcross)
+map('n', ']ox', require'utils/functions'.disable_cursorcross)
+map('n', 'yox', require'utils/functions'.toggle_cursorcross)
 
 -- Jump to next/previous trailing whitespace
 map('n', ']w', function() vim.fn.search('\\s\\+$', 'w') end)

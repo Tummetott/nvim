@@ -13,13 +13,13 @@ function M.capture(cmd, raw)
     return s
 end
 
--- When folding a function block where the first line ends with "{" and the
--- last line has only the closing "}", when append a "{ ... }" to the foldtext
+-- When folding a function block where the first line ends with '{' and the
+-- last line has only the closing '}', when append a '{ ... }' to the foldtext
 function M.get_c_style_fold_text()
     local firstLine = vim.fn.getline(vim.v.foldstart)
     local lastLine = vim.fn.getline(vim.v.foldend)
-    if string.find(firstLine, ".-{%s*$") and string.find(lastLine, ".-};?%s*$") then
-        return string.gsub(firstLine, "(.-{)%s*$", "%1" .. " ... }")
+    if string.find(firstLine, '.-{%s*$') and string.find(lastLine, '.-};?%s*$') then
+        return string.gsub(firstLine, '(.-{)%s*$', '%1' .. ' ... }')
     else
         return firstLine
     end
@@ -50,7 +50,7 @@ function M.toggle_blank_chars()
 end
 
 function M.enable_cursorline()
-    local palette = require'my_colorscheme'.get_current_base16_palette()
+    local palette = require'conf-colorscheme'.get_current_base16_palette()
     vim.cmd('hi CursorLine guibg=' .. palette.base01)
     vim.g.cursorline_enabled = true
 end

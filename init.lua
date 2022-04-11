@@ -11,10 +11,10 @@
  end
 
  -- Load plugins
- require('my_plugins')
+ require('conf-packer')
 
  -- Load global 'set' options
- require('my_globals')
+ require('conf-globals')
 
  -- Load keymappings
- require('my_mapping')
+ require('conf-keymappings')
