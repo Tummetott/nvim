@@ -1,5 +1,4 @@
 local M = {}
-local cmd = vim.cmd
 
 -- Enable true colors
 vim.o.termguicolors = true
@@ -15,6 +14,11 @@ function M.get_current_base16_palette()
     return require('base16-colorscheme').colorschemes[name]
 end
 
+-- Helper function to set global highlights
+local function highlight(group_name, group_setting)
+    vim.api.nvim_set_hl(0, group_name, group_setting)
+end
+
 function M.base16_overwrites()
     local palette = M.get_current_base16_palette()
     if not palette then return end
@@ -22,110 +26,103 @@ function M.base16_overwrites()
     require('feline').use_theme(palette)
 
     -- Line numbers should have the same color than comments
-    cmd('hi! link LineNr Comment')
+    highlight('LineNr', { fg = palette.base03 })
 
     -- Set a new color for the vertical split line
-    cmd('hi VertSplit guifg=' .. palette.base02)
+    highlight('VertSplit', { fg = palette.base02 })
 
-    -- The default visual selection color is pretty bright. Let's darken it a
-    -- bit
-    cmd('hi Visual guibg='.. palette.base01)
+    -- The default visual selection is pretty bright. Let's darken it a bit
+    highlight('Visual', { bg = palette.base01 })
 
-    -- Link our matching parentheses to our visual selection color
-    cmd('hi! link MatchParen Visual')
+    -- Matching parentheses should have the same color as visual selections
+    highlight('MatchParen', { bg = palette.base01 })
 
-    -- Since line numbers are always shown, I don' need '~' characters to
-    -- denote blank lines
-    cmd 'hi EndOfBuffer guifg=bg'
+    -- Dont show '~' characters to denote the end of the buffer
+    highlight('EndOfBuffer', { fg = palette.base00 })
 
-    -- Disable highlight of cursorline background
-    cmd 'hi CursorLine guibg=NONE'
+    -- Clear the highlight of cursorline background
+    highlight('CursorLine', {})
 
     -- Disable highlight of the current line number background
-    cmd('hi CursorLineNr guibg=NONE guifg=' .. palette.base05)
+    highlight('CursorLineNr', { fg = palette.base05, bold = true })
 
-    -- Don't highlight closed folds
-    cmd 'hi Folded guibg=NONE'
+    -- Highlight folded text like comments
+    highlight('Folded', { fg = palette.base03 })
 
     -- Highlight the foldcolumn like my line numbers
-    cmd('hi! link FoldColumn LineNr')
+    highlight('FoldColumn', { fg = palette.base03 })
 
     -- Diagnostic warning in orange
-    cmd('hi DiagnosticWarn guifg=' .. palette.base09)
+    highlight('DiagnosticWarn', { fg = palette.base09 })
 
-    -- Diagnostic hint in the foreground color
-    cmd('hi DiagnosticHint guifg=' .. palette.base0A)
+    -- Diagnostic hint in yellow
+    highlight('DiagnosticHint', { fg = palette.base0A })
 
     -- Diagnostic information in blue
-    cmd('hi DiagnosticInfo guifg=' .. palette.base0D)
+    highlight('DiagnosticInfo', { fg = palette.base0D })
 
     -- Define colors for nvim tree elements
-    cmd('hi NvimTreeGitDirty guifg=' .. palette.base08)
-    cmd('hi NvimTreeRootFolder guifg=' .. palette.base0C)
-    cmd('hi NvimTreeSymlink guifg=' .. palette.base0A)
-    cmd('hi NvimTreeExecFile guifg=' .. palette.base0B)
-    cmd('hi NvimTreeImageFile guifg=' .. palette.base0E)
-    cmd('hi NvimTreeCursorLine guibg=' .. palette.base02)
+    highlight('NvimTreeGitDirty', { fg = palette.base08 })
+    highlight('NvimTreeRootFolder', { fg = palette.base0C })
+    highlight('NvimTreeSymlink', { fg = palette.base0A, bold = true })
+    highlight('NvimTreeExecFile', { fg = palette.base0B, bold = true })
+    highlight('NvimTreeImageFile', { fg = palette.base0E, bold = true })
+    highlight('NvimTreeCursorLine', { bg = palette.base01 })
+    highlight('NvimTreeNormal', { bg = palette.base00 })
+    highlight('NvimTreeEndOfBuffer', { fg = palette.base00 })
+    highlight('NvimTreeVertSplit', { fg = palette.base01, bg = palette.base01 })
 
-    -- Make background of nvimtree to grey
-    cmd('hi NvimTreeNormal guibg=' .. palette.base01)
-    cmd('hi NvimTreeEndOfBuffer guifg=' .. palette.base01)
-    cmd('hi NvimTreeVertSplit guibg=' .. palette.base01 .. ' guifg=' .. palette.base00)
-
-    -- For the dashboard, feline does not generate a statusline. Let's make the
-    -- line disappear completely
-    cmd('hi StatusLine guibg=' .. palette.base00)
+    -- Clear the default statusline and make it disappear. This is necessary
+    -- whenever feline does not overwrite it (e.g. for dashboard)
+    highlight('StatusLine', {})
 
     -- Define colors for my dashboard
-    cmd('hi DashboardHeader guifg=' .. palette.base0E)
-    cmd('hi DashboardCenter guifg=' .. palette.base0D)
-    cmd('hi DashboardFooter guifg=' .. palette.base0E)
+    highlight('DashboardHeader', { fg = palette.base0E })
+    highlight('DashboardCenter', { fg = palette.base0D })
+    highlight('DashboardFooter', { fg = palette.base03 })
 
-    -- Define colors for blank characters. You show blanks with 'set list'.
+    -- Define colors for blank characters. Show blanks with 'set list'.
+    highlight('Whitespace', { fg = palette.base01 })
+
     -- NonText colors the 'eol' character
-    cmd('hi Whitespace guifg=' .. palette.base01)
-    cmd('hi! link NonText Whitespace')
+    highlight('NonText', { fg = palette.base01 })
 
-    -- Link all symbols showing indent lines to my whitespace color
-    cmd('hi! link IndentBlanklineChar Whitespace')
-    cmd('hi! link IndentBlanklineContextChar Whitespace')
-    cmd('hi! link IndentBlanklineSpaceChar Whitespace')
+    -- Indent lines should have the closest color to the background
+    highlight('IndentBlanklineChar', { fg = palette.base01 })
+    highlight('IndentBlanklineContextChar', { fg = palette.base01 })
+    highlight('IndentBlanklineSpaceChar', { fg = palette.base01 })
 
-    -- nvim-base16 overwrites the telescope highlight groups. Let's get the
+    -- Nvim-base16 overwrites the telescope highlight groups. Let's get the
     -- defaults back
-    cmd('hi! link TelescopeSelection        Visual')
-    cmd('hi! link TelescopeNormal           Normal')
-    cmd('hi! link TelescopePromptNormal     TelescopeNormal')
-    cmd('hi! link TelescopeBorder           TelescopeNormal')
-    cmd('hi! link TelescopePromptBorder     TelescopeBorder')
-    cmd('hi! link TelescopeTitle            TelescopeBorder')
-    cmd('hi! link TelescopePromptTitle      TelescopeTitle')
-    cmd('hi! link TelescopeResultsTitle     TelescopeTitle')
-    cmd('hi! link TelescopePreviewTitle     TelescopeTitle')
-    cmd('hi! link TelescopePromptPrefix     Identifier')
+    highlight('TelescopeSelection', { bg = palette.base01 })
+    highlight('TelescopeNormal', { fg = palette.base05, bg = palette.base00 })
+    highlight('TelescopePromptNormal', { fg = palette.base05, bg = palette.base00 })
+    highlight('TelescopeBorder', { fg = palette.base05, bg = palette.base00 })
+    highlight('TelescopePromptBorder', { fg = palette.base05, bg = palette.base00 })
+    highlight('TelescopeTitle', { fg = palette.base05, bg = palette.base00 })
+    highlight('TelescopePromptTitle', {})
+    highlight('TelescopeResultsTitle', {})
+    highlight('TelescopePreviewTitle', {})
+    highlight('TelescopePromptPrefix', { fg = palette.base08 })
 
-    -- Highlight icon which shows the kind of completion
-    cmd('hi CmpItemKind guifg=' .. palette.base0E)
-
-    -- Highlight the completion source
-    cmd('hi CmpItemMenu guifg=' .. palette.base03)
-
-    -- Highlight the match and the fuzzy match
-    cmd('hi CmpItemAbbrMatchFuzzy guifg=' .. palette.base0C)
-    cmd('hi CmpItemAbbrMatch guifg=' .. palette.base0C)
-
-    -- Highlight the scroll bar of completion windows and docs
-    cmd('hi PmenuSbar guibg=' .. palette.base01)
-    cmd('hi PmenuThumb guibg=' .. palette.base02)
+    -- Highlights for completions floating windows
+    highlight('CmpItemKind', { fg = palette.base0E }) -- completion kind
+    highlight('CmpItemMenu', { fg = palette.base03 }) -- completion source
+    highlight('CmpItemAbbrMatch', { fg = palette.base0C })
+    highlight('CmpItemAbbrMatchFuzzy', { fg = palette.base0C })
+    highlight('PmenuSbar', { bg = palette.base01 }) -- scroll column
+    highlight('PmenuThumb', { bg = palette.base02 }) -- scroll bar
 end
 
 function M.setup()
+    local autocmd = vim.api.nvim_create_autocmd
+
     -- Whenever the colorscheme changes, apply my overwrites
-    cmd [[autocmd ColorScheme * lua require'conf-colorscheme'.base16_overwrites()]]
+    autocmd('ColorScheme', {callback = require'conf-colorscheme'.base16_overwrites})
 
     -- Use the same colorscheme as my terminal
     local scheme = vim.env.BASE16_THEME or 'gruvbox-dark-medium'
-    vim.cmd('colorscheme base16-' .. scheme)
+    vim.api.nvim_command('colorscheme base16-' .. scheme)
 end
 
 return M

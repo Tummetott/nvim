@@ -30,7 +30,7 @@ function M.show_blank_chars()
     vim.g.indent_blankline_char = '│'
     -- Fire the CursorMoved autocmd in order to let IndentBlankline update the
     -- virtual text indent lines
-    vim.cmd('doautocmd CursorMoved')
+    vim.api.nvim_exec_autocmds('CursorMoved', {buffer = 0, modeline = false})
 end
 
 function M.hide_blank_chars()
@@ -38,7 +38,7 @@ function M.hide_blank_chars()
     vim.g.indent_blankline_char = ''
     -- Fire the CursorMoved autocmd in order to let IndentBlankline update the
     -- virtual text indent lines
-    vim.cmd('doautocmd CursorMoved')
+    vim.api.nvim_exec_autocmds('CursorMoved', {buffer = 0, modeline = false})
 end
 
 function M.toggle_blank_chars()
