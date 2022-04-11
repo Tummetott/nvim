@@ -53,7 +53,7 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
 
 local function set_keymaps()
     local map = vim.keymap.set
-    local opts = {noremap = true, silent = true, buffer = 0}
+    local opts = {buffer = 0}
 
     -- Go to next diagnostic. Function must be wrapped since we can't give
     -- arguments to a function pointer

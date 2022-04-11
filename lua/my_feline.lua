@@ -2,6 +2,43 @@ local left_section = {}
 local right_section = {}
 local special_section = {}
 
+local blue = {
+    fg = 'base00',
+    bg = 'base0D',
+}
+
+local blue_bold = {
+    fg = 'base00',
+    bg = 'base0D',
+    style = 'bold',
+}
+
+local blue_inv = {
+    fg = 'base0D',
+    bg = 'base00',
+}
+
+local grey = {
+    fg = 'base00',
+    bg = 'base02',
+}
+
+local grey_inv = {
+    fg = 'base02',
+    bg = 'base00',
+}
+
+local grey_bold = {
+    fg = 'base00',
+    bg = 'base02',
+    style = 'bold',
+}
+
+local background = {
+    fg = 'base00',
+    bg = 'base00',
+}
+
 -- Vim Mode
 table.insert(left_section, {
     provider = function ()
@@ -78,17 +115,10 @@ table.insert(left_section, {
         if vim.fn.expand('%:t') ~= '' then return true end
     end,
     icon = '',
-    hl = {
-        fg = 'base00',
-        bg = 'base02',
-        style = 'bold'
-    },
+    hl = grey_bold,
     left_sep = {
         str = ' ',
-        hl = {
-            fg = 'base00',
-            bg = 'base02',
-        },
+        hl = grey,
     },
     priority = 2,
 })
@@ -103,16 +133,10 @@ table.insert(left_section, {
         local cwd = vim.fn.getcwd()
         if path:find(cwd) ~= nil then return true end
     end,
-    hl = {
-        fg = 'base00',
-        bg = 'base02',
-    },
+    hl = grey,
     left_sep = {
         str = ' on ',
-        hl = {
-            fg = 'base00',
-            bg = 'base02',
-        },
+        hl = grey,
     },
     priority = 5,
 })
@@ -121,10 +145,7 @@ table.insert(left_section, {
 table.insert(left_section, {
     provider = 'git_diff_added',
     short_provider = '',
-    hl = {
-        fg = 'base00',
-        bg = 'base02',
-    },
+    hl = grey,
     priority = 3,
 })
 
@@ -132,10 +153,7 @@ table.insert(left_section, {
 table.insert(left_section, {
     provider = 'git_diff_removed',
     short_provider = '',
-    hl = {
-        fg = 'base00',
-        bg = 'base02',
-    },
+    hl = grey,
     priority = 3,
 })
 
@@ -143,26 +161,17 @@ table.insert(left_section, {
 table.insert(left_section, {
     provider = 'git_diff_changed',
     short_provider = '',
-    hl = {
-        fg = 'base00',
-        bg = 'base02',
-    },
+    hl = grey,
     priority = 3,
 })
 
 -- Closing moon
 table.insert(left_section, {
     provider = ' ',
-    hl = {
-        fg = 'base00',
-        bg = 'base02',
-    },
+    hl = grey,
     right_sep = {
         str = '',
-        hl = {
-            fg = 'base02',
-            bg = 'base00',
-        }
+        hl = grey_inv,
     },
     enabled = function ()
         if vim.fn.expand('%:t') ~= '' then return true end
@@ -172,10 +181,7 @@ table.insert(left_section, {
 -- This dummy module fixes the highlighting between the left and the right
 -- section, when no file is loaded into vim
 table.insert(left_section, {
-    hl = {
-        fg = 'base00',
-        bg = 'base00',
-    }
+    hl = background,
 })
 
 -- Trailing whitespaces
@@ -186,10 +192,7 @@ table.insert(right_section, {
         local line = vim.fn.search('\\s\\+$', 'nwc')
         if line == 0 then return false else return true end
     end,
-    hl = {
-        fg = 'base02',
-        bg = 'base00'
-    },
+    hl = grey_inv,
     priority = 1,
 })
 
@@ -202,10 +205,7 @@ table.insert(right_section, {
         local tabs = vim.fn.search('^ *\t *', 'nwc') ~= 0
         return spaces and tabs
     end,
-    hl = {
-        fg = 'base02',
-        bg = 'base00'
-    },
+    hl = grey_inv,
     priority = 1,
 })
 
@@ -219,10 +219,7 @@ table.insert(right_section, {
     },
     right_sep = {
         str = ' ',
-        hl = {
-            fg = 'base00',
-            bg = 'base00',
-        },
+        hl = background,
     },
     priority = 6,
 })
@@ -237,10 +234,7 @@ table.insert(right_section, {
     },
     right_sep = {
         str = ' ',
-        hl = {
-            fg = 'base00',
-            bg = 'base00',
-        },
+        hl = background,
     },
     priority = 6,
 })
@@ -255,10 +249,7 @@ table.insert(right_section, {
     },
     right_sep = {
         str = ' ',
-        hl = {
-            fg = 'base00',
-            bg = 'base00',
-        },
+        hl = background,
     },
     priority = 6,
 })
@@ -267,16 +258,10 @@ table.insert(right_section, {
 table.insert(right_section, {
     provider = 'diagnostic_info',
     short_provider = '',
-    hl = {
-        fg = 'base0D',
-        bg = 'base00',
-    },
+    hl = blue_inv,
     right_sep = {
         str = ' ',
-        hl = {
-            fg = 'base00',
-            bg = 'base00',
-        },
+        hl = background,
     },
     priority = 6,
 })
@@ -293,33 +278,20 @@ table.insert(right_section, {
             return icon .. ' ' .. filetype:upper()
         else return '' end
     end,
-    hl = {
-        fg = 'base00',
-        bg = 'base02',
-        style = 'bold',
-    },
+    hl = grey_bold,
     left_sep = {
         {
             str = 'left_moon',
-            hl = {
-                fg = 'base02',
-                bg = 'base00',
-            },
+            hl = grey_inv,
         },
         {
             str = ' ',
-            hl = {
-                fg = 'base00',
-                bg = 'base02',
-            },
+            hl = grey,
         }
     },
     right_sep = {
         str = ' ',
-        hl = {
-            fg = 'base00',
-            bg = 'base02',
-        },
+        hl = grey,
     },
 })
 
@@ -335,10 +307,7 @@ table.insert(right_section, {
         return ''
     end,
     short_provider = '',
-    hl = {
-        fg = 'base00',
-        bg = 'base02',
-    },
+    hl = grey,
     priority = 4,
 })
 
@@ -355,10 +324,7 @@ table.insert(right_section, {
             return string.format('%d%%%%', math.ceil(curr_line / lines * 99))
         end
     end,
-    hl = {
-        fg = 'base00',
-        bg = 'base0D',
-    },
+    hl = blue,
     left_sep = {
         {
             str = 'left_moon',
@@ -375,10 +341,7 @@ table.insert(right_section, {
         },
         {
             str = ' ',
-            hl = {
-                fg = 'base00',
-                bg = 'base0D',
-            },
+            hl = blue,
         }
     }
 })
@@ -392,16 +355,10 @@ table.insert(right_section, {
         return string.format(' %d/%d  %d/%d', line, lines, col, cols)
     end,
     short_provider = '',
-    hl = {
-        fg = 'base00',
-        bg = 'base0D',
-    },
+    hl = blue,
     left_sep = {
         str = ' ',
-        hl = {
-            fg = 'base00',
-            bg = 'base0D',
-        },
+        hl = blue,
     },
     priority = 8,
 })
@@ -416,26 +373,17 @@ table.insert(right_section, {
         end
     end,
     short_provider = '',
-    hl = {
-        fg = 'base00',
-        bg = 'base0D',
-    },
+    hl = blue,
     priority = 7,
 })
 
 -- Closing Moon
 table.insert(right_section, {
     provider = ' ',
-    hl = {
-        fg = 'base00',
-        bg = 'base0D',
-    },
+    hl = blue,
     right_sep = {
         str = 'right_moon',
-        hl = {
-            fg = 'base0D',
-            bg = 'base00',
-        },
+        hl = blue_inv,
     },
 })
 
@@ -443,41 +391,30 @@ table.insert(right_section, {
 table.insert(special_section, {
     provider = function()
         local ft = vim.api.nvim_buf_get_option(0, 'filetype')
-        if ft == '' then return 'TERMINAL' end
+        if ft == 'TelescopePrompt' then ft = 'Telescope'
+        elseif ft == '' then ft = 'Terminal'
+        end
         return string.upper(ft)
     end,
     -- Disable it only for the dashboard
     enabled = function()
         return vim.api.nvim_buf_get_option(0, 'filetype') ~= 'dashboard'
     end,
-    hl = {
-        fg = 'base00',
-        bg = 'base0D',
-        style = 'bold',
-    },
+    hl = blue_bold,
     left_sep = {
         {
             str = 'left_moon',
-            hl = {
-                fg = 'base0D',
-                bg = 'base00',
-            },
+            hl = blue_inv,
         },
         {
             str = ' ',
-            hl = {
-                fg = 'base00',
-                bg = 'base0D',
-            },
+            hl = blue,
         },
     },
     right_sep = {
         {
             str = ' ',
-            hl = {
-                fg = 'base00',
-                bg = 'base0D',
-            },
+            hl = blue,
         },
         {
             str = 'right_moon',
@@ -507,32 +444,19 @@ table.insert(special_section, {
         return vim.api.nvim_buf_get_option(0, 'filetype') == 'help'
     end,
     icon = '',
-    hl = {
-        fg = 'base00',
-        bg = 'base02',
-        style = 'bold'
-    },
+    hl = grey_bold,
     left_sep = {
         str = ' ',
-        hl = {
-            fg = 'base00',
-            bg = 'base02',
-        },
+        hl = grey,
     },
     right_sep = {
         {
             str = ' ',
-            hl = {
-                fg = 'base00',
-                bg = 'base02'
-            },
+            hl = grey,
         },
         {
             str = 'right_moon',
-            hl = {
-                fg = 'base02',
-                bg = 'base00',
-            },
+            hl = grey_inv,
         },
     }
 })
@@ -571,6 +495,7 @@ require('feline').setup({
     force_inactive = {
         filetypes = {
             '^NvimTree$',
+            '^TelescopePrompt$',
             '^packer$',
             '^help$',
             '^dashboard$',
