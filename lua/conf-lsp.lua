@@ -51,6 +51,15 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
         border = 'rounded'
 })
 
+-- Fix to create a border around the LspInfo floating window
+local win = require('lspconfig.ui.windows')
+local _default_opts = win.default_opts
+win.default_opts = function(options)
+  local opts = _default_opts(options)
+  opts.border = 'rounded'
+  return opts
+end
+
 local function set_keymaps()
     local map = vim.keymap.set
     local opts = {buffer = 0}
@@ -71,7 +80,13 @@ local function set_keymaps()
     map('n', '<Leader><Leader>', vim.lsp.buf.hover, opts)
 
     -- Go to definition
-    map('n', 'gd', vim.lsp.buf.definition, opts)
+    map('n', '<Leader>gd', vim.lsp.buf.definition, opts)
+
+    -- Go to type definition (e.g. definition of struct)
+    map('n', '<Leader>gt', vim.lsp.buf.type_definition, opts)
+
+    -- Go to implementation (e.g. not the interface like goto definition)
+    map('n', '<Leader>gi', vim.lsp.buf.implementation, opts)
 
     -- Rename
     map('n', '<Leader>r', vim.lsp.buf.rename, opts)

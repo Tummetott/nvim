@@ -55,6 +55,7 @@ map('n', '<Leader>fo', require'telescope.builtin'.oldfiles)
 map('n', '<Leader>fm', require'telescope.builtin'.man_pages)
 map('n', '<Leader>fc', require'telescope.builtin'.command_history)
 map('n', '<Leader>fs', require'telescope.builtin'.spell_suggest)
+map('n', '<Leader>fr', require'telescope.builtin'.lsp_references)
 map('n', '<Leader>a', require'telescope.builtin'.lsp_code_actions)
 
 -- Special shortcut to find a dotfile
