@@ -43,7 +43,7 @@ local background = {
 table.insert(left_section, {
     provider = function ()
         local mode = require('feline.providers.vi_mode').get_vim_mode()
-        return ' ' .. mode -- 
+        return ' ' .. mode .. ' ' --  
     end,
     short_provider = ' ',
     hl = function ()
@@ -54,40 +54,27 @@ table.insert(left_section, {
         }
     end,
     left_sep = {
-        {
-            str = 'left_moon',
-            hl = function()
-                return {
-                    fg = require('feline.providers.vi_mode').get_mode_color(),
-                    bg = 'base00',
-                }
-            end,
-        },
+        str = 'left_moon',
+        hl = function()
+            return {
+                fg = require('feline.providers.vi_mode').get_mode_color(),
+                bg = 'base00',
+            }
+        end,
     },
     right_sep = {
-        {
-            str = ' ',
-            hl = function()
-                return {
-                    fg = 'base00',
-                    bg = require('feline.providers.vi_mode').get_mode_color(),
-                }
-            end,
-        },
-        {
-            str = 'right_moon',
-            hl = function ()
-                local bg = 'base00'
-                -- If a filename exists, color the background in grey
-                if vim.fn.expand('%:t') ~= '' then
-                    bg = 'base02'
-                end
-                return {
-                    fg = require('feline.providers.vi_mode').get_mode_color(),
-                    bg = bg
-                }
-            end,
-        },
+        str = 'right_moon',
+        hl = function ()
+            local bg = 'base00'
+            -- If a filename exists, color the background in grey
+            if vim.fn.expand('%:t') ~= '' then
+                bg = 'base02'
+            end
+            return {
+                fg = require('feline.providers.vi_mode').get_mode_color(),
+                bg = bg
+            }
+        end,
     },
     priority = 9,
 })
@@ -387,11 +374,19 @@ table.insert(right_section, {
     },
 })
 
+-- This helper function tells me if the current buffer is a documentation file
+local function is_documentation()
+    local doc = { 'help', 'man' }
+    local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    return vim.tbl_contains(doc, ft)
+end
+
 -- For all special filetypes and buffer, we only want to show the filetype
 table.insert(special_section, {
     provider = function()
         local ft = vim.api.nvim_buf_get_option(0, 'filetype')
         if ft == 'TelescopePrompt' then ft = 'Telescope'
+        elseif ft == 'man' then ft = 'Man Page'
         elseif ft == '' then ft = 'Terminal'
         end
         return string.upper(ft)
@@ -419,18 +414,18 @@ table.insert(special_section, {
         {
             str = 'right_moon',
             hl = function()
-                local fg = 'base0D'
                 local bg = 'base00'
-                if vim.api.nvim_buf_get_option(0, 'filetype') == 'help' then
+                if is_documentation() then
                     bg = 'base02'
                 end
-                return { fg = fg, bg = bg }
+                return { fg = 'base0D', bg = bg }
             end
         },
     },
 })
 
--- For the help, I also want to know which help file I'm in
+-- For some documentation buffers (e.g. help files, man pages) I also want to
+-- know the filename
 table.insert(special_section, {
     provider = {
         name = 'file_info',
@@ -440,9 +435,7 @@ table.insert(special_section, {
         },
     },
     -- Only show the filename for help files
-    enabled = function ()
-        return vim.api.nvim_buf_get_option(0, 'filetype') == 'help'
-    end,
+    enabled = is_documentation,
     icon = '',
     hl = grey_bold,
     left_sep = {
@@ -500,6 +493,7 @@ require('feline').setup({
             '^help$',
             '^dashboard$',
             '^lspinfo$',
+            '^man$',
         },
         buftypes = {
             '^terminal$'
