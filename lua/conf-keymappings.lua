@@ -22,7 +22,7 @@ map('n', 'Y', 'y$')
 map('x', 'Y', '"+y')
 
 -- Select perevious pasted text
-map('n', '<Leader>p', '`[v`]')
+map('n', '<Leader>v', '`[v`]')
 
 -- Use emacs bindings to navigate forward and backward in insert mode
 map('i', '<C-f>', '<Right>')

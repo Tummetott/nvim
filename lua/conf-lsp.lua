@@ -103,7 +103,7 @@ local function on_attach()
     map('n', '<Leader>r', vim.lsp.buf.rename, opts)
 
     -- Get signature help
-    map('n', '<Leader>s', vim.lsp.buf.signature_help, opts)
+    map('n', '<Leader>ss', vim.lsp.buf.signature_help, opts)
 
     --- Open all errors in quickfix list. TODO: change to location list?
     map('n', '<Leader>q', vim.diagnostic.setqflist, opts)

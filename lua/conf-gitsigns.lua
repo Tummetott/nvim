@@ -39,6 +39,6 @@ require('gitsigns').setup({
         map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
 
         -- Toggle signs
-        map('n', '<leader>gs', gs.toggle_signs)
+        map('n', '<leader>sg', gs.toggle_signs)
     end
 })
