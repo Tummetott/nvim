@@ -112,13 +112,24 @@ function M.base16_overwrites()
     highlight('CmpItemAbbrMatchFuzzy', { fg = palette.base0C })
     highlight('PmenuSbar', { bg = palette.base01 }) -- scroll column
     highlight('PmenuThumb', { bg = palette.base02 }) -- scroll bar
+
+    -- With the CursorHold event, my lsp references all occurences of the item
+    -- under the cursor. Let's define the highlight for that
+    highlight('LspReferenceRead', { bg = palette.base01 })
+    highlight('LspReferenceWrite', { bg = palette.base01 })
+    highlight('LspReferenceText', {})
 end
 
 function M.setup()
     local autocmd = vim.api.nvim_create_autocmd
+    local autogroup = vim.api.nvim_create_augroup
 
     -- Whenever the colorscheme changes, apply my overwrites
-    autocmd('ColorScheme', {callback = require'conf-colorscheme'.base16_overwrites})
+    local group = autogroup('Base16_Overwrites', { clear = true })
+    autocmd('ColorScheme', {
+        callback = require 'conf-colorscheme'.base16_overwrites,
+        group = group
+    })
 
     -- Use the same colorscheme as my terminal
     local scheme = vim.env.BASE16_THEME or 'gruvbox-dark-medium'

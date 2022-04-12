@@ -41,17 +41,17 @@ vim.diagnostic.config({
 
 -- Use rounded boarders for the hover floating window
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-    vim.lsp.handlers.hover, {
+vim.lsp.handlers.hover, {
         border = 'rounded'
 })
 
 -- Use rounded boarders for the signature help floating window
 vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-    vim.lsp.handlers.signature_help, {
+vim.lsp.handlers.signature_help, {
         border = 'rounded'
 })
 
--- Fix to create a border around the LspInfo floating window
+-- Fix to create a border around the :LspInfo floating window
 local win = require('lspconfig.ui.windows')
 local _default_opts = win.default_opts
 win.default_opts = function(options)
@@ -65,9 +65,7 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
--- This function sets all keymaps for an attached server. The function is
--- passed to the setup functions of the server too
-local function set_keymaps()
+local function on_attach()
     local map = vim.keymap.set
     local opts = { buffer = 0 }
 
@@ -110,29 +108,43 @@ local function set_keymaps()
     --- Open all errors in quickfix list. TODO: change to location list?
     map('n', '<Leader>q', vim.diagnostic.setqflist, opts)
 
-    map('n', '<Leader>df', vim.lsp.buf.formatting, opts)
+    -- Auto formatting
+    map('n', '<Leader>af', vim.lsp.buf.formatting, opts)
+
+    -- Highlight all occurences of the word under the cursor
+    map('n', '<Leader>dh', vim.lsp.buf.document_highlight, opts)
+
+    local autocmd = vim.api.nvim_create_autocmd
+    local autogroup = vim.api.nvim_create_augroup
+
+    -- Autocmd to reset document highlights as soon as the cursor moves
+    local group = autogroup('LspClearDocumentHighlights', { clear = true })
+    autocmd('CursorMoved', {
+        callback = vim.lsp.buf.clear_references,
+        group = group
+    })
 end
 
 -- C / C++ language server
 require 'lspconfig'.clangd.setup {
-    on_attach = set_keymaps,
+    on_attach = on_attach,
     capabilities = capabilities,
 }
 
 -- Python language server
 require 'lspconfig'.pyright.setup {
-    on_attach = set_keymaps,
+    on_attach = on_attach,
     capabilities = capabilities,
 }
 
 -- General purpose language server. I currently use it for sh and bash linting
 local efm_setup = require 'lsp/efm-langserver'
-efm_setup.on_attach = set_keymaps
+efm_setup.on_attach = on_attach
 efm_setup.capabilities = capabilities
 require 'lspconfig'.efm.setup(efm_setup)
 
 -- LUA language server
 local sumneko_setup = require 'lsp/sumneko-lua'
-sumneko_setup.on_attach = set_keymaps
+sumneko_setup.on_attach = on_attach
 sumneko_setup.capabilities = capabilities
 require 'lspconfig'.sumneko_lua.setup(sumneko_setup)

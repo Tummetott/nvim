@@ -1,5 +1,3 @@
-local autocmd = vim.api.nvim_create_autocmd
-
 -- Display line numbers
 vim.opt.number = true
 
@@ -89,8 +87,15 @@ vim.opt.foldcolumn = 'auto:4'
 -- Don't save the current directory when saving a view with :mkview
 vim.opt.viewoptions:remove('curdir')
 
+local autocmd = vim.api.nvim_create_autocmd
+local autogroup = vim.api.nvim_create_augroup
+local group = autogroup('GlobalsAutoGroup', { clear = true })
+
 -- Hide the last entered ex command
-autocmd('CmdlineLeave', { command = 'echo ""' })
+autocmd('CmdlineLeave', {
+    command = 'echo ""',
+    group = group
+})
 
 -- Hide line numbers in terminal mode and start in insert mode
 autocmd('TermOpen', {
@@ -98,7 +103,8 @@ autocmd('TermOpen', {
         vim.opt_local.number = false
         vim.opt_local.relativenumber = false
         vim.api.nvim_command('startinsert')
-    end
+    end,
+    group = group,
 })
 
 -- Convenience function to print lua tables. Used for debugging
