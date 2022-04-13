@@ -156,23 +156,25 @@ return require('packer').startup(function(use)
     use {
         'romainl/vim-qf',
         config = function()
-            local map = vim.keymap.set
-            map('n', '<C-q>', '<Plug>(qf_qf_toggle)')
+            local wk = require('which-key')
+            wk.register({
+                ['<Leader>qq'] = {
+                    '<Plug>(qf_qf_toggle)',
+                    'toggle'
+                }
+            })
         end
     }
 
+    -- Interactive help for my keymaps
     use {
         'folke/which-key.nvim',
         config = function()
-            require("which-key").setup {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            }
+            require 'conf-whichkey'
         end
     }
 
-    -- Amazing mappings by tpope
+    -- Amazing keymappings by tpope
     use 'tpope/vim-unimpaired'
 
     -- Repeat plugin commands of unimpared and with .

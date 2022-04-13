@@ -1,5 +1,5 @@
-local layout = require'telescope.actions.layout'
-local actions = require'telescope.actions'
+local layout = require 'telescope.actions.layout'
+local actions = require 'telescope.actions'
 
 require("telescope").setup {
     defaults = {
@@ -8,7 +8,7 @@ require("telescope").setup {
         preview = {
             hide_on_startup = true,
         },
-        cycle_layout_list = {'vertical', 'horizontal'},
+        cycle_layout_list = { 'vertical', 'horizontal' },
         mappings = {
             i = {
                 -- By default, I dont show a prefiew of a file. However, I set
@@ -41,24 +41,25 @@ require("telescope").setup {
         lsp_code_actions = {
             theme = 'cursor',
         }
-    }
+    },
 }
 
--- Telescope mappings
-local map = vim.keymap.set
-
-map('n', '<Leader>ff', require'telescope.builtin'.find_files)
-map('n', '<Leader>fw', require'telescope.builtin'.live_grep)
-map('n', '<Leader>fb', require'telescope.builtin'.buffers)
-map('n', '<Leader>fh', require'telescope.builtin'.help_tags)
-map('n', '<Leader>fo', require'telescope.builtin'.oldfiles)
-map('n', '<Leader>fm', require'telescope.builtin'.man_pages)
-map('n', '<Leader>fc', require'telescope.builtin'.command_history)
-map('n', '<Leader>fs', require'telescope.builtin'.spell_suggest)
-map('n', '<Leader>fr', require'telescope.builtin'.lsp_references)
-map('n', '<Leader>ca', require'telescope.builtin'.lsp_code_actions)
-
--- Special shortcut to find a dotfile
-map('n', '<Leader>ed', function()
-    require'telescope.builtin'.find_files({cwd = '~/.dotfiles'})
-end)
+-- Telescope keymapping
+require('which-key').register({
+    f = {
+        name = 'Find',
+        f = { require 'telescope.builtin'.find_files, 'file' },
+        w = { require 'telescope.builtin'.live_grep, 'word' },
+        b = { require 'telescope.builtin'.buffers, 'buffer' },
+        h = { require 'telescope.builtin'.help_tags, 'help' },
+        o = { require 'telescope.builtin'.oldfiles, 'oldfile' },
+        m = { require 'telescope.builtin'.man_pages, 'man page' },
+        c = { require 'telescope.builtin'.command_history, 'command history' },
+        s = { require 'telescope.builtin'.spell_suggest, 'spell suggest' },
+        r = { require 'telescope.builtin'.lsp_references, 'lsp reference' },
+        a = { require 'telescope.builtin'.lsp_code_actions, 'lsp code action' },
+        d = { function()
+                  require 'telescope.builtin'.find_files({ cwd = '~/.dotfiles' })
+              end, 'dotfile' },
+    },
+}, { prefix = '<leader>' })

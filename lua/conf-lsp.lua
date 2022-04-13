@@ -66,53 +66,44 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 local function on_attach()
-    local map = vim.keymap.set
-    local opts = { buffer = 0 }
+    local wk = require('which-key')
 
-    -- Go to next diagnostic. Function must be wrapped since we can't give
-    -- arguments to a function pointer
-    map('n', ']d', function()
-        vim.diagnostic.goto_next({ float = { border = 'rounded' } })
-    end, opts)
+    -- Navigating diagnostics
+    wk.register({
+        [']d'] = {
+            function()
+                vim.diagnostic.goto_next({ float = { border = 'rounded' } })
+            end,
+            'Go to next diagnostic',
+        },
+        ['[d'] = {
+            function()
+                vim.diagnostic.goto_prev({ float = { border = 'rounded' } })
+            end,
+            'Go to previous diagnostic',
+        },
+    }, { buffer = 0 })
 
-    -- Go to previous diagnostic. Function must be wrapped since we can't give
-    -- arguments to a function pointer
-    map('n', '[d', function()
-        vim.diagnostic.goto_prev({ float = { border = 'rounded' } })
-    end, opts)
-
-    -- Hover lsp information
-    map('n', '<Leader><Leader>', vim.lsp.buf.hover, opts)
-
-    -- Go to definition
-    map('n', '<Leader>gd', vim.lsp.buf.definition, opts)
-
-    -- Go to declatation
-    map('n', '<Leader>gd', vim.lsp.buf.declaration, opts)
-
-    -- Go to type definition (e.g. definition of struct)
-    map('n', '<Leader>gt', vim.lsp.buf.type_definition, opts)
-
-    -- Go to implementation (e.g. not the interface like goto definition)
-    map('n', '<Leader>gi', vim.lsp.buf.implementation, opts)
-
-    -- Open all references in quickfix window
-    map('n', '<Leader>gr', vim.lsp.buf.references, opts)
-
-    -- Rename
-    map('n', '<Leader>r', vim.lsp.buf.rename, opts)
-
-    -- Get signature help
-    map('n', '<Leader>ss', vim.lsp.buf.signature_help, opts)
-
-    --- Open all errors in quickfix list. TODO: change to location list?
-    map('n', '<Leader>q', vim.diagnostic.setqflist, opts)
-
-    -- Auto formatting
-    map('n', '<Leader>af', vim.lsp.buf.formatting, opts)
-
-    -- Highlight all occurences of the word under the cursor
-    map('n', '<Leader>dh', vim.lsp.buf.document_highlight, opts)
+    wk.register({
+        ['<Leader>'] = { vim.lsp.buf.hover, 'Show lsp hover info' },
+        l = {
+            name = 'Lsp',
+            d = { vim.lsp.buf.definition, 'go to definition' },
+            c = { vim.lsp.buf.declaration, 'go to declaration' },
+            t = { vim.lsp.buf.type_definition, 'go to type definition' },
+            i = { vim.lsp.buf.implementation, 'go to implementation' },
+            r = { vim.lsp.buf.rename, 'rename' },
+            s = { vim.lsp.buf.signature_help, 'show signature help' },
+            f = { vim.lsp.buf.formatting, 'auto formatting' },
+            h = { vim.lsp.buf.document_highlight, 'highlight' },
+        },
+        q = {
+            name = 'Quickfix list',
+            -- TODO: set to location list?
+            d = { vim.diagnostic.setqflist, 'open diagnostics' },
+            r = { vim.lsp.buf.references, 'open references' },
+        },
+    }, { prefix = '<Leader>', buffer = 0 })
 
     local autocmd = vim.api.nvim_create_autocmd
     local autogroup = vim.api.nvim_create_augroup

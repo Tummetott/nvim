@@ -27,8 +27,12 @@ cmp.setup({
     -- TODO: Vim has problems parsing the documentation text and highlights
     -- closing brackets as error. TODO: Disable the Error highlight group.
     -- TODO: Set padding in documentation window
-    documentation = {
-        winhighlight = 'NormalFloat:Pmenu,FloatBorder:None',
+    window = {
+        -- completion = cmp.config.window.bordered(),
+        -- documentation = cmp.config.window.bordered(),
+        documentation = {
+            winhighlight = 'NormalFloat:Pmenu,FloatBorder:None',
+        },
     },
     snippet = {
         expand = function(args)

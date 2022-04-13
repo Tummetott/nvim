@@ -2,43 +2,52 @@ require('gitsigns').setup({
     signcolumn = true,
     on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
+        local wk = require('which-key')
 
-        local function map(mode, l, r, opts)
-            opts = opts or {}
-            opts.buffer = bufnr
-            vim.keymap.set(mode, l, r, opts)
-        end
+        wk.register({
+            [']h'] = {
+                function()
+                    vim.schedule(function() gs.next_hunk() end)
+                    return '<Ignore>'
+                end,
+                'Go to next hunk'
+            },
+            ['[h'] = {
+                function()
+                    vim.schedule(function() gs.prev_hunk() end)
+                    return '<Ignore>'
+                end,
+                'Go to previous hunk'
+            }
+        }, { buffer = bufnr })
 
-        -- Navigation
-        map('n', ']c', function()
-            if vim.wo.diff then return ']c' end
-            vim.schedule(function() gs.next_hunk() end)
-            return '<Ignore>'
-        end, {expr=true})
+        wk.register({
+            g = {
+                name = 'Gitsigns',
+                s = { gs.stage_hunk, 'stage hunk' },
+                S = { gs.stage_buffer, 'stage buffer' },
+                u = { gs.undo_stage_hunk, 'undo stage hunk' },
+                r = { gs.reset_hunk, 'reset hunk' },
+                R = { gs.reset_buffer, 'reset buffer' },
+                p = { gs.preview_hunk, 'preview hunk' },
+                b = { gs.blame_line, 'blame current line' },
+                l = { gs.toggle_current_line_blame, 'toggle current line blame' },
+                d = { gs.diffthis, 'diff against index' },
+                D = { function() gs.diffthis('~') end, 'diff against last commit' },
+                v = { gs.toggle_deleted, 'toggle deleted lines' },
+            }
+        }, { prefix = '<Leader>', buffer = bufnr })
 
-        map('n', '[c', function()
-            if vim.wo.diff then return '[c' end
-            vim.schedule(function() gs.prev_hunk() end)
-            return '<Ignore>'
-        end, {expr=true})
+        -- Toggle signs in the signcolumn
+        wk.register({
+            g = { gs.toggle_signs, 'gitsigns' }
+        }, { prefix = 'yo', buffer = bufnr })
 
-        -- Actions
-        map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
-        map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
-        map('n', '<leader>hS', gs.stage_buffer)
-        map('n', '<leader>hu', gs.undo_stage_hunk)
-        map('n', '<leader>hR', gs.reset_buffer)
-        map('n', '<leader>hp', gs.preview_hunk)
-        map('n', '<leader>hb', function() gs.blame_line{full=true} end)
-        map('n', '<leader>tb', gs.toggle_current_line_blame)
-        map('n', '<leader>hd', gs.diffthis)
-        map('n', '<leader>hD', function() gs.diffthis('~') end)
-        map('n', '<leader>td', gs.toggle_deleted)
-
-        -- Text object
-        map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-
-        -- Toggle signs
-        map('n', '<leader>sg', gs.toggle_signs)
+        -- Add textobject
+        wk.register({
+            ih = { ':<C-U>Gitsigns select_hunk<CR>', 'inner hunk' }
+        -- TODO: need also mode 'x'. Waiting for issue:
+        -- https://github.com/folke/which-key.nvim/issues/267
+        }, { mode = 'o', buffer = bufnr })
     end
 })
