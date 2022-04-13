@@ -22,7 +22,10 @@ map('n', 'Y', 'y$')
 map('x', 'Y', '"+y')
 
 -- Select perevious pasted text
-map('n', '<Leader>v', '`[v`]')
+map('n', 'gV', '`[v`]')
+
+-- Fix indent of previous pasted text
+map('n', 'g=', '`[v`]=')
 
 -- Use emacs bindings to navigate forward and backward in insert mode
 map('i', '<C-f>', '<Right>')
