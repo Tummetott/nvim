@@ -59,11 +59,11 @@ wk.register({
 wk.register({
     [']p'] = {
         '<Cmd>put<CR>`[v`]=',
-        'Paste below and re-indent'
+        'Paste below linewise and re-indent',
     },
     ['[p'] = {
         '<Cmd>put!<CR>`[v`]=',
-        'Paste above and re-indent'
+        'Paste above linewise and re-indent',
     },
 })
 

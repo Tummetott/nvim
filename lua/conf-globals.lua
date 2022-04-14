@@ -41,7 +41,7 @@ vim.opt.smartcase = true
 vim.opt.hlsearch = false
 
 -- Always leave some lines below and above the cursor when scrolling
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 2
 
 -- Disable swap files
 vim.opt.swapfile = false

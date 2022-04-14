@@ -6,6 +6,10 @@ require('which-key').setup {
             enabled = true,
         },
     },
+    key_labels = {
+        ['<NL>'] = '<C-J>',
+        ['<C-_>'] = '<C-/>',
+    },
     window = {
         border = 'single',
         padding = { 1, 1, 1, 1 },
