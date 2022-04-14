@@ -15,3 +15,16 @@ require('which-key').register({
     ['[oi'] = { '<Cmd>IndentBlanklineEnable<CR>', 'indentation guides' },
     [']oi'] = { '<Cmd>IndentBlanklineDisable<CR>', 'indentation guides' },
 })
+
+-- local autocmd = vim.api.nvim_create_autocmd
+-- local autogroup = vim.api.nvim_create_augroup
+--
+-- local group = autogroup('TODO', { clear = true })
+-- autocmd('DiffUpdated', {
+--     callback = function()
+--         if vim.wo.diff then
+--             vim.api.nvim_command('IndentBlanklineDisable')
+--         end
+--     end,
+--     group = group
+-- })

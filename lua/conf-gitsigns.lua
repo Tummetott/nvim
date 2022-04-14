@@ -40,6 +40,14 @@ require('gitsigns').setup({
             }
         }, { prefix = '<Leader>', buffer = bufnr })
 
+        -- In visual mode, it is possible to stage and reset partial hunks
+        wk.register({
+            g = {
+                s = { ':Gitsigns stage_hunk<CR>', 'stage selected' },
+                r = { ':Gitsigns reset_hunk<CR>', 'reset selected' }
+            }
+        }, { prefix = '<Leader>',  buffer = bufnr, mode = 'v' })
+
         -- Toggle signs in the signcolumn
         wk.register({
             g = { gs.toggle_signs, 'gitsigns' }
@@ -48,8 +56,13 @@ require('gitsigns').setup({
         -- Add textobject
         wk.register({
             ih = { ':<C-U>Gitsigns select_hunk<CR>', 'inner hunk' }
-        -- TODO: need also mode 'x'. Waiting for issue:
-        -- https://github.com/folke/which-key.nvim/issues/267
         }, { mode = 'o', buffer = bufnr })
+
+        -- Need to set this for mode 'o' and 'x'. Once the following issue is
+        -- resolved, I can put it into one codeblock:
+        -- https://github.com/folke/which-key.nvim/issues/267
+        wk.register({
+            ih = { ':<C-U>Gitsigns select_hunk<CR>', 'inner hunk' }
+        }, { mode = 'x', buffer = bufnr })
     end
 })
