@@ -7,12 +7,12 @@ vim.g.mapleader = ' '
 -- automatically
 wk.register({
     J = {
-        "<Cmd>move '>+1<CR><Cmd>norm gv=gv<CR>",
-        'Move selection down and re-indent'
+        ":move '>+1<CR>gv=gv",
+        'Move selection down and re-indent',
     },
     K = {
-        "<Cmd>move '<-2<CR><Cmd>norm gv=gv<CR>",
-        'Move selection up and re-indent'
+        ":move '<-2<CR>gv=gv",
+        'Move selection up and re-indent',
     }
 }, { mode = 'x' })
 
@@ -21,11 +21,11 @@ wk.register({
 wk.register({
     ['<C-j>'] = {
         '<Cmd>move .+1<CR><Cmd>norm ==<CR>',
-        'Move current line one line below and re-indent'
+        'Move current line one line below and re-indent',
     },
     ['<C-k>'] = {
         '<Cmd>move .-2<CR><Cmd>norm ==<CR>',
-        'Move current line one line above and re-indent'
+        'Move current line one line above and re-indent',
     }
 }, { mode = 'i' })
 
