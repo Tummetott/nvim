@@ -118,6 +118,9 @@ function M.base16_overwrites()
     highlight('LspReferenceRead', { bg = palette.base01 })
     highlight('LspReferenceWrite', { bg = palette.base01 })
     highlight('LspReferenceText', {})
+
+    -- Different color for keymap descriptions in which-key
+    highlight('WhichKeyDesc', { fg = palette.base0C })
 end
 
 function M.setup()

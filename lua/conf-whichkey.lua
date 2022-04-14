@@ -1,7 +1,5 @@
 require('which-key').setup {
     plugins = {
-        marks = false,
-        registers = false,
         spelling = {
             enabled = true,
         },
@@ -15,4 +13,8 @@ require('which-key').setup {
         padding = { 1, 1, 1, 1 },
     },
     show_help = false,
+    triggers_blacklist = {
+        -- Don't trigger which-key when typing a mark or a register
+        n = { [[']], [["]]}
+  },
 }
