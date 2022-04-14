@@ -7,12 +7,12 @@ vim.g.mapleader = ' '
 -- automatically
 wk.register({
     J = {
-        ":move '>+1<CR>gv=gv",
-        'Move selection one line down'
+        "<Cmd>move '>+1<CR><Cmd>norm gv=gv<CR>",
+        'Move selection down and re-indent'
     },
     K = {
-        ":move '<-2<CR>gv=gv",
-        'Move selection one line up'
+        "<Cmd>move '<-2<CR><Cmd>norm gv=gv<CR>",
+        'Move selection up and re-indent'
     }
 }, { mode = 'x' })
 
@@ -20,11 +20,11 @@ wk.register({
 -- adjusted automatically
 wk.register({
     ['<C-j>'] = {
-        '<Esc>:move .+1<CR>==a',
+        '<Cmd>move .+1<CR><Cmd>norm ==<CR>',
         'Move current line one line below and re-indent'
     },
     ['<C-k>'] = {
-        '<Esc>:move .-2<CR>==a',
+        '<Cmd>move .-2<CR><Cmd>norm ==<CR>',
         'Move current line one line above and re-indent'
     }
 }, { mode = 'i' })
@@ -42,19 +42,29 @@ wk.register({
 wk.register({
     Y = {
         '"+y',
-        'Copy to system clipboard'
+        'Copy selection to system clipboard'
     }
 }, { mode = 'x' })
 
+-- The internal gv selects the previous selection. Now gV selects the previous
+-- paste
 wk.register({
     ['gV'] = {
         '`[v`]',
         'Select previous pasted text',
     },
-    ['g='] = {
-        '`[v`]=',
-        'Auto indent previous pasted text'
-    }
+})
+
+-- Paste clipboard one line below or above and reindent
+wk.register({
+    [']p'] = {
+        '<Cmd>put<CR>`[v`]=',
+        'Paste below and re-indent'
+    },
+    ['[p'] = {
+        '<Cmd>put!<CR>`[v`]=',
+        'Paste above and re-indent'
+    },
 })
 
 -- Use emacs bindings to navigate forward and backward in insert mode
@@ -97,10 +107,7 @@ wk.register({
 -- Disable ex mode. This mode is useless and it's annoying to quit out of it
 -- when entered accidentally
 wk.register({
-    ['gQ'] = {
-        '<Nop>',
-        'which_key_ignore' -- Don't display the keybinding
-    }
+    ['gQ'] = { '<NOP>', 'which_key_ignore' }
 })
 
 -- Mapping to clear the quickfix list
@@ -111,117 +118,41 @@ wk.register({
     }
 }, { prefix = '<Leader>' })
 
--- Let's integrate all mappings from 'unimpaired' into 'which-key'. Also add
--- own mappings following the same syntax
+-- Go to next, previous trailing whitespace
+wk.register({
+    [']w'] = {
+        function() vim.fn.search('\\s\\+$', 'w') end,
+        'Go to next trailing whitespace',
+    },
+    ['[w'] = {
+        function() vim.fn.search('\\s\\+$', 'bw') end,
+        'Go to previous trailing whitespace',
+    }
+})
+
+-- Since I have cursorline always enabled in order to highlight the current
+-- line number, the toggeling of the cursorline highlight does not work. Let's
+-- write a keymap to get this behaviour back.
 wk.register({
     ['['] = {
-        a = 'Edit previous file in argument list',
-        A = 'Edit first file in argument list',
-        b = 'Go to previous buffer in buffer list',
-        B = 'Go to first buffer in buffer list',
-        l = 'Go to previous item in location list',
-        L = 'Go to first item in location list',
-        ['<C-l>'] = 'Go to previous file in location list',
-        q = 'Go to previous item in quickfix list',
-        Q = 'Go to first item in quickfix list',
-        ['<C-q>'] = 'Go to previous file in quickfix list',
-        t = 'Go to previous tab',
-        T = 'Go to first tab',
-        ['<Space>'] = 'Add blank line above the cursor',
-        e = 'Exchange current line with line above',
-        ['<C-t>'] = 'which_key_ignore',
-        f = 'Go to preceding file alphabetically',
-        p = 'Paste above and fix indent',
-        w = {
-            function() vim.fn.search('\\s\\+$', 'bw') end,
-            'Go to previous trailing whitespace',
-        },
-        x = 'which_key_ignore',
-        y = 'which_key_ignore',
-        u = 'which_key_ignore',
-        C = 'which_key_ignore',
-        n = 'which_key_ignore',
-        P = 'which_key_ignore',
         o = {
             name = 'Enable option',
-            i = { '<Cmd>IndentBlanklineEnable<CR>', 'indentation guides' },
             c = { require'utils/functions'.enable_cursorline, 'cursorline' },
             x = { require'utils/functions'.enable_cursorcross, 'cursorcross' },
-            d = 'diff',
-            h = 'hlsearch',
-            l = 'list',
-            n = 'number',
-            r = 'relativenumber',
-            s = 'spell',
-            u = 'cursorcolumn',
-            v = 'virtualedit',
-            w = 'wrap',
-        },
+        }
     },
     [']'] = {
-        a = 'Edit next file in argument list',
-        A = 'Edit last file in argument list',
-        b = 'Go to next buffer in buffer list',
-        B = 'Go to last buffer in buffer list',
-        l = 'Go to next item in location list',
-        L = 'Go to last item in location list',
-        ['<C-l>'] = 'Go to next file in location list',
-        q = 'Go to next item in quickfix list',
-        Q = 'Go to last item in quickfix list',
-        ['<C-q>'] = 'Go to next file in quickfix list',
-        t = 'Go to next tab',
-        T = 'Go to last tab',
-        ['<Space>'] = 'Add blank line below the cursor',
-        e = 'Exchange current line with line below',
-        ['<C-t>'] = 'which_key_ignore',
-        f = 'Go to succeeding file alphabetically',
-        p = 'Paste below and fix indent',
-        w = {
-            function() vim.fn.search('\\s\\+$', 'w') end,
-            'Go to next trailing whitespace',
-        },
-        x = 'which_key_ignore',
-        y = 'which_key_ignore',
-        u = 'which_key_ignore',
-        C = 'which_key_ignore',
-        n = 'which_key_ignore',
-        P = 'which_key_ignore',
         o = {
             name = 'Disable option',
-            i = { '<Cmd>IndentBlanklineDisable<CR>', 'indentation guides' },
             c = { require'utils/functions'.disable_cursorline, 'cursorline' },
             x = { require'utils/functions'.disable_cursorcross, 'cursorcross' },
-            d = 'diff',
-            h = 'hlsearch',
-            l = 'list',
-            n = 'number',
-            r = 'relativenumber',
-            s = 'spell',
-            u = 'cursorcolumn',
-            v = 'virtualedit',
-            w = 'wrap',
-        },
+        }
     },
     ['yo'] = {
         name = 'Toggle option',
-        i = { '<Cmd>IndentBlanklineToggle<CR>', 'indentation guides' },
         c = { require'utils/functions'.toggle_cursorline, 'cursorline' },
         x = { require'utils/functions'.toggle_cursorcross, 'cursorcross' },
-        d = 'diff',
-        h = 'hlsearch',
-        l = 'list',
-        n = 'number',
-        r = 'relativenumber',
-        s = 'spell',
-        u = 'cursorcolumn',
-        v = 'virtualedit',
-        w = 'wrap',
-    },
-    ['='] = {
-        p = 'which_key_ignore',
-        P = 'which_key_ignore',
-        s = 'which_key_ignore',
-    },
+    }
 })
 
 -- Press Tab or S-Tab in normal mode to go to next/previous buffer

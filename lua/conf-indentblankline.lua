@@ -9,3 +9,9 @@ require("indent_blankline").setup {
         'dashboard',
     },
 }
+
+require('which-key').register({
+    ['yoi'] = { '<Cmd>IndentBlanklineToggle<CR>', 'indentation guides' },
+    ['[oi'] = { '<Cmd>IndentBlanklineEnable<CR>', 'indentation guides' },
+    [']oi'] = { '<Cmd>IndentBlanklineDisable<CR>', 'indentation guides' },
+})

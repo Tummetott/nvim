@@ -12,6 +12,14 @@ return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
+    -- Interactive help for my keymaps
+    use {
+        'folke/which-key.nvim',
+        config = function()
+            require 'conf-whichkey'
+        end
+    }
+
     -- Language Server configurations
     use {
         'neovim/nvim-lspconfig',
@@ -121,10 +129,25 @@ return require('packer').startup(function(use)
         'numToStr/Comment.nvim',
         config = function ()
             require('Comment').setup()
-            -- Press <C-/> to comment and uncomment
-            local map = vim.keymap.set
-            map({'n', 'i'}, '<C-_>', require('Comment.api').toggle_current_linewise, {})
-            map('x', '<C-_>', 'gc', {remap = true})
+            local wk = require('which-key')
+            wk.register({
+                ['<C-_>'] = {
+                    require('Comment.api').toggle_current_linewise,
+                    'Toggle comment current line'
+                }
+            })
+            wk.register({
+                ['<C-_>'] = {
+                    require('Comment.api').toggle_current_linewise,
+                    'Toggle comment current line'
+                }
+            }, { mode = 'i' })
+            wk.register({
+                ['<C-_>'] = {
+                    'gc',
+                    'Toggle comment current selection'
+                }
+            }, { mode = 'x', noremap = false })
         end
     }
 
@@ -166,16 +189,13 @@ return require('packer').startup(function(use)
         end
     }
 
-    -- Interactive help for my keymaps
+    -- Amazing keymappings by tpope
     use {
-        'folke/which-key.nvim',
+        'tpope/vim-unimpaired',
         config = function()
-            require 'conf-whichkey'
+            require 'conf-unimpaired'
         end
     }
-
-    -- Amazing keymappings by tpope
-    use 'tpope/vim-unimpaired'
 
     -- Repeat plugin commands of unimpared and with .
     use 'tpope/vim-repeat'
