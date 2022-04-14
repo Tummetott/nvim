@@ -18,3 +18,6 @@ require('which-key').setup {
         n = { [[']], [["]]}
   },
 }
+
+-- Different color for keymap descriptions in which-key
+vim.api.nvim_set_hl(0, 'WhichKeyDesc', { link = 'Special' })

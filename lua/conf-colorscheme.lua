@@ -26,16 +26,16 @@ function M.base16_overwrites()
     require('feline').use_theme(palette)
 
     -- Line numbers should have the same color than comments
-    highlight('LineNr', { fg = palette.base03 })
+    highlight('LineNr', { link = 'Comment' })
 
     -- Set a new color for the vertical split line
-    highlight('VertSplit', { fg = palette.base02 })
+    highlight('VertSplit', { link = 'Comment' })
 
     -- The default visual selection is pretty bright. Let's darken it a bit
     highlight('Visual', { bg = palette.base01 })
 
     -- Matching parentheses should have the same color as visual selections
-    highlight('MatchParen', { bg = palette.base01 })
+    highlight('MatchParen', { link = 'Visual' })
 
     -- Dont show '~' characters to denote the end of the buffer
     highlight('EndOfBuffer', { fg = palette.base00 })
@@ -81,29 +81,29 @@ function M.base16_overwrites()
     highlight('DashboardCenter', { fg = palette.base0D })
     highlight('DashboardFooter', { fg = palette.base03 })
 
-    -- Define colors for blank characters. Show blanks with 'set list'.
-    highlight('Whitespace', { fg = palette.base01 })
+    -- Blank characters shown then 'list' is enabled
+    highlight('Whitespace', { link = 'Visual' })
 
     -- NonText colors the 'eol' character
-    highlight('NonText', { fg = palette.base01 })
+    highlight('NonText', { link = 'Visual' })
 
     -- Indent lines should have the closest color to the background
     highlight('IndentBlanklineChar', { fg = palette.base01 })
-    highlight('IndentBlanklineContextChar', { fg = palette.base01 })
-    highlight('IndentBlanklineSpaceChar', { fg = palette.base01 })
+    highlight('IndentBlanklineContextChar', { link = 'IndentBlanklineChar' })
+    highlight('IndentBlanklineSpaceChar', { link = 'IndentBlanklineChar' })
 
     -- Nvim-base16 overwrites the telescope highlight groups. Let's get the
     -- defaults back
-    highlight('TelescopeSelection', { bg = palette.base01 })
-    highlight('TelescopeNormal', { fg = palette.base05, bg = palette.base00 })
-    highlight('TelescopePromptNormal', { fg = palette.base05, bg = palette.base00 })
-    highlight('TelescopeBorder', { fg = palette.base05, bg = palette.base00 })
-    highlight('TelescopePromptBorder', { fg = palette.base05, bg = palette.base00 })
-    highlight('TelescopeTitle', { fg = palette.base05, bg = palette.base00 })
-    highlight('TelescopePromptTitle', {})
-    highlight('TelescopeResultsTitle', {})
-    highlight('TelescopePreviewTitle', {})
-    highlight('TelescopePromptPrefix', { fg = palette.base08 })
+    highlight('TelescopeSelection', { link = 'Visual' })
+    highlight('TelescopeNormal', { link = 'Normal' })
+    highlight('TelescopePromptNormal', { link = 'TelescopeNormal' })
+    highlight('TelescopeBorder', { link = 'TelescopeNormal' })
+    highlight('TelescopePromptBorder', { link = 'TelescopeNormal' })
+    highlight('TelescopeTitle', { link = 'TelescopeNormal' })
+    highlight('TelescopePromptTitle', { link = 'TelescopeTitle' })
+    highlight('TelescopeResultsTitle', { link = 'TelescopeTitle' })
+    highlight('TelescopePreviewTitle', { link = 'TelescopeTitle' })
+    highlight('TelescopePromptPrefix', { link = 'Identifier' })
 
     -- Highlights for completions floating windows
     highlight('CmpItemKind', { fg = palette.base0E }) -- completion kind
@@ -113,14 +113,11 @@ function M.base16_overwrites()
     highlight('PmenuSbar', { bg = palette.base01 }) -- scroll column
     highlight('PmenuThumb', { bg = palette.base02 }) -- scroll bar
 
-    -- With the CursorHold event, my lsp references all occurences of the item
-    -- under the cursor. Let's define the highlight for that
-    highlight('LspReferenceRead', { bg = palette.base01 })
-    highlight('LspReferenceWrite', { bg = palette.base01 })
+    -- Highlights for lsp document highlight (all occurences of the word under
+    -- the cursor)
+    highlight('LspReferenceRead', { link = 'Visual' })
+    highlight('LspReferenceWrite', { link = 'Visual' })
     highlight('LspReferenceText', {})
-
-    -- Different color for keymap descriptions in which-key
-    highlight('WhichKeyDesc', { fg = palette.base0C })
 end
 
 function M.setup()
