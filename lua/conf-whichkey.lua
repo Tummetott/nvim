@@ -15,7 +15,7 @@ require('which-key').setup {
     show_help = false,
     triggers_blacklist = {
         -- Don't trigger which-key when typing a mark or a register
-        n = { [[']], [["]]}
+        n = { [[']], [["]], [[`]]}
   },
 }
 

@@ -184,4 +184,6 @@ return require('packer').startup(function(use)
     -- This plugin runs mkview and loadview on file save and loading
     use 'vim-scripts/restore_view.vim'
 
+    use 'tpope/vim-fugitive'
+
 end)

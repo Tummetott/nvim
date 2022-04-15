@@ -75,7 +75,7 @@ vim.opt.cpoptions:remove('_')
 
 -- The fill character of folds is a whitespace. TODO: do I also want a
 -- whitespace for deleted lines in diffs?
-vim.opt.fillchars = { fold = ' ', diff = ' ' }
+vim.opt.fillchars = { fold = ' ', diff = '╱' } -- ╱⋅
 
 -- Set characters for blanks. Enable them with 'set list'
 vim.opt.listchars = { space = '⋅', tab = '——▸', eol = '↴' }

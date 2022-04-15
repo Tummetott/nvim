@@ -81,27 +81,30 @@ table.insert(left_section, {
 
 -- File information
 table.insert(left_section, {
-    provider = {
-        name = 'file_info',
-        opts = {
-            file_modified_icon = '',
-            file_readonly_icon = '',
-            type = 'relative',
-        },
-    },
-    short_provider = {
-        name = 'file_info',
-        opts = {
-            file_modified_icon = '',
-            file_readonly_icon = '',
-            type = 'base-only',
-        },
-    },
+    provider = function()
+        local filename = vim.api.nvim_buf_get_name(0)
+        -- Special treatment for diff buffers
+        if vim.wo.diff and vim.startswith(filename, 'gitsigns://') then
+            local _, _, rev, relpath = filename:find('.*/(.*):(.*)')
+            rev = string.gsub(rev, '^:', '')
+            return relpath .. ' ﯩ ' .. rev
+        elseif vim.wo.diff and vim.startswith(filename, 'fugitive://') then
+            local _, _, rev, relpath = filename:find('.*//(%x-)/(.*)')
+            return relpath .. ' ﯩ ' .. rev
+        else
+            -- For all other buffers we show the relative path
+            filename = vim.fn.fnamemodify(filename, ':~:.')
+        end
+        local readonly_str = ''
+        local modified_str = ''
+        if vim.bo.readonly then readonly_str = ' ' end
+        if vim.bo.modified then modified_str = ' ' end
+        return string.format('%s%s%s', readonly_str, filename, modified_str)
+    end,
     -- Only show filepath when a filename exists
     enabled = function ()
         if vim.fn.expand('%:t') ~= '' then return true end
     end,
-    icon = '',
     hl = grey_bold,
     left_sep = {
         str = ' ',

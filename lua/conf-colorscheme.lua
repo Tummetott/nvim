@@ -52,6 +52,12 @@ function M.base16_overwrites()
     -- Highlight the foldcolumn like my line numbers
     highlight('FoldColumn', { fg = palette.base03 })
 
+    -- Blank characters shown then 'list' is enabled
+    highlight('Whitespace', { fg = palette.base01 })
+
+    -- NonText colors the 'eol' character
+    highlight('NonText', { link = 'Whitespace' })
+
     -- Diagnostic warning in orange
     highlight('DiagnosticWarn', { fg = palette.base09 })
 
@@ -81,14 +87,8 @@ function M.base16_overwrites()
     highlight('DashboardCenter', { fg = palette.base0D })
     highlight('DashboardFooter', { fg = palette.base03 })
 
-    -- Blank characters shown then 'list' is enabled
-    highlight('Whitespace', { link = 'Visual' })
-
-    -- NonText colors the 'eol' character
-    highlight('NonText', { link = 'Visual' })
-
     -- Indent lines should have the closest color to the background
-    highlight('IndentBlanklineChar', { fg = palette.base01 })
+    highlight('IndentBlanklineChar', { link = 'Whitespace' })
     highlight('IndentBlanklineContextChar', { link = 'IndentBlanklineChar' })
     highlight('IndentBlanklineSpaceChar', { link = 'IndentBlanklineChar' })
 
@@ -118,6 +118,14 @@ function M.base16_overwrites()
     highlight('LspReferenceRead', { link = 'Visual' })
     highlight('LspReferenceWrite', { link = 'Visual' })
     highlight('LspReferenceText', {})
+
+    -- Highlight all differences with a slightly different background. When a
+    -- line is changed, highighlight the foreground in grey and only highlight
+    -- the change
+    highlight('DiffAdd', { bg = palette.base01 })
+    highlight('DiffDelete', { fg = palette.base01 })
+    highlight('DiffChange', { fg = palette.base03, bg = palette.base01 })
+    highlight('DiffText', { fg = palette.base0D, bg = palette.base01 })
 end
 
 function M.setup()
