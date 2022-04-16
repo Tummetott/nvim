@@ -13,16 +13,33 @@ function M.capture(cmd, raw)
     return s
 end
 
--- When folding a function block where the first line ends with '{' and the
--- last line has only the closing '}', when append a '{ ... }' to the foldtext
-function M.get_c_style_fold_text()
-    local firstLine = vim.fn.getline(vim.v.foldstart)
-    local lastLine = vim.fn.getline(vim.v.foldend)
-    if string.find(firstLine, '.-{%s*$') and string.find(lastLine, '.-};?%s*$') then
-        return string.gsub(firstLine, '(.-{)%s*$', '%1' .. ' ... }')
-    else
-        return firstLine
+function _G.custom_foldtext()
+    local text = vim.fn.getline(vim.v.foldstart)
+    local lastline = vim.fn.getline(vim.v.foldend)
+
+    -- When folding a function in c style syntax (with curly braces around it),
+    -- append '{ ... }' to the foldtext
+    if string.find(text, '.-{%s*$') and string.find(lastline, '.-};?%s*$') then
+        text = string.gsub(text, '(.-{)%s*$', '%1' .. ' ... }')
     end
+
+    -- When there are e.g. TABS included in the foldtext, the width depends on
+    -- the tabstop setting. This function gets the right width
+    local text_width = vim.fn.strdisplaywidth(text)
+
+    local ending = string.format('%d lines', vim.v.foldend - vim.v.foldstart + 1)
+    local ending_width = vim.fn.strwidth(ending)
+
+    -- Hackaround how to get the current gutter width (line number column, sign
+    -- column, foldcolumn)
+    local ffi = require("ffi")
+    ffi.cdef('int curwin_col_off(void);')
+    local gutter_width = ffi.C.curwin_col_off()
+
+    local win_width = vim.api.nvim_win_get_width(0) - gutter_width
+    local fillers = string.rep('⋅', win_width - text_width - ending_width - 2)
+
+    return string.format('%s %s %s', text, fillers, ending)
 end
 
 function M.show_blank_chars()

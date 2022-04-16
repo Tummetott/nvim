@@ -75,7 +75,7 @@ vim.opt.cpoptions:remove('_')
 
 -- The fill character of folds is a whitespace. TODO: do I also want a
 -- whitespace for deleted lines in diffs?
-vim.opt.fillchars = { fold = ' ', diff = '╱' } -- ╱⋅
+vim.opt.fillchars = { fold = ' ', foldopen = '┬', diff = '╱' }
 
 -- Set characters for blanks. Enable them with 'set list'
 vim.opt.listchars = { space = '⋅', tab = '——▸', eol = '↴' }
@@ -83,6 +83,9 @@ vim.opt.listchars = { space = '⋅', tab = '——▸', eol = '↴' }
 -- Show foldcolumn when there are active folds. Show maximal 4 folds, then
 -- display it in numbers
 vim.opt.foldcolumn = 'auto:4'
+
+-- Use a custom foldtext function
+vim.opt.foldtext = 'v:lua.custom_foldtext()'
 
 -- Don't save the current directory when saving a view with :mkview
 vim.opt.viewoptions:remove('curdir')

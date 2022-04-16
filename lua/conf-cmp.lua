@@ -40,15 +40,25 @@ cmp.setup({
         end,
     },
     mapping = {
-        ['<C-n>'] = mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-        ['<C-p>'] = mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+        ['<C-n>'] = mapping(mapping.select_next_item({
+            behavior = cmp.SelectBehavior.Select
+        }), { 'i', 'c' }),
+        ['<C-p>'] = mapping(mapping.select_prev_item({
+            behavior = cmp.SelectBehavior.Select
+        }), { 'i', 'c' }),
         ['<Up>'] = mapping.scroll_docs(-4),
         ['<Down>'] = mapping.scroll_docs(4),
-        ['<C-y>'] = mapping(mapping.confirm({ select = true }), {'i', 'c'}),
-        ['<C-e>'] = mapping(mapping.abort(), {'i', 'c'}),
+        ['<C-y>'] = mapping(mapping.confirm({ select = true }), { 'i', 'c' }),
+        ['<C-e>'] = mapping(mapping.abort(), { 'i', 'c' }),
         ['<CR>'] = mapping({
             i = mapping.confirm({ select = false }),
         }),
+        ['<TAB>'] = mapping(mapping.select_next_item({
+            behavior = cmp.SelectBehavior.insert
+        }), { 'c' }),
+        ['<S-TAB>'] = mapping(mapping.select_prev_item({
+            behavior = cmp.SelectBehavior.insert
+        }), { 'c' }),
         -- When a snipped is active, expand or jump the snipped. Otherwise use
         -- the default keymap as fallback
         ['<C-f>'] = mapping(function(fallback)
@@ -94,7 +104,7 @@ local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 -- Config for luasnips
-luasnip.config.set_config ({
+luasnip.config.set_config({
     -- When true, jump back to a snipped even if you moved outside of the selection
     history = false,
     -- Define events when the snippeds get updated. We want to have dynamic

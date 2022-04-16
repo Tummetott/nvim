@@ -111,7 +111,7 @@ function M.base16_overwrites()
     highlight('CmpItemAbbrMatch', { fg = palette.base0C })
     highlight('CmpItemAbbrMatchFuzzy', { fg = palette.base0C })
     highlight('PmenuSbar', { bg = palette.base01 }) -- scroll column
-    highlight('PmenuThumb', { bg = palette.base02 }) -- scroll bar
+    highlight('PmenuThumb', { bg = palette.base05 }) -- scroll bar
 
     -- Highlights for lsp document highlight (all occurences of the word under
     -- the cursor)
