@@ -1,4 +1,6 @@
-require('which-key').setup {
+local wk = require('which-key')
+
+wk.setup {
     plugins = {
         spelling = {
             enabled = true,
@@ -18,6 +20,13 @@ require('which-key').setup {
         n = { [[']], [["]], [[`]]}
   },
 }
+
+wk.register({
+    z = {
+        j = 'Go to next fold',
+        k = 'Go to previous fold',
+    }
+})
 
 -- Different color for keymap descriptions in which-key
 vim.api.nvim_set_hl(0, 'WhichKeyDesc', { link = 'Special' })
