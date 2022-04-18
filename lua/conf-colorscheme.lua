@@ -40,8 +40,10 @@ function M.base16_overwrites()
     -- Dont show '~' characters to denote the end of the buffer
     highlight('EndOfBuffer', { fg = palette.base00 })
 
-    -- Clear the highlight of cursorline background
-    highlight('CursorLine', {})
+    -- Due to a bug in nvim, I have to set ctermfg to any value (this setting
+    -- is not used with termguicolors anyway) to get rid of the underline in
+    -- diff splits
+    highlight('CursorLine', { ctermfg = 'white' })
 
     -- Disable highlight of the current line number background
     highlight('CursorLineNr', { fg = palette.base05, bold = true })

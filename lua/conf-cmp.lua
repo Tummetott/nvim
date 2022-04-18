@@ -40,19 +40,19 @@ cmp.setup({
         end,
     },
     mapping = {
-        ['<C-n>'] = mapping(mapping.select_next_item({
-            behavior = cmp.SelectBehavior.Select
-        }), { 'i', 'c' }),
-        ['<C-p>'] = mapping(mapping.select_prev_item({
-            behavior = cmp.SelectBehavior.Select
-        }), { 'i', 'c' }),
+        ['<C-n>'] = mapping({
+            i = mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+            c = mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+        }),
+        ['<C-p>'] = mapping({
+            i = mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+            c = mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+        }),
         ['<Up>'] = mapping.scroll_docs(-4),
         ['<Down>'] = mapping.scroll_docs(4),
         ['<C-y>'] = mapping(mapping.confirm({ select = true }), { 'i', 'c' }),
         ['<C-e>'] = mapping(mapping.abort(), { 'i', 'c' }),
-        ['<CR>'] = mapping({
-            i = mapping.confirm({ select = false }),
-        }),
+        ['<CR>'] = mapping(mapping.confirm({ select = false }), { 'i' }),
         ['<TAB>'] = mapping(mapping.select_next_item({
             behavior = cmp.SelectBehavior.insert
         }), { 'c' }),

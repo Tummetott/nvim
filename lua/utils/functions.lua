@@ -18,7 +18,7 @@ local function is_function(foldstart, foldend)
     -- TODO: Don't calculate the root again every time
     local parser = vim.treesitter.get_parser(0, 'lua')
     local root = parser:parse()[1]:root()
-    local query = vim.treesitter.parse_query("lua", "[(function_declaration) (function_definition)] @bla")
+    local query = vim.treesitter.parse_query('lua', '[(function_declaration) (function_definition)] @bla')
 
     for _, match, _ in query:iter_matches(root, 0, foldstart, foldend) do
         -- This is actually no loop. Cleaner code?
