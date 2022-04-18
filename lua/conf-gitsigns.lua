@@ -5,17 +5,15 @@ require('gitsigns').setup({
         local wk = require('which-key')
 
         wk.register({
-            [']c'] = {
+            [']h'] = {
                 function()
-                    -- if vim.wo.diff then return ']c' end
                     vim.schedule(function() gs.next_hunk() end)
                     return '<Ignore>'
                 end,
                 'Go to next hunk'
             },
-            ['[c'] = {
+            ['[h'] = {
                 function()
-                    -- if vim.wo.diff then return '[c' end
                     vim.schedule(function() gs.prev_hunk() end)
                     return '<Ignore>'
                 end,

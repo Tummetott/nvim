@@ -11,7 +11,7 @@ vim.wo.cursorline = true
 function M.get_current_base16_palette()
     local name = vim.api.nvim_exec('colorscheme', true)
     name = string.gsub(name, 'base16%-', '')
-    return require('base16-colorscheme').colorschemes[name]
+    return require('colors')[name]
 end
 
 -- Helper function to set global highlights
