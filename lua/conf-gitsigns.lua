@@ -1,5 +1,13 @@
 require('gitsigns').setup({
     signcolumn = true,
+    signs = {
+        add = {
+            text = '│'
+        },
+        change = {
+            text = '│'
+        }
+    },
     on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
         local wk = require('which-key')
@@ -32,7 +40,14 @@ require('gitsigns').setup({
                 p = { gs.preview_hunk, 'preview hunk' },
                 b = { gs.blame_line, 'blame current line' },
                 l = { gs.toggle_current_line_blame, 'toggle current line blame' },
-                d = { gs.diffthis, 'diff against index' },
+                -- TODO: Quick and dirty implementation. Improve this code block
+                d = { function ()
+                    gs.diffthis()
+                    vim.opt.relativenumber = false
+                    vim.api.nvim_command('IndentBlanklineDisable!')
+                    local palette = require'conf-colorscheme'.get_current_base16_palette()
+                    vim.api.nvim_set_hl(0, 'Visual', { bg = palette.base02 })
+                end, 'diff against index' },
                 D = { function() gs.diffthis('~') end, 'diff against last commit' },
                 v = { gs.toggle_deleted, 'toggle deleted lines' },
             }

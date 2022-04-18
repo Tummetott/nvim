@@ -126,6 +126,10 @@ function M.base16_overwrites()
     highlight('DiffDelete', { fg = palette.base01 })
     highlight('DiffChange', { fg = palette.base03, bg = palette.base01 })
     highlight('DiffText', { fg = palette.base0D, bg = palette.base01 })
+
+    -- Color of gitsigns in the sign column
+    highlight('GitSignsAdd', { fg = palette.base0B })
+    highlight('GitSignsChange', { fg = palette.base0E })
 end
 
 function M.setup()

@@ -13,14 +13,39 @@ function M.capture(cmd, raw)
     return s
 end
 
-function _G.custom_foldtext()
-    local text = vim.fn.getline(vim.v.foldstart)
-    local lastline = vim.fn.getline(vim.v.foldend)
+-- Still not working for C code. Needs fixing
+local function is_function(foldstart, foldend)
+    -- TODO: Don't calculate the root again every time
+    local parser = vim.treesitter.get_parser(0, 'lua')
+    local root = parser:parse()[1]:root()
+    local query = vim.treesitter.parse_query("lua", "[(function_declaration) (function_definition)] @bla")
 
-    -- When folding a function in c style syntax (with curly braces around it),
-    -- append '{ ... }' to the foldtext
-    if string.find(text, '.-{%s*$') and string.find(lastline, '.-};?%s*$') then
-        text = string.gsub(text, '(.-{)%s*$', '%1' .. ' ... }')
+    for _, match, _ in query:iter_matches(root, 0, foldstart, foldend) do
+        -- This is actually no loop. Cleaner code?
+        for _, node in pairs(match) do
+            local startline, _, endline, _ = node:range()
+            if startline == (foldstart - 1) and endline == (foldend - 1) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function _G.custom_foldtext()
+    local foldstart = vim.v.foldstart
+    local foldend = vim.v.foldend
+    local text = ''
+
+    if is_function(foldstart, foldend) then
+        text = vim.fn.getline(foldstart)
+        local lastline = vim.fn.getline(foldend)
+
+        -- When folding a function in c style syntax (with curly braces around it),
+        -- append '{ ... }' to the foldtext
+        if string.find(text, '.-{%s*$') and string.find(lastline, '.-};?%s*$') then
+            text = string.gsub(text, '(.-{)%s*$', '%1' .. ' ... }')
+        end
     end
 
     -- When there are e.g. TABS included in the foldtext, the width depends on
@@ -32,7 +57,7 @@ function _G.custom_foldtext()
 
     -- Hackaround how to get the current gutter width (line number column, sign
     -- column, foldcolumn)
-    local ffi = require("ffi")
+    local ffi = require('ffi')
     ffi.cdef('int curwin_col_off(void);')
     local gutter_width = ffi.C.curwin_col_off()
 
