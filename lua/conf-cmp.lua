@@ -9,7 +9,7 @@ cmp.setup({
     formatting = {
         format = lspkind.cmp_format({
             -- Don't write the type of completion, just show the icon
-            with_text = false,
+            mode = 'symbol',
             maxwidth = 50,
             -- Show the completion source
             menu = {
