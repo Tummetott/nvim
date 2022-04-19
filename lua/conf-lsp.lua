@@ -1,5 +1,5 @@
 -- Configure custom pictograms for lspkind
-require('lspkind').setup({
+require('lspkind').init({
     mode = 'symbol_text',
     symbol_map = {
       Text = '',
