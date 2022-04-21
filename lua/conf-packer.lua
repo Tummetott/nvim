@@ -170,6 +170,19 @@ return require('packer').startup(function(use)
         end
     }
 
+    -- Show fancy LSP load progress
+    use {
+        'j-hui/fidget.nvim',
+        config = function()
+            require'fidget'.setup{
+                text = {
+                    spinner = 'dots',
+                    done = '',
+                },
+            }
+        end
+    }
+
     -- Amazing keymappings by tpope
     use {
         'tpope/vim-unimpaired',
