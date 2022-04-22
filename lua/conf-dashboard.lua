@@ -50,4 +50,4 @@ vim.g.dashboard_custom_section = {
     d = { description = { "     Find Word    " }, command = "Telescope live_grep" },
     e = { description = { "     Search Help  " }, command = "Telescope help_tags" },
 }
-vim.g.dashboard_custom_footer = {}
+vim.g.dashboard_custom_footer = {} --vim.tbl_count(_G.packer_plugins)

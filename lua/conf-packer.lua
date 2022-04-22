@@ -6,31 +6,30 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     vim.api.nvim_command('packadd packer.nvim')
 end
 
--- Load plugins
-return require('packer').startup(function(use)
+local function spec(use)
 
     -- Packer can manage itself
-    use 'wbthomason/packer.nvim'
+    use('wbthomason/packer.nvim')
 
     -- Interactive help for my keymaps
-    use {
+    use({
         'folke/which-key.nvim',
         config = function()
             require('conf-whichkey')
         end
-    }
+    })
 
     -- Language Server configurations
-    use {
+    use({
         'neovim/nvim-lspconfig',
         config = function()
             require('conf-lsp')
         end,
         requires = 'onsails/lspkind-nvim'
-    }
+    })
 
     -- Show fancy LSP load progress
-    use {
+    use({
         'j-hui/fidget.nvim',
         config = function()
             require('fidget').setup {
@@ -40,10 +39,10 @@ return require('packer').startup(function(use)
                 },
             }
         end
-    }
+    })
 
     -- Auto completion plugin
-    use {
+    use({
         'hrsh7th/nvim-cmp',
         config = function()
             require('conf-cmp')
@@ -58,18 +57,18 @@ return require('packer').startup(function(use)
             { 'saadparwaiz1/cmp_luasnip' },
             { 'rafamadriz/friendly-snippets' }
         },
-    }
+    })
 
     -- Autopairs writen in lua
-    use {
+    use({
         'windwp/nvim-autopairs',
         config = function()
             require('conf-autopairs')
         end,
-    }
+    })
 
     -- Fuzzy search with telescope
-    use {
+    use({
         'nvim-telescope/telescope.nvim',
         config = function()
             require('conf-telescope')
@@ -79,10 +78,10 @@ return require('packer').startup(function(use)
             { 'nvim-lua/plenary.nvim' },
             { 'kyazdani42/nvim-web-devicons' }
         },
-    }
+    })
 
     -- Nice directory tree for nvim
-    use {
+    use({
         'kyazdani42/nvim-tree.lua',
         config = function()
             require('conf-nvimtree')
@@ -90,16 +89,16 @@ return require('packer').startup(function(use)
         requires = {
             { 'kyazdani42/nvim-web-devicons' }
         }
-    }
+    })
 
-    use {
+    use({
         'lewis6991/gitsigns.nvim',
         config = function()
             require('conf-gitsigns')
         end,
-    }
+    })
 
-    use {
+    use({
         'feline-nvim/feline.nvim',
         config = function()
             require('conf-feline')
@@ -109,19 +108,19 @@ return require('packer').startup(function(use)
             { 'nvim-lua/plenary.nvim' }
         },
         after = 'gitsigns.nvim',
-    }
+    })
 
     -- Base16 themes for neovim
-    use {
+    use({
         'RRethy/nvim-base16',
         config = function()
             require('conf-colorscheme').setup()
         end,
         after = 'feline.nvim',
-    }
+    })
 
     -- Better syntax highlighting, folding and more with treesitter
-    use {
+    use({
         'nvim-treesitter/nvim-treesitter',
         config = function()
             require('conf-treesitter')
@@ -132,56 +131,56 @@ return require('packer').startup(function(use)
             -- 'nvim-treesitter/nvim-treesitter-refactor'
         },
         run = ':TSUpdate',
-    }
+    })
 
     -- Navigate tmux and vim splits with the same shortcuts
-    use {
+    use({
         'numToStr/Navigator.nvim',
         config = function()
             require('conf-navigator')
         end
-    }
+    })
 
     -- Comment & uncomment blockes of code
-    use {
+    use({
         'numToStr/Comment.nvim',
         config = function()
             require('conf-comment')
         end
-    }
+    })
 
     -- Fancy dashboard for startup
-    use {
+    use({
         'glepnir/dashboard-nvim',
         config = function()
             require('conf-dashboard')
         end
-    }
+    })
 
     -- Smooth scolling
-    use {
+    use({
         'karb94/neoscroll.nvim',
         config = function()
             require('conf-neoscroll')
         end
-    }
+    })
 
     -- Show my current indent scope with a grey line
-    use {
+    use({
         'lukas-reineke/indent-blankline.nvim',
         config = function()
             require('conf-indentblankline')
         end
-    }
+    })
 
     -- All about surroundings: parentheses, brackets, quotes, XML tags, and more.
-    use 'tpope/vim-surround'
+    use('tpope/vim-surround')
 
     -- Repeat plugin commands of unimpared and with .
-    use 'tpope/vim-repeat'
+    use('tpope/vim-repeat')
 
     -- Usefull settings for quickfix / location list windows
-    use {
+    use({
         'romainl/vim-qf',
         config = function()
             local wk = require('which-key')
@@ -192,19 +191,31 @@ return require('packer').startup(function(use)
                 }
             })
         end
-    }
+    })
 
     -- Amazing keymappings by tpope
-    use {
+    use({
         'tpope/vim-unimpaired',
         config = function()
             require('conf-unimpaired')
         end
-    }
+    })
 
     -- This plugin runs mkview and loadview on file save and loading
-    use 'vim-scripts/restore_view.vim'
+    use('vim-scripts/restore_view.vim')
 
-    use 'tpope/vim-fugitive'
+    use('tpope/vim-fugitive')
+end
 
-end)
+-- Load all plugins
+return require('packer').startup({
+    spec,
+    config = {
+        -- Show packer information in a floating window
+        display = {
+            open_fn = function()
+                return require('packer.util').float({ border = 'single' })
+            end,
+        },
+    },
+})

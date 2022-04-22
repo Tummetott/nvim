@@ -40,7 +40,7 @@ require('gitsigns').setup({
                 p = { gs.preview_hunk, 'preview hunk' },
                 b = { gs.blame_line, 'blame current line' },
                 l = { gs.toggle_current_line_blame, 'toggle current line blame' },
-                -- TODO: Quick and dirty implementation. Improve this code block
+                -- TODO: Quick and dirty implementation. Change only local options
                 d = { function ()
                     gs.diffthis()
                     vim.opt.relativenumber = false
