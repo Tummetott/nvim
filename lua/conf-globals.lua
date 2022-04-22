@@ -110,5 +110,20 @@ autocmd('TermOpen', {
     group = group,
 })
 
+-- Easy exit out of the help menu
+autocmd('BufEnter', {
+    callback = function()
+        if vim.bo.buftype == 'help' then
+            require('which-key').register({
+                q = {
+                    '<Cmd>quit<CR>',
+                    'Quit'
+                }
+            }, { mode = 'n', buffer = 0 })
+        end
+    end,
+    group = group,
+})
+
 -- Convenience function to print lua tables. Used for debugging
 P = vim.pretty_print

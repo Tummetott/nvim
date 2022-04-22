@@ -154,7 +154,3 @@ wk.register({
         x = { require'utils/functions'.toggle_cursorcross, 'cursorcross' },
     }
 })
-
--- Press Tab or S-Tab in normal mode to go to next/previous buffer
--- map('n', '<Tab>', '<Cmd>bnext<CR>')
--- map('n', '<S-Tab>', '<Cmd>bprevious<CR>')

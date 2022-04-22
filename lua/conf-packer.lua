@@ -1,8 +1,8 @@
 -- Bootstrap packet manager 'packer.nvim'
-local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    vim.fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path })
     vim.api.nvim_command('packadd packer.nvim')
 end
 
@@ -16,7 +16,7 @@ return require('packer').startup(function(use)
     use {
         'folke/which-key.nvim',
         config = function()
-            require 'conf-whichkey'
+            require('conf-whichkey')
         end
     }
 
@@ -24,7 +24,7 @@ return require('packer').startup(function(use)
     use {
         'neovim/nvim-lspconfig',
         config = function()
-            require'conf-lsp'
+            require('conf-lsp')
         end,
         requires = 'onsails/lspkind-nvim'
     }
@@ -33,17 +33,17 @@ return require('packer').startup(function(use)
     use {
         'hrsh7th/nvim-cmp',
         config = function()
-            require'conf-cmp'
+            require('conf-cmp')
         end,
         requires = {
-            {'hrsh7th/cmp-nvim-lsp'},
-            {'hrsh7th/cmp-buffer'},
-            {'hrsh7th/cmp-path'},
-            {'hrsh7th/cmp-nvim-lua'},
-            {'hrsh7th/cmp-cmdline'},
-            {'L3MON4D3/LuaSnip'},
-            {'saadparwaiz1/cmp_luasnip'},
-            {'rafamadriz/friendly-snippets'}
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'hrsh7th/cmp-buffer' },
+            { 'hrsh7th/cmp-path' },
+            { 'hrsh7th/cmp-nvim-lua' },
+            { 'hrsh7th/cmp-cmdline' },
+            { 'L3MON4D3/LuaSnip' },
+            { 'saadparwaiz1/cmp_luasnip' },
+            { 'rafamadriz/friendly-snippets' }
         },
     }
 
@@ -51,7 +51,7 @@ return require('packer').startup(function(use)
     use {
         'windwp/nvim-autopairs',
         config = function()
-            require'conf-autopairs'
+            require('conf-autopairs')
         end,
     }
 
@@ -59,12 +59,12 @@ return require('packer').startup(function(use)
     use {
         'nvim-telescope/telescope.nvim',
         config = function()
-            require'conf-telescope'
+            require('conf-telescope')
         end,
         requires = {
-            {'nvim-lua/popup.nvim'},
-            {'nvim-lua/plenary.nvim'},
-            {'kyazdani42/nvim-web-devicons'}
+            { 'nvim-lua/popup.nvim' },
+            { 'nvim-lua/plenary.nvim' },
+            { 'kyazdani42/nvim-web-devicons' }
         },
     }
 
@@ -75,7 +75,7 @@ return require('packer').startup(function(use)
             require('conf-nvimtree')
         end,
         requires = {
-            {'kyazdani42/nvim-web-devicons'}
+            { 'kyazdani42/nvim-web-devicons' }
         }
     }
 
@@ -88,13 +88,12 @@ return require('packer').startup(function(use)
 
     use {
         'feline-nvim/feline.nvim',
-        -- tag = 'v0.4.1',
-        config = function ()
+        config = function()
             require('conf-feline')
         end,
         requires = {
-            {'kyazdani42/nvim-web-devicons'},
-            {'nvim-lua/plenary.nvim'}
+            { 'kyazdani42/nvim-web-devicons' },
+            { 'nvim-lua/plenary.nvim' }
         },
         after = 'gitsigns.nvim',
     }
@@ -111,10 +110,10 @@ return require('packer').startup(function(use)
     -- Better syntax highlighting, folding and more with treesitter
     use {
         'nvim-treesitter/nvim-treesitter',
-        config = function ()
+        config = function()
             require('conf-treesitter')
         end,
-        requires = {'nvim-treesitter/nvim-treesitter-textobjects'},
+        requires = { 'nvim-treesitter/nvim-treesitter-textobjects' },
         run = ':TSUpdate',
     }
 
@@ -127,7 +126,7 @@ return require('packer').startup(function(use)
     -- Comment & uncomment blockes of code
     use {
         'numToStr/Comment.nvim',
-        config = function ()
+        config = function()
             require('conf-comment')
         end
     }
@@ -135,7 +134,7 @@ return require('packer').startup(function(use)
     -- Fancy dashboard for startup
     use {
         'glepnir/dashboard-nvim',
-        config = function ()
+        config = function()
             require('conf-dashboard')
         end
     }
@@ -143,7 +142,7 @@ return require('packer').startup(function(use)
     -- Smooth scolling
     use {
         'karb94/neoscroll.nvim',
-        config = function ()
+        config = function()
             require('conf-neoscroll')
         end
     }
@@ -174,7 +173,7 @@ return require('packer').startup(function(use)
     use {
         'j-hui/fidget.nvim',
         config = function()
-            require'fidget'.setup{
+            require('fidget').setup {
                 text = {
                     spinner = 'dots',
                     done = '',
@@ -187,7 +186,7 @@ return require('packer').startup(function(use)
     use {
         'tpope/vim-unimpaired',
         config = function()
-            require 'conf-unimpaired'
+            require('conf-unimpaired')
         end
     }
 
@@ -202,7 +201,7 @@ return require('packer').startup(function(use)
     use {
         'nvim-treesitter/playground',
         config = function()
-            require "nvim-treesitter.configs".setup {
+            require('nvim-treesitter.configs').setup {
                 playground = {
                     enable = true,
                     disable = {},
