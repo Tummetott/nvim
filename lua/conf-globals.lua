@@ -110,7 +110,7 @@ autocmd('TermOpen', {
     group = group,
 })
 
--- Easy exit out of the help menu
+-- Easy exit out of the help menu. Move help window to the right
 autocmd('BufEnter', {
     callback = function()
         if vim.bo.buftype == 'help' then
@@ -120,8 +120,24 @@ autocmd('BufEnter', {
                     'Quit'
                 }
             }, { mode = 'n', buffer = 0 })
+            vim.api.nvim_command('wincmd L')
         end
     end,
+    group = group,
+})
+
+-- Highlight the previously yanked region for a moment
+autocmd('TextYankPost', {
+    callback = function()
+        vim.highlight.on_yank({ higroup = 'Visual', timeout = 120 })
+    end,
+    group = group,
+})
+
+-- Automatically run :PackerCompile whenever conf-packer.lua is updated
+autocmd('BufWritePost', {
+    pattern = 'conf-packer.lua',
+    command = 'source <afile> | PackerCompile',
     group = group,
 })
 

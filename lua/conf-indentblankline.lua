@@ -11,9 +11,9 @@ require("indent_blankline").setup {
 }
 
 require('which-key').register({
-    ['yoi'] = { '<Cmd>IndentBlanklineToggle<CR>', 'indentation guides' },
-    ['[oi'] = { '<Cmd>IndentBlanklineEnable<CR>', 'indentation guides' },
-    [']oi'] = { '<Cmd>IndentBlanklineDisable<CR>', 'indentation guides' },
+    ['yoi'] = { require("indent_blankline.commands").toggle, 'indentation guides' },
+    ['[oi'] = { require("indent_blankline.commands").enable, 'indentation guides' },
+    [']oi'] = { require("indent_blankline.commands").disable, 'indentation guides' },
 })
 
 -- local autocmd = vim.api.nvim_create_autocmd

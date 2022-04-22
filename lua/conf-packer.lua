@@ -29,6 +29,19 @@ return require('packer').startup(function(use)
         requires = 'onsails/lspkind-nvim'
     }
 
+    -- Show fancy LSP load progress
+    use {
+        'j-hui/fidget.nvim',
+        config = function()
+            require('fidget').setup {
+                text = {
+                    spinner = 'dots',
+                    done = '',
+                },
+            }
+        end
+    }
+
     -- Auto completion plugin
     use {
         'hrsh7th/nvim-cmp',
@@ -113,15 +126,21 @@ return require('packer').startup(function(use)
         config = function()
             require('conf-treesitter')
         end,
-        requires = { 'nvim-treesitter/nvim-treesitter-textobjects' },
+        requires = {
+            'nvim-treesitter/nvim-treesitter-textobjects',
+            'nvim-treesitter/playground',
+            -- 'nvim-treesitter/nvim-treesitter-refactor'
+        },
         run = ':TSUpdate',
     }
 
-    -- Universal switch pane navigation for vim and tmux
-    use 'christoomey/vim-tmux-navigator'
-
-    -- All about surroundings: parentheses, brackets, quotes, XML tags, and more.
-    use 'tpope/vim-surround'
+    -- Navigate tmux and vim splits with the same shortcuts
+    use {
+        'numToStr/Navigator.nvim',
+        config = function()
+            require('conf-navigator')
+        end
+    }
 
     -- Comment & uncomment blockes of code
     use {
@@ -155,6 +174,12 @@ return require('packer').startup(function(use)
         end
     }
 
+    -- All about surroundings: parentheses, brackets, quotes, XML tags, and more.
+    use 'tpope/vim-surround'
+
+    -- Repeat plugin commands of unimpared and with .
+    use 'tpope/vim-repeat'
+
     -- Usefull settings for quickfix / location list windows
     use {
         'romainl/vim-qf',
@@ -169,19 +194,6 @@ return require('packer').startup(function(use)
         end
     }
 
-    -- Show fancy LSP load progress
-    use {
-        'j-hui/fidget.nvim',
-        config = function()
-            require('fidget').setup {
-                text = {
-                    spinner = 'dots',
-                    done = '',
-                },
-            }
-        end
-    }
-
     -- Amazing keymappings by tpope
     use {
         'tpope/vim-unimpaired',
@@ -190,38 +202,9 @@ return require('packer').startup(function(use)
         end
     }
 
-    -- Repeat plugin commands of unimpared and with .
-    use 'tpope/vim-repeat'
-
     -- This plugin runs mkview and loadview on file save and loading
     use 'vim-scripts/restore_view.vim'
 
     use 'tpope/vim-fugitive'
-
-    use {
-        'nvim-treesitter/playground',
-        config = function()
-            require('nvim-treesitter.configs').setup {
-                playground = {
-                    enable = true,
-                    disable = {},
-                    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-                    persist_queries = false, -- Whether the query persists across vim sessions
-                    keybindings = {
-                        toggle_query_editor = 'o',
-                        toggle_hl_groups = 'i',
-                        toggle_injected_languages = 't',
-                        toggle_anonymous_nodes = 'a',
-                        toggle_language_display = 'I',
-                        focus_language = 'f',
-                        unfocus_language = 'F',
-                        update = 'R',
-                        goto_node = '<cr>',
-                        show_help = '?',
-                    },
-                }
-            }
-        end
-    }
 
 end)

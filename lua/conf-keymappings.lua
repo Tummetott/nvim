@@ -29,6 +29,17 @@ wk.register({
     }
 }, { mode = 'i' })
 
+wk.register({
+    n = {
+        'nzz',
+        'Go to next match'
+    },
+    N = {
+        'Nzz',
+        'Go to previous match'
+    }
+})
+
 -- Y yanks from the cursor position to the end of the line. The default vim
 -- behaviour is just inconsistent
 wk.register({
@@ -67,8 +78,16 @@ wk.register({
     },
 })
 
--- Use emacs bindings to navigate forward and backward in insert mode
+-- Use some emacs bindings in insert mode
 wk.register({
+    ['<C-e>'] = {
+        '<Cmd>norm $<CR>',
+        'End of line'
+    },
+    ['<C-a>'] = {
+        '<Cmd>norm 0<CR>',
+        'Beginning of line'
+    },
     ['<C-f>'] = {
         '<Right>',
         'Right'
@@ -79,7 +98,7 @@ wk.register({
     }
 }, { mode = 'i' })
 
--- Use emacs bindings to navigate inside the command mode
+-- Use some emacs bindings in command mode
 wk.register({
     ['<C-a>'] = {
         '<C-b>',
@@ -137,20 +156,20 @@ wk.register({
     ['['] = {
         o = {
             name = 'Enable option',
-            c = { require'utils/functions'.enable_cursorline, 'cursorline' },
-            x = { require'utils/functions'.enable_cursorcross, 'cursorcross' },
+            c = { require('utils/functions').enable_cursorline, 'cursorline' },
+            x = { require('utils/functions').enable_cursorcross, 'cursorcross' },
         }
     },
     [']'] = {
         o = {
             name = 'Disable option',
-            c = { require'utils/functions'.disable_cursorline, 'cursorline' },
-            x = { require'utils/functions'.disable_cursorcross, 'cursorcross' },
+            c = { require('utils/functions').disable_cursorline, 'cursorline' },
+            x = { require('utils/functions').disable_cursorcross, 'cursorcross' },
         }
     },
     ['yo'] = {
         name = 'Toggle option',
-        c = { require'utils/functions'.toggle_cursorline, 'cursorline' },
-        x = { require'utils/functions'.toggle_cursorcross, 'cursorcross' },
+        c = { require('utils/functions').toggle_cursorline, 'cursorline' },
+        x = { require('utils/functions').toggle_cursorcross, 'cursorcross' },
     }
 })
