@@ -19,6 +19,9 @@ vim.opt.shortmess:remove('l')
 -- Only show one global statusline, independent of the number of windows
 vim.opt.laststatus = 3
 
+-- Show no ruler in vims native statusline
+vim.opt.ruler = false
+
 -- Don't display mode changes as the statusline plugin already shows that
 vim.opt.showmode = false
 

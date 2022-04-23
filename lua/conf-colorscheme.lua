@@ -81,13 +81,13 @@ function M.base16_overwrites()
     highlight('NvimTreeVertSplit', { fg = palette.base01, bg = palette.base01 })
 
     -- Clear the default statusline and make it disappear. This is necessary
-    -- whenever feline does not overwrite it (e.g. for dashboard)
+    -- whenever feline does not overwrite it (e.g. for the greeter)
     highlight('StatusLine', {})
 
     -- Define colors for my dashboard
-    highlight('DashboardHeader', { fg = palette.base0E })
-    highlight('DashboardCenter', { fg = palette.base0D })
-    highlight('DashboardFooter', { fg = palette.base03 })
+    highlight('GreeterHeader', { fg = palette.base0D })
+    highlight('GreeterCenter', { fg = palette.base03, bold = true })
+    highlight('GreeterFooter', { fg = palette.base02 })
 
     -- Indent lines should have the closest color to the background
     highlight('IndentBlanklineChar', { link = 'Whitespace' })

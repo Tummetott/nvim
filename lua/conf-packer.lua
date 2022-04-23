@@ -149,14 +149,6 @@ local function spec(use)
         end
     })
 
-    -- Fancy dashboard for startup
-    use({
-        'glepnir/dashboard-nvim',
-        config = function()
-            require('conf-dashboard')
-        end
-    })
-
     -- Smooth scolling
     use({
         'karb94/neoscroll.nvim',
@@ -170,6 +162,14 @@ local function spec(use)
         'lukas-reineke/indent-blankline.nvim',
         config = function()
             require('conf-indentblankline')
+        end
+    })
+
+    use({
+        'goolord/alpha-nvim',
+        requires = { 'kyazdani42/nvim-web-devicons' },
+        config = function ()
+            require('conf-alpha')
         end
     })
 

@@ -396,7 +396,7 @@ table.insert(special_section, {
     end,
     -- Disable it only for the dashboard
     enabled = function()
-        return vim.api.nvim_buf_get_option(0, 'filetype') ~= 'dashboard'
+        return vim.api.nvim_buf_get_option(0, 'filetype') ~= 'alpha'
     end,
     hl = blue_bold,
     left_sep = {
@@ -494,7 +494,7 @@ require('feline').setup({
             '^TelescopePrompt$',
             '^packer$',
             '^help$',
-            '^dashboard$',
+            '^alpha$',
             '^lspinfo$',
             '^man$',
         },
