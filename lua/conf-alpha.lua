@@ -70,7 +70,7 @@ local center = {
         button('  Find File  ', require('telescope.builtin').find_files),
         button('  Find Word  ', require('telescope.builtin').live_grep),
         button('    Recent Files', require('telescope.builtin').oldfiles),
-        button('    Colorschemes', require('telescope.builtin').oldfiles),
+        button('    Colorschemes', require('telescope.builtin').colorscheme),
         button('    Search Help  ', require('telescope.builtin').help_tags),
     },
     opts = {
