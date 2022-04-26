@@ -104,3 +104,22 @@ local config = {
 }
 
 require'alpha'.setup(config)
+
+local autocmd = vim.api.nvim_create_autocmd
+local autogroup = vim.api.nvim_create_augroup
+local group = autogroup('AlphaQuit', { clear = true })
+
+-- Quit the greeter with 'q'
+autocmd('User AlphaReady', {
+    callback = function()
+        if vim.bo.filetype == 'alpha' then
+            require('which-key').register({
+                q = {
+                    '<Cmd>quit<CR>',
+                    'Quit'
+                }
+            }, { buffer = 0 })
+        end
+    end,
+    group = group,
+})

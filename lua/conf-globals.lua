@@ -125,7 +125,7 @@ autocmd('BufEnter', {
                     '<Cmd>quit<CR>',
                     'Quit'
                 }
-            }, { mode = 'n', buffer = 0 })
+            }, { buffer = 0 })
             vim.api.nvim_command('wincmd L')
         end
     end,

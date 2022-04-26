@@ -214,6 +214,13 @@ local function spec(use)
     use('vim-scripts/restore_view.vim')
 
     use('tpope/vim-fugitive')
+
+    use({
+        'tamton-aquib/duck.nvim',
+        config = function()
+            require('conf-duck')
+        end,
+    })
 end
 
 -- Load all plugins
