@@ -81,7 +81,7 @@ wk.register({
 -- Use some emacs bindings in insert mode
 wk.register({
     ['<C-e>'] = {
-        '<Cmd>norm $<CR>',
+        '<C-o>A',
         'End of line'
     },
     ['<C-a>'] = {
