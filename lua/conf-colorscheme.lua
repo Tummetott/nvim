@@ -132,6 +132,18 @@ function M.base16_overwrites()
     -- Color of gitsigns in the sign column
     highlight('GitSignsAdd', { fg = palette.base0B })
     highlight('GitSignsChange', { fg = palette.base0E })
+
+    -- Don't highlight modified buffers different then unmodified buffers
+    highlight('BufferCurrentMod', { link = 'BufferCurrent' })
+    highlight('BufferVisibleMod', { link = 'BufferVisible' })
+    highlight('BufferInactiveMod', { link = 'BufferInactive' })
+
+    -- Highlight separators in the tab line
+    highlight('BufferInactiveSign', { fg = palette.base00, bg = palette.base01 })
+    highlight('BufferTabpageFill', { fg = palette.base00 })
+
+    -- Highlight tab number indicator
+    highlight('BufferTabpages', { link = 'Function' })
 end
 
 function M.setup()

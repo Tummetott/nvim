@@ -83,6 +83,9 @@ vim.opt.fillchars = { fold = ' ', foldopen = '┬', diff = '╱' }
 -- Set characters for blanks. Enable them with 'set list'
 vim.opt.listchars = { space = '⋅', tab = '——▸', eol = '↴' }
 
+-- Hyphens are part of keywords
+vim.opt.iskeyword:append('-')
+
 -- Show foldcolumn when there are active folds. Show maximal 4 folds, then
 -- display it in numbers
 vim.opt.foldcolumn = 'auto:4'

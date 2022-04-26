@@ -173,6 +173,15 @@ local function spec(use)
         end
     })
 
+    -- Fancy tabline for tabs and buffers
+    use({
+        'romgrk/barbar.nvim',
+        requires = {'kyazdani42/nvim-web-devicons'},
+        config = function()
+            require('conf-barbar')
+        end
+    })
+
     -- All about surroundings: parentheses, brackets, quotes, XML tags, and more.
     use('tpope/vim-surround')
 
