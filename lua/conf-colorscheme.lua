@@ -29,7 +29,7 @@ function M.base16_overwrites()
     highlight('LineNr', { link = 'Comment' })
 
     -- Set a new color for the vertical split line
-    highlight('VertSplit', { link = 'Comment' })
+    highlight('WinSeparator', { link = 'Comment' })
 
     -- The default visual selection is pretty bright. Let's darken it a bit
     highlight('Visual', { bg = palette.base01 })
@@ -76,9 +76,9 @@ function M.base16_overwrites()
     highlight('NvimTreeExecFile', { fg = palette.base0B, bold = true })
     highlight('NvimTreeImageFile', { fg = palette.base0E, bold = true })
     highlight('NvimTreeCursorLine', { bg = palette.base01 })
-    highlight('NvimTreeNormal', { bg = palette.base00 })
-    highlight('NvimTreeEndOfBuffer', { fg = palette.base00 })
-    highlight('NvimTreeVertSplit', { fg = palette.base01, bg = palette.base01 })
+    highlight('NvimTreeNormal', { bg = palette.base01 })
+    highlight('NvimTreeEndOfBuffer', { fg = palette.base01 })
+    highlight('NvimTreeWinSeparator', { fg = palette.base01, bg = palette.base01 })
 
     -- Clear the default statusline and make it disappear. This is necessary
     -- whenever feline does not overwrite it (e.g. for the greeter)

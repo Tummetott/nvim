@@ -55,12 +55,6 @@ require'nvim-tree'.setup {
     ignore_ft_on_setup  = {},
     -- Don't open the tree when opening a new tab if the tree wasn't previously opened
     open_on_tab         = false,
-    -- Hijacks new directory buffers when they are opened
-    update_to_buf_dir   = {
-        enable = true,
-        -- allow to open the tree if it was previously closed
-        auto_open = true,
-    },
     -- Hijack the cursor in the tree to put it at the start of the filename
     hijack_cursor       = true,
     update_cwd          = true,
@@ -88,7 +82,6 @@ require'nvim-tree'.setup {
         width = 30,
         height = 30,
         side = 'left',
-        auto_resize = false,
     },
     filters = {
         -- Don't hide dotfiles
