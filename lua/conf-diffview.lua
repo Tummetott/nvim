@@ -9,13 +9,13 @@ require'diffview'.setup({
     key_bindings = {
         disable_defaults = false,
         view = {
-            ["<C-n>"] = cb("toggle_files"),
+            ['<C-n>'] = cb('toggle_files'),
         },
         file_panel = {
-            ["<C-n>"] = cb("toggle_files"),
+            ['<C-n>'] = cb('toggle_files'),
         },
         file_history_panel = {
-            ["<C-n>"] = cb("toggle_files"),
+            ['<C-n>'] = cb('toggle_files'),
         },
     },
     hooks = {

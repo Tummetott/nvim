@@ -133,16 +133,14 @@ function M.base16_overwrites()
     highlight('GitSignsAdd', { fg = palette.base0B })
     highlight('GitSignsChange', { fg = palette.base0E })
 
-    -- Don't highlight modified buffers different then unmodified buffers
+    highlight('BufferCurrent', { fg = palette.base00, bg = palette.base0D })
+    highlight('BufferInactive', { fg = palette.base00, bg = palette.base02 })
+    highlight('BufferTabpageFill', { bg = palette.base00, fg = palette.base00 })
+    highlight('BufferCurrentSign', { link = 'BufferCurrent' })
     highlight('BufferCurrentMod', { link = 'BufferCurrent' })
-    highlight('BufferVisibleMod', { link = 'BufferVisible' })
     highlight('BufferInactiveMod', { link = 'BufferInactive' })
-
-    -- Highlight separators in the tab line
-    highlight('BufferInactiveSign', { fg = palette.base00, bg = palette.base01 })
-    highlight('BufferTabpageFill', { fg = palette.base00 })
-
-    -- Highlight tab number indicator
+    highlight('BufferInactiveSign', { link = 'BufferInactive' })
+    highlight('BufferVisibleMod', { link = 'BufferVisible' })
     highlight('BufferTabpages', { link = 'Function' })
 end
 

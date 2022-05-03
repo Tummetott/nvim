@@ -12,3 +12,8 @@ vim.g.bufferline = {
     icon_separator_active = ' ',
     insert_at_end = false,
 }
+
+-- Disable barbar by default
+vim.schedule(function()
+    vim.api.nvim_command('BarbarDisable')
+end)
