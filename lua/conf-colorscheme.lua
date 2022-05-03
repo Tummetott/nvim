@@ -124,8 +124,8 @@ function M.base16_overwrites()
     -- Highlight all differences with a slightly different background. When a
     -- line is changed, highighlight the foreground in grey and only highlight
     -- the change
-    highlight('DiffAdd', { bg = palette.base01 })
-    highlight('DiffDelete', { fg = palette.base01 })
+    highlight('DiffAdd', { fg = palette.base03, bg = palette.base01 })
+    highlight('DiffDelete', { fg = palette.base01, bg = palette.base00 })
     highlight('DiffChange', { fg = palette.base03, bg = palette.base01 })
     highlight('DiffText', { fg = palette.base0D, bg = palette.base01 })
 

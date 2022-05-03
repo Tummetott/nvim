@@ -1,13 +1,15 @@
 require('which-key').register({
-    d = {
-        name = 'Duck',
-        ['d'] = {
-            require("duck").hatch,
-            'Start the duck!'
+    h = {
+        name = 'Horse',
+        ['s'] = {
+            function ()
+                require('duck').hatch('🐎')
+            end,
+            'Start the horse!'
         },
         ['k']= {
-            require("duck").cook,
-            'Kill the duck'
+            require('duck').cook,
+            'Kill the horse!'
         }
 
     }

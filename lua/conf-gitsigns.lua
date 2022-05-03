@@ -40,16 +40,7 @@ require('gitsigns').setup({
                 p = { gs.preview_hunk, 'preview hunk' },
                 b = { gs.blame_line, 'blame current line' },
                 l = { gs.toggle_current_line_blame, 'toggle current line blame' },
-                -- TODO: Quick and dirty implementation. Change only local options
-                d = { function ()
-                    gs.diffthis()
-                    vim.opt.relativenumber = false
-                    vim.api.nvim_command('IndentBlanklineDisable!')
-                    local palette = require'conf-colorscheme'.get_current_base16_palette()
-                    vim.api.nvim_set_hl(0, 'Visual', { bg = palette.base02 })
-                end, 'diff against index' },
-                D = { function() gs.diffthis('~') end, 'diff against last commit' },
-                v = { gs.toggle_deleted, 'toggle deleted lines' },
+                d = { gs.toggle_deleted, 'toggle deleted lines' },
             }
         }, { prefix = '<Leader>', buffer = bufnr })
 
