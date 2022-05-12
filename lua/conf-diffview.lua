@@ -19,24 +19,24 @@ require'diffview'.setup({
         },
     },
     hooks = {
-        view_opened = function()
-            -- Hide the file browser. I can toggle it with a shortcut
-            vim.api.nvim_command('DiffviewToggleFiles')
+        view_opened = function(view)
+            -- Hide the file browser for diffviews but not for history views
+            if(view:class():name() == 'DiffView') then
+                vim.api.nvim_command('DiffviewToggleFiles')
+            end
         end,
-        diff_buf_read = function()
-
-            -- Turn off line wrapping and list chars and relative numbers
+        diff_buf_win_enter = function()
+            -- Disable line wrap, list chars and relative numbers
             vim.opt_local.wrap = false
             vim.opt_local.list = false
             vim.opt_local.relativenumber = false
 
-            -- Disable indentation guides
-            vim.api.nvim_command('IndentBlanklineDisable')
+            -- Diffs and visual selection use the same color. Let's change the
+            -- highlight for visual selections to still see them
+            vim.opt_local.winhighlight = 'Visual:VisualDiff'
 
-            -- Differences are highlightes like my 'Visual' highlight group.
-            -- Alter the 'Visual' group for the duration of the diffmode
-            local palette = require'conf-colorscheme'.get_current_base16_palette()
-            vim.api.nvim_set_hl(0, 'Visual', { bg = palette.base02 })
+            -- Disable indentation guides
+            require("indent_blankline.commands").disable()
         end,
     }
 })
@@ -51,12 +51,16 @@ wk.register({
             'diff against index',
         },
         h = {
+            '<Cmd>DiffviewOpen HEAD<CR>',
+            'diff against HEAD',
+        },
+        c = {
             '<Cmd>DiffviewFileHistory<CR>',
             'diff against commit history'
         },
-        c = {
+        q = {
             '<Cmd>DiffviewClose<CR>',
-           'close diffview'
+           'quit diffview'
         },
         o = ':diffget',
         p = ':diffput',

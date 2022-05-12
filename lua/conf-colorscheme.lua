@@ -142,6 +142,9 @@ function M.base16_overwrites()
     highlight('BufferInactiveSign', { link = 'BufferInactive' })
     highlight('BufferVisibleMod', { link = 'BufferVisible' })
     highlight('BufferTabpages', { link = 'Function' })
+
+    -- Create a highlight namespace for diff views
+    highlight('VisualDiff', { bg = palette.base02 })
 end
 
 function M.setup()
