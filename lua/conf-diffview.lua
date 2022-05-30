@@ -1,9 +1,11 @@
-local cb = require'diffview.config'.diffview_callback
+local cb = require('diffview.config').diffview_callback
 
 require'diffview'.setup({
     file_panel = {
-        position = 'left',
-        width = 35,
+        win_config = {
+            position = 'left',
+            width = 35,
+        },
         listing_style = 'list',
     },
     key_bindings = {
