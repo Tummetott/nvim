@@ -110,6 +110,15 @@ local function spec(use)
         after = 'gitsigns.nvim',
     })
 
+    -- Plugin to show the context of the current cursor position on the winbar
+    use {
+        'SmiteshP/nvim-gps',
+        config = function()
+            require('conf-gps')
+        end,
+        requires = 'nvim-treesitter/nvim-treesitter'
+    }
+
     -- Base16 themes for neovim
     use({
         'RRethy/nvim-base16',

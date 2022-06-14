@@ -461,7 +461,7 @@ table.insert(special_section, {
 -- for all windows. Therefore, I never really have a statusline for an inactive
 -- window. However, I use this component for special filetypes/buffer (e.g the
 -- help)
-local components = {
+local statusline_components = {
     active = {
         left_section,
         right_section,
@@ -472,7 +472,7 @@ local components = {
 }
 
 require('feline').setup({
-    components = components,
+    components = statusline_components,
     separators = {
         ['left_moon'] = '',
         ['right_moon'] = '',
@@ -502,4 +502,73 @@ require('feline').setup({
             '^terminal$'
         },
     },
+})
+
+local gps = require('nvim-gps')
+local winbar_active = {}
+local winbar_inactive = {}
+
+table.insert(winbar_active, {
+    left_sep = {
+        str = ' ',
+        hl = {
+            bg = 'base00'
+        },
+    },
+    provider = 'file_info',
+    hl = {
+        fg = 'base03',
+        bg = 'base00',
+        style = 'bold',
+    },
+})
+
+table.insert(winbar_active, {
+    left_sep = {
+        str = '  ',
+        hl = {
+            fg = 'base03',
+            bg = 'base00',
+            style = 'bold',
+        }
+    },
+    provider = function()
+        return gps.get_location()
+    end,
+    enabled = function()
+        return gps.is_available()
+    end,
+    hl = {
+        fg = 'base03',
+        bg = 'base00',
+        style = 'bold',
+    },
+})
+
+table.insert(winbar_inactive, {
+    left_sep = {
+        str = ' ',
+        hl = {
+            bg = 'base00'
+        },
+    },
+    provider = 'file_info',
+    hl = {
+        fg = 'base03',
+        bg = 'base00',
+        style = 'bold',
+    },
+})
+
+local winbar_components = {
+    active = {
+        winbar_active
+    },
+    inactive = {
+        winbar_inactive
+    },
+}
+
+require('feline').winbar.setup({
+    components = winbar_components
 })
