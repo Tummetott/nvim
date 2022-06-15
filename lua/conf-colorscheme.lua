@@ -80,9 +80,11 @@ function M.base16_overwrites()
     highlight('NvimTreeEndOfBuffer', { fg = palette.base01 })
     highlight('NvimTreeWinSeparator', { fg = palette.base01, bg = palette.base01 })
 
-    -- Clear the default statusline and make it disappear. This is necessary
+    -- Clear the default statusline and winbar hl-group. This is necessary
     -- whenever feline does not overwrite it (e.g. for the greeter)
     highlight('StatusLine', {})
+    highlight('WinBar', {})
+    highlight('WinBarNC', {})
 
     -- Define colors for my dashboard
     highlight('GreeterHeader', { fg = palette.base0D })

@@ -39,6 +39,13 @@ local background = {
     bg = 'base00',
 }
 
+-- This helper function tells me if the current buffer is a documentation file
+local function is_documentation()
+    local doc = { 'help', 'man' }
+    local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    return vim.tbl_contains(doc, ft)
+end
+
 -- Vim Mode
 table.insert(left_section, {
     provider = function ()
@@ -66,8 +73,7 @@ table.insert(left_section, {
         str = 'right_moon',
         hl = function ()
             local bg = 'base00'
-            -- If a filename exists, color the background in grey
-            if vim.fn.expand('%:t') ~= '' then
+            if require('feline.providers.git').git_info_exists() then
                 bg = 'base02'
             end
             return {
@@ -79,50 +85,12 @@ table.insert(left_section, {
     priority = 9,
 })
 
--- File information
-table.insert(left_section, {
-    provider = function()
-        local filename = vim.api.nvim_buf_get_name(0)
-        -- Special treatment for diff buffers
-        if vim.wo.diff and vim.startswith(filename, 'gitsigns://') then
-            local _, _, rev, relpath = filename:find('.*/(.*):(.*)')
-            rev = string.gsub(rev, '^:', '')
-            return relpath .. ' ﯩ ' .. rev
-        elseif vim.wo.diff and vim.startswith(filename, 'fugitive://') then
-            local _, _, rev, relpath = filename:find('.*//(%x-)/(.*)')
-            return relpath .. ' ﯩ ' .. rev
-        else
-            -- For all other buffers we show the relative path
-            filename = vim.fn.fnamemodify(filename, ':~:.')
-        end
-        local readonly_str = ''
-        local modified_str = ''
-        if vim.bo.readonly then readonly_str = ' ' end
-        if vim.bo.modified then modified_str = ' ' end
-        return string.format('%s%s%s', readonly_str, filename, modified_str)
-    end,
-    -- Only show filepath when a filename exists
-    enabled = function ()
-        if vim.fn.expand('%:t') ~= '' then return true end
-    end,
-    hl = grey_bold,
-    left_sep = {
-        str = ' ',
-        hl = grey,
-    },
-    priority = 2,
-})
-
 -- Git branch
 table.insert(left_section, {
     provider = 'git_branch',
     short_provider = '',
-    -- Only show the git branch, when the current file is inside the git repo
-    enabled = function ()
-        local path = vim.fn.expand('%:p')
-        local cwd = vim.fn.getcwd()
-        if path:find(cwd) ~= nil then return true end
-    end,
+    -- Only show the git branch, when the current file is inside the git repo TODO: do I need this?
+    -- enabled = require('feline.providers.git').git_info_exists,
     hl = grey,
     left_sep = {
         str = ' on ',
@@ -163,9 +131,7 @@ table.insert(left_section, {
         str = '',
         hl = grey_inv,
     },
-    enabled = function ()
-        if vim.fn.expand('%:t') ~= '' then return true end
-    end,
+    enabled = require('feline.providers.git').git_info_exists,
 })
 
 -- This dummy module fixes the highlighting between the left and the right
@@ -377,13 +343,6 @@ table.insert(right_section, {
     },
 })
 
--- This helper function tells me if the current buffer is a documentation file
-local function is_documentation()
-    local doc = { 'help', 'man' }
-    local ft = vim.api.nvim_buf_get_option(0, 'filetype')
-    return vim.tbl_contains(doc, ft)
-end
-
 -- For all special filetypes and buffer, we only want to show the filetype
 table.insert(special_section, {
     provider = function()
@@ -416,45 +375,9 @@ table.insert(special_section, {
         },
         {
             str = 'right_moon',
-            hl = function()
-                local bg = 'base00'
-                if is_documentation() then
-                    bg = 'base02'
-                end
-                return { fg = 'base0D', bg = bg }
-            end
+            hl = blue_inv,
         },
     },
-})
-
--- For some documentation buffers (e.g. help files, man pages) I also want to
--- know the filename
-table.insert(special_section, {
-    provider = {
-        name = 'file_info',
-        opts = {
-            file_readonly_icon = '',
-            type = 'base-only',
-        },
-    },
-    -- Only show the filename for help files
-    enabled = is_documentation,
-    icon = '',
-    hl = grey_bold,
-    left_sep = {
-        str = ' ',
-        hl = grey,
-    },
-    right_sep = {
-        {
-            str = ' ',
-            hl = grey,
-        },
-        {
-            str = 'right_moon',
-            hl = grey_inv,
-        },
-    }
 })
 
 -- Since I set the option 'laststatus = 3', I only have one global statusline
@@ -497,33 +420,100 @@ require('feline').setup({
             '^alpha$',
             '^lspinfo$',
             '^man$',
+            '^git$',
         },
         buftypes = {
             '^terminal$'
         },
     },
+    custom_providers = {
+        file_information = function()
+            -- Get the full file name
+            local filename = vim.api.nvim_buf_get_name(0)
+
+            -- Special treatment for diff buffers
+            local revision = ''
+            if vim.wo.diff then
+                local gitpath, innerpath, relpath
+                if vim.startswith(filename, 'gitsigns://') then
+                    _, _, gitpath, innerpath, revision, relpath =
+                        filename:find('gitsigns://(.*)%.git/modules/(.*/)([^/]*):(.*)')
+                    filename = gitpath .. innerpath .. relpath
+                    if revision == ':0' then revision = 'INDEX' end
+                    if revision == 'HEAD~' then revision = 'HEAD' end
+                elseif vim.startswith(filename, 'fugitive://') then
+                    _, _, gitpath, innerpath, revision, relpath =
+                        filename:find('fugitive://(.*)%.git/modules/(.*/)/(%x-)/(.*)')
+                    filename = gitpath .. innerpath .. relpath
+                    if revision == '0' then revision = 'INDEX' end
+                elseif vim.startswith(filename, 'diffview://') then
+                    _, _, gitpath, revision, relpath =
+                        filename:find('diffview://(.*)%.git/([^/]*)/(.*)')
+                    if revision == ':0:' then revision = 'INDEX' end
+                    filename = gitpath .. relpath
+                end
+            end
+
+            -- Get icon and icon color
+            local extension = vim.fn.fnamemodify(filename, ':e')
+            local icon_str, icon_color = require('nvim-web-devicons').get_icon_color(nil, extension)
+            local icon = { str = icon_str, hl = { fg = icon_color } }
+
+            -- Special treatment for documentation
+            if is_documentation() then
+                -- Man pages have not icon in devicons. Let's fix that
+                if vim.startswith(filename, 'man://') then
+                    icon.str = ''
+                    icon.hl = blue_inv
+                end
+                filename = vim.fn.fnamemodify(filename, ':t')
+            end
+
+            -- Trim the full file name relative to our cwd
+            filename = vim.fn.fnamemodify(filename, ':~:.')
+
+            local modified_icon = ''
+            if vim.bo.modified then
+                modified_icon = ' ●'
+            elseif vim.bo.readonly or not vim.bo.modifiable then
+                modified_icon = ' '
+            end
+
+            if revision ~= '' then revision = ' ﯩ ' .. revision end
+
+            return string.format(' %s%s%s', filename, revision, modified_icon), icon
+        end
+    }
 })
 
 local gps = require('nvim-gps')
-local winbar_active = {}
-local winbar_inactive = {}
 
-table.insert(winbar_active, {
+local file_info_comp = {
     left_sep = {
         str = ' ',
-        hl = {
-            bg = 'base00'
-        },
+        hl = background,
     },
-    provider = 'file_info',
+    -- Hide for special filetypes
+    enabled = function ()
+        local special_files = {
+            'DiffviewFiles',
+            'DiffviewFileHistory',
+            'alpha',
+            'NvimTree',
+            'git',
+        }
+        local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+        return not vim.tbl_contains(special_files, ft)
+    end,
+    provider = 'file_information',
     hl = {
         fg = 'base03',
         bg = 'base00',
         style = 'bold',
     },
-})
+}
 
-table.insert(winbar_active, {
+local gps_component = {
     left_sep = {
         str = '  ',
         hl = {
@@ -536,37 +526,33 @@ table.insert(winbar_active, {
         return gps.get_location()
     end,
     enabled = function()
-        return gps.is_available()
+        return gps.is_available() and not vim.wo.diff
     end,
     hl = {
         fg = 'base03',
         bg = 'base00',
         style = 'bold',
     },
-})
+}
 
-table.insert(winbar_inactive, {
-    left_sep = {
-        str = ' ',
-        hl = {
-            bg = 'base00'
-        },
-    },
-    provider = 'file_info',
-    hl = {
-        fg = 'base03',
-        bg = 'base00',
-        style = 'bold',
-    },
-})
+local nvimtree_dummy_comp = {
+    hl = { bg = 'base01' },
+    enabled = function()
+        local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+        return ft == 'NvimTree'
+    end
+}
 
 local winbar_components = {
-    active = {
-        winbar_active
-    },
-    inactive = {
-        winbar_inactive
-    },
+    active = {{
+        file_info_comp,
+        gps_component,
+        nvimtree_dummy_comp,
+    }},
+    inactive = {{
+        file_info_comp,
+        nvimtree_dummy_comp,
+    }},
 }
 
 require('feline').winbar.setup({

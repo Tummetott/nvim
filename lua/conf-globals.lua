@@ -116,10 +116,10 @@ autocmd('TermOpen', {
     group = group,
 })
 
--- Easy exit out of the help menu. Move help window to the right
+-- Easy exit out of the help menu and git. Move both windows to the right
 autocmd('BufEnter', {
     callback = function()
-        if vim.bo.buftype == 'help' then
+        if vim.bo.buftype == 'help' or vim.bo.filetype == 'git' then
             require('which-key').register({
                 q = {
                     '<Cmd>quit<CR>',
