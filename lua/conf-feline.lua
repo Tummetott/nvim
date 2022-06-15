@@ -431,6 +431,21 @@ require('feline').setup({
             -- Get the full file name
             local filename = vim.api.nvim_buf_get_name(0)
 
+            if filename == '' then
+                filename = '[No File]'
+            end
+
+            -- Get icon and icon color
+            local extension = vim.fn.fnamemodify(filename, ':e')
+            local icon_str, icon_color =
+                require('nvim-web-devicons').get_icon_color(nil, extension, { default = true })
+            local icon = { str = icon_str, hl = { fg = icon_color } }
+
+            -- Special treatment for documentation
+            if is_documentation() then
+                filename = vim.fn.fnamemodify(filename, ':t')
+            end
+
             -- Special treatment for diff buffers
             local revision = ''
             if vim.wo.diff then
@@ -452,21 +467,6 @@ require('feline').setup({
                     if revision == ':0:' then revision = 'INDEX' end
                     filename = gitpath .. relpath
                 end
-            end
-
-            -- Get icon and icon color
-            local extension = vim.fn.fnamemodify(filename, ':e')
-            local icon_str, icon_color = require('nvim-web-devicons').get_icon_color(nil, extension)
-            local icon = { str = icon_str, hl = { fg = icon_color } }
-
-            -- Special treatment for documentation
-            if is_documentation() then
-                -- Man pages have not icon in devicons. Let's fix that
-                if vim.startswith(filename, 'man://') then
-                    icon.str = ''
-                    icon.hl = blue_inv
-                end
-                filename = vim.fn.fnamemodify(filename, ':t')
             end
 
             -- Trim the full file name relative to our cwd
