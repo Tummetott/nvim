@@ -90,7 +90,7 @@ table.insert(left_section, {
     short_provider = '',
     -- Only show the git branch, when the current file is inside the git repo TODO: do I need this?
     -- enabled = require('feline.providers.git').git_info_exists,
-    hl = grey,
+    hl = grey_bold,
     left_sep = {
         str = ' on ',
         hl = grey,
@@ -253,16 +253,13 @@ table.insert(right_section, {
 -- Conda environment
 table.insert(right_section, {
     provider = function ()
-        local env = os.getenv('CONDA_PROMPT_MODIFIER')
+        local env = os.getenv('CONDA_DEFAULT_ENV')
         if env then
-            env = string.gsub(env, '%s*%(', '')
-            env = string.gsub(env, '%)%s*', '')
             return 'in  ' .. env .. ' '
-        end
-        return ''
+        else return '' end
     end,
     short_provider = '',
-    hl = grey,
+    hl = grey_bold,
     priority = 4,
 })
 
@@ -316,6 +313,20 @@ table.insert(right_section, {
         hl = blue,
     },
     priority = 8,
+})
+
+table.insert(right_section, {
+    left_sep = {
+        str = '  ',
+        hl = blue,
+    },
+    provider = function()
+        local search = vim.fn.searchcount()
+        if search.total > 99 then search.total = '99+' end
+        if search.current > 99 then search.current = '99+' end
+        return search.current .. '/' .. search.total
+    end,
+    hl = blue,
 })
 
 -- LSP active information

@@ -16,6 +16,9 @@ vim.opt.shortmess:append('I')
 -- When writing a file, show verbose output for number of lines / bytes written
 vim.opt.shortmess:remove('l')
 
+-- Remove searchcount because I show it in the statusline
+vim.opt.shortmess:append('S')
+
 -- Only show one global statusline, independent of the number of windows
 vim.opt.laststatus = 3
 
