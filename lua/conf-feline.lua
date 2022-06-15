@@ -42,8 +42,7 @@ local background = {
 -- This helper function tells me if the current buffer is a documentation file
 local function is_documentation()
     local doc = { 'help', 'man' }
-    local ft = vim.api.nvim_buf_get_option(0, 'filetype')
-    return vim.tbl_contains(doc, ft)
+    return vim.tbl_contains(doc, vim.bo.filetype)
 end
 
 -- Vim Mode
@@ -226,12 +225,12 @@ table.insert(right_section, {
 table.insert(right_section, {
     provider = function ()
         local filename = vim.api.nvim_buf_get_name(0)
-        local filetype = vim.bo.filetype
+        local ft = vim.bo.filetype
         local opts = { default = true }
-        local icon, _ = require("nvim-web-devicons").get_icon(filename, filetype, opts)
-        if filetype == '' then filetype = 'UNKNOWN' end
+        local icon, _ = require("nvim-web-devicons").get_icon(nil, ft, opts)
+        if ft == '' then ft = 'UNKNOWN' end
         if filename ~= '' then
-            return icon .. ' ' .. filetype:upper()
+            return icon .. ' ' .. ft:upper()
         else return '' end
     end,
     hl = grey_bold,
@@ -346,7 +345,7 @@ table.insert(right_section, {
 -- For all special filetypes and buffer, we only want to show the filetype
 table.insert(special_section, {
     provider = function()
-        local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+        local ft = vim.bo.filetype
         if ft == 'TelescopePrompt' then ft = 'Telescope'
         elseif ft == 'man' then ft = 'Man Page'
         elseif ft == '' then ft = 'Terminal'
@@ -355,7 +354,7 @@ table.insert(special_section, {
     end,
     -- Disable it only for the dashboard
     enabled = function()
-        return vim.api.nvim_buf_get_option(0, 'filetype') ~= 'alpha'
+        return vim.bo.filetype ~= 'alpha'
     end,
     hl = blue_bold,
     left_sep = {
@@ -502,8 +501,7 @@ local file_info_comp = {
             'NvimTree',
             'git',
         }
-        local ft = vim.api.nvim_buf_get_option(0, 'filetype')
-        return not vim.tbl_contains(special_files, ft)
+        return not vim.tbl_contains(special_files, vim.bo.filetype)
     end,
     provider = 'file_information',
     hl = {
@@ -538,8 +536,7 @@ local gps_component = {
 local nvimtree_dummy_comp = {
     hl = { bg = 'base01' },
     enabled = function()
-        local ft = vim.api.nvim_buf_get_option(0, 'filetype')
-        return ft == 'NvimTree'
+        return vim.bo.filetype == 'NvimTree'
     end
 }
 
