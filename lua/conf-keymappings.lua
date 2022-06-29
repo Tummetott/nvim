@@ -32,11 +32,11 @@ wk.register({
 wk.register({
     n = {
         'nzz',
-        'Go to next match'
+        'Next match'
     },
     N = {
         'Nzz',
-        'Go to previous match'
+        'Previous match'
     }
 })
 
@@ -141,11 +141,11 @@ wk.register({
 wk.register({
     [']w'] = {
         function() vim.fn.search('\\s\\+$', 'w') end,
-        'Go to next trailing whitespace',
+        'Next trailing whitespace',
     },
     ['[w'] = {
         function() vim.fn.search('\\s\\+$', 'bw') end,
-        'Go to previous trailing whitespace',
+        'Previous trailing whitespace',
     }
 })
 
