@@ -37,6 +37,11 @@ function M.base16_overwrites()
     -- Matching parentheses should have the same color as visual selections
     highlight('MatchParen', { link = 'Visual' })
 
+    -- When searching, the next match is colored orange and all other matches
+    -- are colored grey
+    highlight('Search', { fg = palette.base00, bg = palette.base02 })
+    highlight('IncSearch', { fg = palette.base00, bg = palette.base09 })
+
     -- Dont show '~' characters to denote the end of the buffer
     highlight('EndOfBuffer', { fg = palette.base00 })
 

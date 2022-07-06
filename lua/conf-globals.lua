@@ -143,6 +143,29 @@ autocmd('TextYankPost', {
     group = group,
 })
 
+-- Whenever I do a forward or backward search, turn on hlsearch so see ALL
+-- matches and not just the current one
+autocmd('CmdlineEnter', {
+    callback = function()
+        vim.opt.hlsearch = true
+    end,
+    -- Since the '?' is a regex character, I need to escape it with a backslash
+    -- for vim. The LUA interpreter however consumes the backslash, so I must
+    -- escape it again with another backslash
+    pattern = {'/', '\\?'},
+    group = group,
+})
+
+-- Whenever I leave the forward of backward search, turn off highlight search
+-- again
+autocmd('CmdlineLeave', {
+    callback = function()
+        vim.opt.hlsearch = false
+    end,
+    pattern = {'/', '\\?'},
+    group = group,
+})
+
 -- Automatically run :PackerCompile whenever conf-packer.lua is updated
 autocmd('BufWritePost', {
     pattern = 'conf-packer.lua',
